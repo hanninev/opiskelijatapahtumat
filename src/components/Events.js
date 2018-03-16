@@ -1,11 +1,12 @@
 import React from 'react'
 
-const Events = ({ event }) => {
-  console.log(event)
+const Events = ({ events, filter }) => {
+  console.log(events)
+  const eventsToShow = events.filter(e => e.ainejärjestö.toLowerCase().includes(filter.toLowerCase()))
   return (
     <div>
       <ul>
-      {event.map((e, i) => <li key={i}>{e.ainejärjestö}: {e.name}</li>)}
+      {eventsToShow.map((e, i) => <li key={i}>{e.ainejärjestö}: {e.name}</li>)}
       </ul>
      </div>
   )}

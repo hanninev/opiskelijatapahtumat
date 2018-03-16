@@ -9,7 +9,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       username: null,
-      events: []
+      events: [],
+      ainejärjestö: ''
     }
   }
 
@@ -27,6 +28,10 @@ class App extends React.Component {
     }
     }
 
+      handleSearch = (event) => {
+    this.setState({ ainejärjestö: event.target.value })
+  }
+
   render() {
     const token = window.localStorage.getItem('user')
     console.log(token)
@@ -39,8 +44,8 @@ class App extends React.Component {
     } else {
       return (
         <div>
-          kl
-          <Events event={this.state.events} />
+          <input value={this.state.ainejärjestö} onChange={this.handleSearch}/>
+          <Events filter={this.state.ainejärjestö} events={this.state.events} />
         </div>
       )
     }
