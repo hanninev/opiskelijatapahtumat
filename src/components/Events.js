@@ -1,14 +1,37 @@
 import React from 'react'
+import { Container, List } from 'semantic-ui-react'
 
-const Events = ({ events, filter }) => {
-  console.log(events)
-  const eventsToShow = events.filter(e => e.ainejärjestö.toLowerCase().includes(filter.toLowerCase()))
+const Events = ({ events, location, organizer }) => {
+    console.log(events)
+    let eventsToShow = events
+
+    if (location.length > 0) {
+        eventsToShow = eventsToShow.filter(e => {
+            if(e.place !== undefined) {
+            return location.includes(e.place.name)
+            }
+        })
+    }
+
+    if (organizer.length > 0) {
+        eventsToShow = eventsToShow.filter(e => {
+            return organizer.includes(e.organizer)
+        })
+    }
+
   return (
-    <div>
-      <ul>
-      {eventsToShow.map((e, i) => <li key={i}>{e.ainejärjestö}: {e.name}</li>)}
-      </ul>
-     </div>
+    <Container>
+  <List divided relaxed>
+      {eventsToShow.map((e, i) =>
+      <List.Item key={i}>
+        <List.Content>
+            <List.Header as='a'>{e.start_time}: {e.name}</List.Header>
+            <List.Description as='a'>{e.organizer}</List.Description>
+        </List.Content>
+      </List.Item>
+      )}
+  </List>
+    </Container>
   )}
 
 

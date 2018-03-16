@@ -3,6 +3,9 @@ import FacebookLoginButton from './components/FacebookLoginButton'
 import Events from './components/Events'
 import eventService from './services/events'
 import userService from './services/user'
+import { Container } from 'semantic-ui-react'
+import LocationFilter from './components/LocationFilter'
+import OrganizerFilter from './components/OrganizerFilter'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,7 +13,8 @@ class App extends React.Component {
     this.state = {
       username: null,
       events: [],
-      ainejärjestö: ''
+      organizer: [],
+      location: []
     }
   }
 
@@ -28,25 +32,60 @@ class App extends React.Component {
     }
     }
 
-      handleSearch = (event) => {
-    this.setState({ ainejärjestö: event.target.value })
+    handleLocation = (e, { value }) => {
+      this.setState({ location: value })
+    }
+
+    handleOrganizer = (e, { value }) => {
+      this.setState({ organizer: value })
+    }
+
+    getLocations = () => {
+    const locations = this.state.events.map(e => 
+    {
+      if(e.place !== undefined) {
+        return e.place.name 
+        } 
+    })
+    const withoutUndefined = locations.filter(p => p !== undefined)
+    const withoutDuplicates = Array.from(new Set(withoutUndefined))
+    const inObjects = withoutDuplicates.map(p => {
+        return { key: p, value: p, text: p }
+    })
+    console.log(inObjects)
+    return inObjects
+  }
+
+      getOrganizers = () => {
+    const organizers = this.state.events.map(e => 
+    {
+        return e.organizer 
+    })
+    const withoutDuplicates = Array.from(new Set(organizers))
+    const inObjects = withoutDuplicates.map(p => {
+        return { key: p, value: p, text: p }
+    })
+    console.log(inObjects)
+    return inObjects
   }
 
   render() {
     const token = window.localStorage.getItem('user')
     console.log(token)
+    console.log(this.getLocations())
     if (this.state.username === null) {
       return (
-        <div>
+        <Container>
           <FacebookLoginButton />
-        </div>
+        </Container>
       )
     } else {
       return (
-        <div>
-          <input value={this.state.ainejärjestö} onChange={this.handleSearch}/>
-          <Events filter={this.state.ainejärjestö} events={this.state.events} />
-        </div>
+        <Container>
+        <OrganizerFilter organizer={this.getOrganizers()} handleOrganizer={this.handleOrganizer} />
+        <LocationFilter places={this.getLocations()} handleLocation={this.handleLocation} />
+          <Events events={this.state.events} location={this.state.location} organizer={this.state.organizer} />
+        </Container>
       )
     }
   }
