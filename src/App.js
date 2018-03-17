@@ -12,6 +12,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       username: null,
+      dates: [],
       events: [],
       organizer: [],
       location: []
@@ -52,15 +53,10 @@ class App extends React.Component {
     const inObjects = withoutDuplicates.map(p => {
         return { key: p, value: p, text: p }
     })
-    console.log(inObjects)
     return inObjects
   }
 
-    getEvents = ( date ) => {
-    const events = this.state.events.filter(e => e.start_time.toString().substring(0, 10) === date)
-    return events
-  }
-
+  // tämän voisi hakea suoraan omasta kannasta
       getOrganizers = () => {
     const organizers = this.state.events.map(e => 
     {
@@ -70,14 +66,12 @@ class App extends React.Component {
     const inObjects = withoutDuplicates.map(p => {
         return { key: p, value: p, text: p }
     })
-    console.log(inObjects)
     return inObjects
   }
 
   render() {
     const token = window.localStorage.getItem('user')
     console.log(token)
-    console.log(this.getLocations())
     if (this.state.username === null) {
       return (
         <Container>

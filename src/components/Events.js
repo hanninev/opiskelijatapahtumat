@@ -30,7 +30,7 @@ const Events = ({ events, location, organizer }) => {
     <Container>
     <Card.Group itemsPerRow='1'>
     {dates.map(d =>
-    <Card>
+    <Card key={d}>
     <Card.Content header={d} />
     <Card.Content description>
    <List divided relaxed>
