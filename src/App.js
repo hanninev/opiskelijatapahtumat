@@ -56,6 +56,11 @@ class App extends React.Component {
     return inObjects
   }
 
+    getEvents = ( date ) => {
+    const events = this.state.events.filter(e => e.start_time.toString().substring(0, 10) === date)
+    return events
+  }
+
       getOrganizers = () => {
     const organizers = this.state.events.map(e => 
     {
