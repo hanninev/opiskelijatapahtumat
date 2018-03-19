@@ -1,7 +1,8 @@
 import React from 'react'
-import { Container, List, Card, Item, Button, Icon } from 'semantic-ui-react'
+import { Accordion, Container, List, Card, Item, Button, Icon } from 'semantic-ui-react'
+import moment from 'moment'
 
-const dates = ['2018-03-21', '2018-03-22', '2018-03-23', '2018-03-24', '2018-03-25', '2018-03-26', '2018-03-27']
+ const dates = [-1, 0, 1, 2, 3, 4, 5, 6, 7]
 
 const Events = ({ events, location, organizer }) => {
     console.log(events)
@@ -26,19 +27,21 @@ const Events = ({ events, location, organizer }) => {
     return eventsPerDay
   }
 
+  const eventUrl = 'https://www.facebook.com/events/'
+
   return (
     <Container>
     <Card.Group itemsPerRow='1'>
     {dates.map(d =>
     <Card key={d}>
-    <Card.Content header={d} />
-    <Card.Content description>
+    <Card.Content header={moment().add(d, 'd').format("dddd DD.MM.YYYY")} />
+    <Card.Content>
    <List divided relaxed>
-      {getEvents(d).map((e, i) =>
+      {getEvents(moment().add(d, 'd').format()).map((e, i) =>
     <List.Item key={i}>
       <List.Content>
-        <List.Header as='a'>{e.name}</List.Header>
-        <List.Description as='a'>{e.organizer}</List.Description>
+        <List.Header as='a' href={eventUrl + e.id}>{e.name}</List.Header>
+        <List.Description>{e.organizer} | {e.place.name}</List.Description>
       </List.Content>
     </List.Item>
       )}

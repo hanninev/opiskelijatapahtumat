@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 
 const responseFacebook = (response) => {
     window.localStorage.setItem('user', response.accessToken)
+    
 }
 
 const FacebookLoginButton = () => {

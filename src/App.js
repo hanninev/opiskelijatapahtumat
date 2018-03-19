@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount = () => {
-    try {
+    if (window.localStorage.getItem('user') !== null) {
     userService.getUser().then(response => {
       this.setState({ username: response.data.name })
     })  
@@ -28,8 +28,6 @@ class App extends React.Component {
     eventService.getAll().then(response => {
       this.setState({ events: response })
     })  
-    } catch (exception) {
-      console.log(exception)
     }
     }
 
@@ -72,10 +70,10 @@ class App extends React.Component {
   render() {
     const token = window.localStorage.getItem('user')
     console.log(token)
-    if (this.state.username === null) {
+    if (window.localStorage.getItem('user') === null) {
       return (
         <Container>
-          <FacebookLoginButton />
+          <FacebookLoginButton user={this.state.username} />
         </Container>
       )
     } else {
@@ -83,6 +81,7 @@ class App extends React.Component {
         <Container>
         <OrganizerFilter organizer={this.getOrganizers()} handleOrganizer={this.handleOrganizer} />
         <LocationFilter places={this.getLocations()} handleLocation={this.handleLocation} />
+        <div>.</div>
           <Events events={this.state.events} location={this.state.location} organizer={this.state.organizer} />
         </Container>
       )

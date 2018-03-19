@@ -6,3 +6,4 @@
 | 16.3. pe	|  5 | Alustavat toteutukset paikka- ja järjestäjäfiltteröinnille, frameworkin valinta ja käyttöönotto	|
 | 17.3. la | 2,5 | Näkymän rakentamista, lajittelu päivämäärän mukaan. |
 | 17.3. la | 2 | Tapahtumien haku ilman copypastea: järjestäjien Facebook-sivujen id:t haetaan json-muotoisesta datasta, minkä jälkeen tehdään kysely Graph APIin kullekin id:lle |
+| 19.3. ma | 3 | Moment.js käyttöön, näkymän parantelua |
