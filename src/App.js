@@ -6,6 +6,7 @@ import userService from './services/user'
 import { Container } from 'semantic-ui-react'
 import LocationFilter from './components/LocationFilter'
 import OrganizerFilter from './components/OrganizerFilter'
+import OrganizerTypeFilter from './components/OrganizerTypeFilter'
 
 class App extends React.Component {
   constructor(props) {
@@ -14,29 +15,39 @@ class App extends React.Component {
       username: null,
       dates: [],
       events: [],
-      organizer: [],
-      location: []
+      organizers: [],
+      filterOrganizer: [],
+      filterOrganizerType: [],
+      filterLocation: []
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     if (window.localStorage.getItem('user') !== null) {
-    userService.getUser().then(response => {
+    await userService.getUser().then(response => {
       this.setState({ username: response.data.name })
     })  
 
-    eventService.getAll().then(response => {
+    await eventService.getOrganizers().then(response => {
+      this.setState({ organizers: response })
+    }) 
+
+    await eventService.getAll(this.state.organizers).then(response => {
       this.setState({ events: response })
     })  
     }
     }
 
     handleLocation = (e, { value }) => {
-      this.setState({ location: value })
+      this.setState({ filterLocation: value })
     }
 
     handleOrganizer = (e, { value }) => {
-      this.setState({ organizer: value })
+      this.setState({ filterOrganizer: value })
+    }
+
+    handleOrganizerType = (e, { value }) => {
+      this.setState({ filterOrganizerType: value })
     }
 
     getLocations = () => {
@@ -54,13 +65,19 @@ class App extends React.Component {
     return inObjects
   }
 
-  // tämän voisi hakea suoraan omasta kannasta
-      getOrganizers = () => {
-    const organizers = this.state.events.map(e => 
-    {
-        return e.organizer 
+    getOrganizers = () => {
+    const inObjects = this.state.organizers.map(p => {
+        return { key: p.fbpage_id, value: p.name, text: p.name }
     })
-    const withoutDuplicates = Array.from(new Set(organizers))
+    return inObjects
+  }
+
+    getOrganizerTypes = () => {
+    const types = this.state.organizers.map(organizer => 
+    {
+        return organizer.type 
+    })
+    const withoutDuplicates = Array.from(new Set(types))
     const inObjects = withoutDuplicates.map(p => {
         return { key: p, value: p, text: p }
     })
@@ -80,9 +97,10 @@ class App extends React.Component {
       return (
         <Container>
         <OrganizerFilter organizer={this.getOrganizers()} handleOrganizer={this.handleOrganizer} />
+        <OrganizerTypeFilter organizerType={this.getOrganizerTypes()} handleOrganizerType={this.handleOrganizerType} />
         <LocationFilter places={this.getLocations()} handleLocation={this.handleLocation} />
         <div>.</div>
-          <Events events={this.state.events} location={this.state.location} organizer={this.state.organizer} />
+          <Events events={this.state.events} location={this.state.filterLocation} organizer={this.state.filterOrganizer} organizerType={this.state.filterOrganizerType} />
         </Container>
       )
     }

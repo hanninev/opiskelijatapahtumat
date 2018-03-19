@@ -1,11 +1,10 @@
 import axios from 'axios'
 
-const getAll =  async () => {
-    const requestPages = await axios.get('http://localhost:3001/pages')
-    const allPages = await requestPages.data.map(async p => {
+const getAll =  async ( organizers ) => {
+    const allPages = await organizers.map(async p => {
         const requestCurrentPage = await axios.get('https://graph.facebook.com/v2.11/' + p.fbpage_id + '/events?access_token=' + window.localStorage.getItem('user'))
         const currentPage = await requestCurrentPage.data.data.map(i => {
-        return { ...i, organizer: p.name}
+        return { ...i, organizer: p}
         })
     return currentPage
     })
@@ -15,4 +14,9 @@ const getAll =  async () => {
     return merged
 }
 
-export default { getAll }
+const getOrganizers = async () => {
+    const o = await axios.get('http://localhost:3001/pages')
+    return o.data
+}
+
+export default { getAll, getOrganizers }
