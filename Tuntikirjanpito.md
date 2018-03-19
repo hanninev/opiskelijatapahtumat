@@ -8,3 +8,4 @@
 | 17.3. la | 2 | Tapahtumien haku ilman copypastea: järjestäjien Facebook-sivujen id:t haetaan json-muotoisesta datasta, minkä jälkeen tehdään kysely Graph APIin kullekin id:lle |
 | 19.3. ma | 3 | Moment.js käyttöön, näkymän parantelua |
 | 19.3. ma | 2 | Filtteröinnin parantelua |
+| 19.3. ma | 8 | Redux käyttöön ja Facebook-kirjatumisen fiksailua |

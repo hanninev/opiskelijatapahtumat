@@ -1,44 +1,48 @@
 import React from 'react'
 import { Accordion, Container, List, Card, Item, Button, Icon } from 'semantic-ui-react'
 import moment from 'moment'
-// miinus toimii myös: eilinen
- const dates = [0, 1, 2, 3, 4, 5, 6]
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const Events = ({ events, location, organizer, organizerType }) => {
-    console.log(events)
-    let eventsToShow = events
+class Events extends React.Component {
+render() {
 
-    if (location.length > 0) {
+let eventsToShow = this.props.events
+    
+    if (this.props.filter.location.length > 0) {
         eventsToShow = eventsToShow.filter(e => {
             if(e.place !== undefined) {
-            return location.includes(e.place.name)
+                console.log(this.props.filter.location)
+            return this.props.filter.location.includes(e.place.name)
             }
         })
     }
-    
+
     let eventsFilterByOrganizer = eventsToShow.filter(e => {
-        return organizer.includes(e.organizer.name)
+        return this.props.filter.organizer.includes(e.organizer.name)
     })
+    console.log(this.props.filter)
 
     let eventsFilterByOrganizerType = eventsToShow.filter(e => {
-        return organizerType.includes(e.organizer.type)
+        return this.props.filter.organizerType.includes(e.organizer.type)
     })
-
-    if (organizer.length > 0 && organizerType.length > 0) {
+    console.log(this.props.filter)
+    if (this.props.filter.organizer.length > 0 && this.props.filter.organizerType.length > 0) {
         eventsToShow = Array.from(new Set(eventsFilterByOrganizer.concat(eventsFilterByOrganizerType)))
-    } else if (organizer.length > 0) {
+    } else if (this.props.filter.organizer.length > 0) {
         eventsToShow = eventsFilterByOrganizer
-    } else if (organizerType.length > 0) {
+    } else if (this.props.filter.organizerType.length > 0) {
         eventsToShow = eventsFilterByOrganizerType
     }
 
     const getEvents = ( date ) => {
+        console.log(date)
     const eventsPerDay = eventsToShow.filter(e => e.start_time.toString().substring(0, 10) === date.toString().substring(0, 10))
     return eventsPerDay
   }
 
-  const eventUrl = 'https://www.facebook.com/events/'
-
+ const dates = [0, 1, 2, 3, 4, 5, 6]
+ const eventUrl = 'https://www.facebook.com/events/'
   return (
     <Container>
     <Card.Group itemsPerRow='1'>
@@ -62,6 +66,20 @@ const Events = ({ events, location, organizer, organizerType }) => {
   </Card.Group>
     </Container>
   )}
+}
 
+const mapStateToProps = (state) => {
+  return {
+    events: state.events,
+    filter: state.filter
+  }
+}
 
-export default Events
+const ConnectedEvents = connect(
+  mapStateToProps
+)(Events)
+export default ConnectedEvents
+
+Events.contextTypes = {
+  store: PropTypes.object
+}

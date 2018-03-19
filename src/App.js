@@ -1,110 +1,50 @@
 import React from 'react'
-import FacebookLoginButton from './components/FacebookLoginButton'
 import Events from './components/Events'
 import eventService from './services/events'
 import userService from './services/user'
 import { Container } from 'semantic-ui-react'
-import LocationFilter from './components/LocationFilter'
-import OrganizerFilter from './components/OrganizerFilter'
-import OrganizerTypeFilter from './components/OrganizerTypeFilter'
+import Filter from './components/Filter'
+import { organizerInitialization } from './reducers/organizerReducer'
+import { userInitialization } from './reducers/userReducer'
+import { eventInitialization } from './reducers/eventReducer'
+import { connect } from 'react-redux'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: null,
-      dates: [],
-      events: [],
-      organizers: [],
-      filterOrganizer: [],
-      filterOrganizerType: [],
-      filterLocation: []
-    }
-  }
-
   componentDidMount = async () => {
-    if (window.localStorage.getItem('user') !== null) {
-    await userService.getUser().then(response => {
-      this.setState({ username: response.data.name })
-    })  
-
-    await eventService.getOrganizers().then(response => {
-      this.setState({ organizers: response })
-    }) 
-
-    await eventService.getAll(this.state.organizers).then(response => {
-      this.setState({ events: response })
-    })  
+    if (window.sessionStorage.getItem('user') !== null) {
+    this.props.organizerInitialization()
+    this.props.eventInitialization()
     }
     }
-
-    handleLocation = (e, { value }) => {
-      this.setState({ filterLocation: value })
-    }
-
-    handleOrganizer = (e, { value }) => {
-      this.setState({ filterOrganizer: value })
-    }
-
-    handleOrganizerType = (e, { value }) => {
-      this.setState({ filterOrganizerType: value })
-    }
-
-    getLocations = () => {
-    const locations = this.state.events.map(e => 
-    {
-      if(e.place !== undefined) {
-        return e.place.name 
-        } 
-    })
-    const withoutUndefined = locations.filter(p => p !== undefined)
-    const withoutDuplicates = Array.from(new Set(withoutUndefined))
-    const inObjects = withoutDuplicates.map(p => {
-        return { key: p, value: p, text: p }
-    })
-    return inObjects
-  }
-
-    getOrganizers = () => {
-    const inObjects = this.state.organizers.map(p => {
-        return { key: p.fbpage_id, value: p.name, text: p.name }
-    })
-    return inObjects
-  }
-
-    getOrganizerTypes = () => {
-    const types = this.state.organizers.map(organizer => 
-    {
-        return organizer.type 
-    })
-    const withoutDuplicates = Array.from(new Set(types))
-    const inObjects = withoutDuplicates.map(p => {
-        return { key: p, value: p, text: p }
-    })
-    return inObjects
-  }
 
   render() {
-    const token = window.localStorage.getItem('user')
+    const token = window.sessionStorage.getItem('user')
     console.log(token)
-    if (window.localStorage.getItem('user') === null) {
+    if (token !== null) {
       return (
         <Container>
-          <FacebookLoginButton user={this.state.username} />
+        <Filter />
+        <div className="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true"></div>
+          <Events />
         </Container>
       )
     } else {
       return (
         <Container>
-        <OrganizerFilter organizer={this.getOrganizers()} handleOrganizer={this.handleOrganizer} />
-        <OrganizerTypeFilter organizerType={this.getOrganizerTypes()} handleOrganizerType={this.handleOrganizerType} />
-        <LocationFilter places={this.getLocations()} handleLocation={this.handleLocation} />
-        <div>.</div>
-          <Events events={this.state.events} location={this.state.filterLocation} organizer={this.state.filterOrganizer} organizerType={this.state.filterOrganizerType} />
+        <div className="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="true" data-auto-logout-link="true" data-use-continue-as="true"></div>
         </Container>
       )
     }
   }
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    events: state.events
+  }
+}
+
+export default connect(
+  null,
+  { organizerInitialization, eventInitialization, userInitialization }
+)(App)
