@@ -1,9 +1,10 @@
 import eventService from '../services/events'
 
-const reducer = (store = [], action) => {
+const eventReducer = (store = [], action) => {
   console.log(action.type)
+  console.log(action)
   if (action.type === 'INIT_EVENTS') {
-    return action.data
+    return action.events, action.eventsToShow
   }
 
   return store
@@ -15,9 +16,10 @@ export const eventInitialization = (user) => {
     const events = await eventService.getAll(user)
     dispatch({
       type: 'INIT_EVENTS',
-      data: events
+      events: events,
+      eventsToShow: events
     })
   }
 }
 
-export default reducer
+export default eventReducer

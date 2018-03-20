@@ -16,7 +16,7 @@ class Filter extends React.Component {
     this.props.organizerTypeFilterCreation(value)
   }
 
-  handleLocationChange = (e, { value }) => {
+  handleLocationChange = (event, { value }) => {
     console.log(value)
     this.props.locationFilterCreation(value)
   }

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Container, List, Card } from 'semantic-ui-react'
-import moment from 'moment'
+import { Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerInitialization } from '../reducers/organizerReducer'
 import { eventInitialization } from '../reducers/eventReducer'
+import Week from './Week'
 
 class Events extends React.Component {
     componentDidMount = () => {
@@ -47,29 +47,9 @@ class Events extends React.Component {
         return eventsPerDay
       }
 
-      const dates = [0, 1, 2, 3, 4, 5, 6]
-      const eventUrl = 'https://www.facebook.com/events/'
       return (
         <Container>
-          <Card.Group itemsPerRow='1'>
-            {dates.map(d =>
-              <Card key={d}>
-                <Card.Content header={moment().add(d, 'd').format('dddd DD.MM.YYYY')} />
-                <Card.Content>
-                  <List divided relaxed>
-                    {getEvents(moment().add(d, 'd').format()).map((e, i) =>
-                      <List.Item key={i}>
-                        <List.Content>
-                          <List.Header as='a' href={eventUrl + e.id}>{e.name}</List.Header>
-                          <List.Description>{e.organizer.name} | {e.place.name}</List.Description>
-                        </List.Content>
-                      </List.Item>
-                    )}
-                  </List>
-                </Card.Content>
-              </Card>
-            )}
-          </Card.Group>
+          <Week getEvents={getEvents} />
         </Container>
       )
     }
@@ -79,7 +59,8 @@ const mapStateToProps = (state) => {
   return {
     events: state.events,
     filter: state.filter,
-    user: state.user
+    user: state.user,
+    calendar: state.calendar
   }
 }
 
