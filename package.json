@@ -24,6 +24,9 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "deep-freeze": "0.0.1"
+    "babel-eslint": "^8.2.2",
+    "deep-freeze": "0.0.1",
+    "eslint": "^4.19.0",
+    "eslint-plugin-react": "^7.7.0"
   }
 }
