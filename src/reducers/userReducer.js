@@ -1,22 +1,19 @@
-import userService from '../services/user'
-
 const reducer = (store = [], action) => {
   console.log(action.type)
-    if (action.type === 'INIT_USER') {
-        return action.data
+    if (action.type === 'SET_USER') {
+        console.log(action)
+        return action.user
     }
 
     return store
 }
 
-export const userInitialization = () => {
-  return async (dispatch) => {
-    const user = await userService.getUser()
-  dispatch ({
-    type: 'INIT_USER',
-    data: user.data.name
-  })
- }
-}
+export const userCreation = (value) => {
+    console.log(value)
+    return {
+      type: 'SET_USER',
+      user: value
+    }
+  }
 
 export default reducer

@@ -3,8 +3,17 @@ import { Accordion, Container, List, Card, Item, Button, Icon } from 'semantic-u
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { organizerInitialization } from '../reducers/organizerReducer'
+import { userInitialization } from '../reducers/userReducer'
+import { eventInitialization } from '../reducers/eventReducer'
 
 class Events extends React.Component {
+      componentDidMount = () => {
+    this.props.organizerInitialization()
+    this.props.eventInitialization(this.props.user)
+    console.log('did-mount')
+  }
+  
 render() {
 
 let eventsToShow = this.props.events
@@ -71,12 +80,20 @@ let eventsToShow = this.props.events
 const mapStateToProps = (state) => {
   return {
     events: state.events,
-    filter: state.filter
+    filter: state.filter,
+    user: state.user
   }
 }
 
+const mapDispatchToProps = { 
+    organizerInitialization, 
+    eventInitialization 
+    }
+
+
 const ConnectedEvents = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Events)
 export default ConnectedEvents
 

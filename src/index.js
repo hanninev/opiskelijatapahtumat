@@ -6,12 +6,13 @@ import store from './store'
 
 const render = () => {
 
-  ReactDOM.render(
+
+ ReactDOM.render(
     <Provider store={store}>
     <App />
     </Provider>,
     document.getElementById('root')
-  )
+)
 }
 
 render()

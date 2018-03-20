@@ -24,56 +24,6 @@
     <title>React App</title>
   </head>
   <body>
-<script>
- function statusChangeCallback(response) {
-    if (response.status === 'connected') {
-    window.sessionStorage.setItem('user', response.authResponse.accessToken)
-    console.log(window.sessionStorage.getItem('user'))
-    } else {
-      window.sessionStorage.removeItem('user')
-     }
-  }
-
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : 567551756946948,
-      cookie     : true,
-      xfbml      : true, 
-      version    : 'v2.8'
-    });
-
-FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-
-FB.Event.subscribe('auth.login', function(){
-    checkLoginState();
-    window.location.href = '/';
-});
-
-FB.Event.subscribe('auth.logout', function(){
-    checkLoginState();
-    window.location.href = '/';
-});
-
-  };
-
-</script>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/fi_FI/sdk.js#xfbml=1&version=v2.12&appId=567551756946948&autoLogAppEvents=1';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>

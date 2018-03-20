@@ -9,9 +9,10 @@ const reducer = (store = [], action) => {
     return store
 }
 
-export const eventInitialization = ( organizers ) => {
+export const eventInitialization = (user) => {
   return async (dispatch) => {
-    const events = await eventService.getAll(organizers)
+      console.log(user)
+    const events = await eventService.getAll(user)
   dispatch ({
     type: 'INIT_EVENTS',
     data: events

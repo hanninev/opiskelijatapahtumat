@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const getAll =  async () => {
+const getAll =  async (user) => {
     const o = await axios.get('http://localhost:3001/pages')
     const allPages = await o.data.map(async p => {
-        const requestCurrentPage = await axios.get('https://graph.facebook.com/v2.11/' + p.fbpage_id + '/events?access_token=' + window.sessionStorage.getItem('user'))
+        const requestCurrentPage = await axios.get('https://graph.facebook.com/v2.11/' + p.fbpage_id + '/events?access_token=' + user.accessToken)
         const currentPage = await requestCurrentPage.data.data.map(i => {
         return { ...i, organizer: p}
         })

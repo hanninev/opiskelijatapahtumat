@@ -7,7 +7,7 @@ import eventReducer from './reducers/eventReducer'
 import userReducer from './reducers/userReducer'
 
 const reducer = combineReducers({
-    username: userReducer,
+    user: userReducer,
     filter: filterReducer,
     organizers: organizerReducer,
     events: eventReducer
