@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation } from '../reducers/filterReducer'
@@ -57,9 +57,19 @@ class Filter extends React.Component {
 
     return (
       <div>
-        <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} />
-        <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} />
-        <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} />
+        <Grid columns={3} stackable={true} stretched={true}>
+          <Grid.Row>
+            <Grid.Column>
+              <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} />
+            </Grid.Column>
+            <Grid.Column>
+              <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} />
+            </Grid.Column>
+            <Grid.Column only='computer tablet'>
+              <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     )
   }

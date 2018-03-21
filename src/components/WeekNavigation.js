@@ -7,8 +7,8 @@ import { setNextWeek, setPreviousWeek, setCurrentWeek } from '../reducers/calend
 class WeekNavigation extends React.Component {
   render() {
     return (
-      <Grid columns={3} stackable={true} stretched={true}>
-        <Grid.Row>
+      <Grid columns={3} stretched={true} centered={true}>
+        <Grid.Row only='computer tablet'>
           <Grid.Column>
             <Button onClick={() => this.props.setPreviousWeek()} icon labelPosition='left'>
               <Icon name='left arrow' />
@@ -26,6 +26,17 @@ class WeekNavigation extends React.Component {
               <Icon name='right arrow' />
             </Button>
           </Grid.Column>
+        </Grid.Row>
+        <Grid.Row stackable={true} only='mobile'>
+          <Button onClick={() => this.props.setPreviousWeek()} icon>
+            <Icon name='left arrow'/>
+          </Button>
+          <Button onClick={() => this.props.setCurrentWeek()}>
+                            Nykyinen viikko
+          </Button>
+          <Button onClick={() => this.props.setNextWeek()} icon>
+            <Icon name='right arrow' />
+          </Button>
         </Grid.Row>
       </Grid>
     )

@@ -14,21 +14,27 @@ class Week extends React.Component {
   render() {
     return (
       <Container>
-        <WeekNavigation />
-        <Card.Group itemsPerRow='1'>
-          {this.props.calendar.week.map(d =>
-            <Card key={d}>
-              <Card.Content header={moment().day(d).format('dddd DD.MM.YYYY')} />
-              <Card.Content>
-                <List divided relaxed>
-                  {this.props.getEvents(moment().day(d).format()).map((e, i) =>
-                    <Day key={i} e={e} i={i} />
-                  )}
-                </List>
-              </Card.Content>
-            </Card>
-          )}
-        </Card.Group>
+        <Grid columns={1}>
+          <Grid.Row>
+            <WeekNavigation />
+          </Grid.Row>
+          <Grid.Row>
+            <Card.Group itemsPerRow='1'>
+              {this.props.calendar.week.map(d =>
+                <Card key={d}>
+                  <Card.Content header={moment().day(d).format('dddd DD.MM.YYYY')} />
+                  <Card.Content>
+                    <List divided relaxed>
+                      {this.props.getEvents(moment().day(d).format()).map((e, i) =>
+                        <Day key={i} e={e} i={i} />
+                      )}
+                    </List>
+                  </Card.Content>
+                </Card>
+              )}
+            </Card.Group>
+          </Grid.Row>
+        </Grid>
       </Container>
     )
   }

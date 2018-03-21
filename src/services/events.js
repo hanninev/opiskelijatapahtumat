@@ -1,23 +1,14 @@
 import axios from 'axios'
 
-const getAll = async (user) => {
-  const o = await axios.get('http://localhost:3001/pages')
-  const allPages = await o.data.map(async p => {
-    const requestCurrentPage = await axios.get('https://graph.facebook.com/v2.11/' + p.fbpage_id + '/events?access_token=' + user.accessToken)
-    const currentPage = await requestCurrentPage.data.data.map(i => {
-      return { ...i, organizer: p }
-    })
-    return currentPage
-  })
-  const unMerged = await Promise.all(allPages)
-  const merged = [].concat.apply([], unMerged)
-
-  return merged
+const getEvents = async () => {
+  const events = await axios.get('http://localhost:3001/events')
+  console.log(events.data)
+  return events.data
 }
 
 const getOrganizers = async () => {
-  const o = await axios.get('http://localhost:3001/pages')
+  const o = await axios.get('http://localhost:3001/organizers')
   return o.data
 }
 
-export default { getAll, getOrganizers }
+export default { getEvents, getOrganizers }
