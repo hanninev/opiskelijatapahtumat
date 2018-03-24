@@ -3,17 +3,17 @@ import { Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerInitialization } from '../reducers/organizerReducer'
-import { eventInitialization } from '../reducers/eventReducer'
+import { setCurrentWeek } from '../reducers/calendarReducer'
 import Week from './Week'
 
 class Events extends React.Component {
     componentDidMount = () => {
       this.props.organizerInitialization()
-      this.props.eventInitialization()
+      this.props.setCurrentWeek()
     }
 
     render() {
-      let eventsToShow = this.props.events
+      let eventsToShow = this.props.calendar.events
 
       if (this.props.filter.location.length > 0) {
         eventsToShow = eventsToShow.filter(e => {
@@ -58,7 +58,6 @@ class Events extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    events: state.events,
     filter: state.filter,
     user: state.user,
     calendar: state.calendar
@@ -67,7 +66,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   organizerInitialization,
-  eventInitialization
+  setCurrentWeek
 }
 
 

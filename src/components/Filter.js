@@ -3,6 +3,7 @@ import { Dropdown, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation } from '../reducers/filterReducer'
+import eventService from '../services/events'
 
 class Filter extends React.Component {
 
@@ -41,15 +42,9 @@ class Filter extends React.Component {
       return inObjects
     }
 
-    const getLocations = () => {
-      const locations = this.props.events.map(e => {
-        if (e.place !== undefined) {
-          return e.place.name
-        }
-      })
-      const withoutUndefined = locations.filter(p => p !== undefined)
-      const withoutDuplicates = Array.from(new Set(withoutUndefined))
-      const inObjects = withoutDuplicates.map(p => {
+    const getLocations = async () => {
+      const taulu = []
+      const inObjects = taulu.map(p => {
         return { key: p, value: p, text: p }
       })
       return inObjects
@@ -79,7 +74,7 @@ const mapStateToProps = (state) => {
   return {
     filter: state.filter,
     organizers: state.organizers,
-    events: state.events
+    calendar: state.calendar
   }
 }
 

@@ -1,7 +1,9 @@
 import axios from 'axios'
+import moment from 'moment'
 
-const getEvents = async () => {
-  const events = await axios.get('http://localhost:3001/events')
+const getEvents = async ( days ) => {
+  const format = days.map(d => moment().day(d).format('YYYY-MM-DD'))
+  const events = await axios.get('http://localhost:3001/events?date=' + format)
   console.log(events.data)
   return events.data
 }
@@ -11,4 +13,14 @@ const getOrganizers = async () => {
   return o.data
 }
 
-export default { getEvents, getOrganizers }
+const getOrganizerTypes = async () => {
+  const o = await axios.get('http://localhost:3001/organizer_types')
+  return o.data
+}
+
+const getLocations = async () => {
+  const o = await axios.get('http://localhost:3001/locations')
+  return o.data
+}
+
+export default { getEvents, getOrganizers, getLocations, getOrganizerTypes }

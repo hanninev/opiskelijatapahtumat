@@ -10,5 +10,5 @@
 | 19.3. ma | 2 | Filtteröinnin parantelua |
 | 19.3. ma | 8 | Redux käyttöön ja Facebook-kirjatumisen fiksailua |
 | 20.3. ti | 10 | Bugien korjailua, kirjautuminen kuntoon, refaktorointia, viikkojen selaaminen mahdolliseksi |
-| 21.3. ke | 8 | Datan kerääminen ja testaaminen isolla datamäärällä, alustava backend | 
+| 21.3. ke | 8 | Datan kerääminen ja testaaminen isolla datamäärällä, ulkoasun parantamista (mobiili huomioitu), alustava backend | 
 | ** yhteensä ** | 48,5 | |

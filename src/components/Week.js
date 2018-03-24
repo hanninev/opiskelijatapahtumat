@@ -20,7 +20,7 @@ class Week extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Card.Group itemsPerRow='1'>
-              {this.props.calendar.week.map(d =>
+              {this.props.calendar.days.map(d =>
                 <Card key={d}>
                   <Card.Content header={moment().day(d).format('dddd DD.MM.YYYY')} />
                   <Card.Content>

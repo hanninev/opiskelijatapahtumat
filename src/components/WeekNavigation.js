@@ -10,36 +10,42 @@ class WeekNavigation extends React.Component {
       <Grid columns={3} stretched={true} centered={true}>
         <Grid.Row only='computer tablet'>
           <Grid.Column>
-            <Button onClick={() => this.props.setPreviousWeek()} icon labelPosition='left'>
+            <Button onClick={() => this.props.setPreviousWeek(this.props.calendar.days)} icon labelPosition='left'>
               <Icon name='left arrow' />
                             Edellinen
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button onClick={() => this.props.setCurrentWeek()}>
+            <Button onClick={() => this.props.setCurrentWeek(this.props.calendar.days)}>
                             Nykyinen viikko
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button onClick={() => this.props.setNextWeek()} icon labelPosition='right'>
+            <Button onClick={() => this.props.setNextWeek(this.props.calendar.days)} icon labelPosition='right'>
                             Seuraava
               <Icon name='right arrow' />
             </Button>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row stackable={true} only='mobile'>
-          <Button onClick={() => this.props.setPreviousWeek()} icon>
+          <Button onClick={() => this.props.setPreviousWeek(this.props.calendar.days)} icon>
             <Icon name='left arrow'/>
           </Button>
           <Button onClick={() => this.props.setCurrentWeek()}>
                             Nykyinen viikko
           </Button>
-          <Button onClick={() => this.props.setNextWeek()} icon>
+          <Button onClick={() => this.props.setNextWeek(this.props.calendar.days)} icon>
             <Icon name='right arrow' />
           </Button>
         </Grid.Row>
       </Grid>
     )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    calendar: state.calendar
   }
 }
 
@@ -50,7 +56,7 @@ const mapDispatchToProps = {
 }
 
 const ConnectedEvents = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(WeekNavigation)
 export default ConnectedEvents
