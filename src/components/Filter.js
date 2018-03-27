@@ -3,7 +3,6 @@ import { Dropdown, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation } from '../reducers/filterReducer'
-import eventService from '../services/events'
 
 class Filter extends React.Component {
 
@@ -24,7 +23,8 @@ class Filter extends React.Component {
 
   render() {
     const getOrganizers = () => {
-      const inObjects = this.props.organizers.map(p => {
+      console.log(this.props.selections)
+      const inObjects = this.props.selections.organizers.map(p => {
         return { key: p.fbpage_id, value: p.name, text: p.name }
       })
       console.log(inObjects)
@@ -32,21 +32,22 @@ class Filter extends React.Component {
     }
 
     const getOrganizerTypes = () => {
-      const types = this.props.organizers.map(organizer => {
+      const types = this.props.selections.organizers.map(organizer => {
         return organizer.type
       })
       const withoutDuplicates = Array.from(new Set(types))
       const inObjects = withoutDuplicates.map(p => {
         return { key: p, value: p, text: p }
       })
+      console.log(inObjects)
       return inObjects
     }
 
-    const getLocations = async () => {
-      const taulu = []
-      const inObjects = taulu.map(p => {
+    const getLocations = () => {
+      const inObjects = this.props.selections.locations.map(p => {
         return { key: p, value: p, text: p }
       })
+      console.log(inObjects)
       return inObjects
     }
 
@@ -73,7 +74,7 @@ class Filter extends React.Component {
 const mapStateToProps = (state) => {
   return {
     filter: state.filter,
-    organizers: state.organizers,
+    selections: state.selections,
     calendar: state.calendar
   }
 }

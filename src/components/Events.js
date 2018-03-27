@@ -2,13 +2,13 @@ import React from 'react'
 import { Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { organizerInitialization } from '../reducers/organizerReducer'
+import { selectionInitialization } from '../reducers/selectionReducer'
 import { setCurrentWeek } from '../reducers/calendarReducer'
 import Week from './Week'
 
 class Events extends React.Component {
     componentDidMount = () => {
-      this.props.organizerInitialization()
+      this.props.selectionInitialization()
       this.props.setCurrentWeek()
     }
 
@@ -25,21 +25,21 @@ class Events extends React.Component {
       }
 
       let eventsFilterByOrganizer = eventsToShow.filter(e => {
-        return this.props.filter.organizer.includes(e.owner.name)
+        return this.props.filter.organizer.includes(e.organizer.name)
       })
       console.log(this.props.filter)
 
-  //    let eventsFilterByOrganizerType = eventsToShow.filter(e => {
-  //      return this.props.filter.organizerType.includes(e.organizer.type)
-  //    })
+      let eventsFilterByOrganizerType = eventsToShow.filter(e => {
+        return this.props.filter.organizerType.includes(e.organizer.type)
+      })
       console.log(this.props.filter)
- //     if (this.props.filter.organizer.length > 0 && this.props.filter.organizerType.length > 0) {
-//        eventsToShow = Array.from(new Set(eventsFilterByOrganizer.concat(eventsFilterByOrganizerType)))
-    //  } else 
-        if (this.props.filter.organizer.length > 0) {
+      if (this.props.filter.organizer.length > 0 && this.props.filter.organizerType.length > 0) {
+        eventsToShow = Array.from(new Set(eventsFilterByOrganizer.concat(eventsFilterByOrganizerType)))
+      } else 
+      if (this.props.filter.organizer.length > 0) {
         eventsToShow = eventsFilterByOrganizer
- //     } else if (this.props.filter.organizerType.length > 0) {
- //       eventsToShow = eventsFilterByOrganizerType
+      } else if (this.props.filter.organizerType.length > 0) {
+        eventsToShow = eventsFilterByOrganizerType
       }
 
       const getEvents = (date) => {
@@ -65,7 +65,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  organizerInitialization,
+  selectionInitialization,
   setCurrentWeek
 }
 

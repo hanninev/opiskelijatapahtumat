@@ -14,7 +14,7 @@ class Day extends React.Component {
     if (e.place !== undefined) {
       placeName = e.place.name
     }
-    const organizerName = e.owner.name
+    const organizerName = e.organizer.name
     const eventId = e.id
     return (
       <List.Item key={i}>

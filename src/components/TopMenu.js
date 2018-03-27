@@ -9,7 +9,6 @@ class TopMenu extends React.Component {
     return (
       <Menu pointing secondary>
         <Menu.Menu position='right'>
-          <Menu.Item name='kirjaudu ulos' />
         </Menu.Menu>
       </Menu>
     )
