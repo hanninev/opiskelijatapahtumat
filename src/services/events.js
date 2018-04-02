@@ -23,4 +23,9 @@ const getLocations = async () => {
   return o.data
 }
 
-export default { getEvents, getOrganizers, getLocations, getOrganizerTypes }
+const getEventTypes = async () => {
+  const o = await axios.get('http://localhost:3001/event_types')
+  return o.data
+}
+
+export default { getEvents, getOrganizers, getLocations, getOrganizerTypes, getEventTypes }

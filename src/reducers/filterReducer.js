@@ -2,7 +2,8 @@ const initialState = {
   filters: {
     organizer: [],
     organizerType: [],
-    location: []
+    location: [],
+    eventType: []
   }
 }
 
@@ -17,6 +18,9 @@ const filterReducer = (state = initialState.filters, action) => {
   }
   if (action.type === 'SET_LOCATION_FILTER') {
     return { ...state, location: action.locationFilter }
+  }
+  if (action.type === 'SET_EVENT_TYPE_FILTER') { 
+    return { ...state, eventType: action.eventTypeFilter }
   }
   console.log(state)
   return state
@@ -40,6 +44,16 @@ export const organizerTypeFilterCreation = (value) => {
   return {
     type: 'SET_ORGANIZER_TYPE_FILTER',
     organizerTypeFilter: value
+  }
+}
+
+export const eventTypeFilterCreation = (value) => {
+  let values = []
+  value.map(a => {
+    values = values.concat(a)})
+  return {
+    type: 'SET_EVENT_TYPE_FILTER',
+    eventTypeFilter: values
   }
 }
 

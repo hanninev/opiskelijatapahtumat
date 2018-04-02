@@ -7,53 +7,94 @@ import { setCurrentWeek } from '../reducers/calendarReducer'
 import Week from './Week'
 
 class Events extends React.Component {
-    componentDidMount = () => {
-      this.props.selectionInitialization()
-      this.props.setCurrentWeek()
+  componentDidMount = () => {
+    this.props.selectionInitialization()
+    this.props.setCurrentWeek()
+  } 
+
+  render() {
+    let eventsToShow = []
+
+    const locationFilter = (listToFilter) => {
+      const filteredList = listToFilter.filter(e => {
+        if (e.place !== undefined) {
+          return this.props.filter.location.includes(e.place.name)
+        }
+      })
+      return filteredList
     }
 
-    render() {
-      let eventsToShow = this.props.calendar.events
+    console.log(locationFilter(eventsToShow))
 
-      if (this.props.filter.location.length > 0) {
-        eventsToShow = eventsToShow.filter(e => {
-          if (e.place !== undefined) {
-            console.log(this.props.filter.location)
-            return this.props.filter.location.includes(e.place.name)
-          }
-        })
-      }
-
-      let eventsFilterByOrganizer = eventsToShow.filter(e => {
+    const organizerFilter = (listToFilter) => {
+      const filteredList = listToFilter.filter(e => {
         return this.props.filter.organizer.includes(e.organizer.name)
       })
-      console.log(this.props.filter)
+      return filteredList
+    }
 
-      let eventsFilterByOrganizerType = eventsToShow.filter(e => {
+    console.log(organizerFilter(eventsToShow))
+
+    const organizerTypeFilter = (listToFilter) => {
+      const filteredList = listToFilter.filter(e => {
         return this.props.filter.organizerType.includes(e.organizer.type)
       })
-      console.log(this.props.filter)
-      if (this.props.filter.organizer.length > 0 && this.props.filter.organizerType.length > 0) {
-        eventsToShow = Array.from(new Set(eventsFilterByOrganizer.concat(eventsFilterByOrganizerType)))
-      } else 
-      if (this.props.filter.organizer.length > 0) {
-        eventsToShow = eventsFilterByOrganizer
-      } else if (this.props.filter.organizerType.length > 0) {
-        eventsToShow = eventsFilterByOrganizerType
-      }
-
-      const getEvents = (date) => {
-        console.log(date)
-        const eventsPerDay = eventsToShow.filter(e => e.start_time.toString().substring(0, 10) === date.toString().substring(0, 10))
-        return eventsPerDay
-      }
-
-      return (
-        <Container>
-          <Week getEvents={getEvents} />
-        </Container>
-      )
+      return filteredList
     }
+
+    console.log(organizerTypeFilter(eventsToShow))
+
+    const eventTypeFilter = (listToFilter) => {
+      const filteredList = listToFilter.filter(e => {
+        if (this.props.filter.eventType[0].dontShowEvents.includes(e.id)) {
+          return false
+        }
+        if (this.props.filter.eventType[0].dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
+          return false
+        }
+        if (this.props.filter.eventType[0].searchAttributes.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
+          return true
+        } else if (e.description !== undefined) {
+          return this.props.filter.eventType[0].searchAttributes.some(s => e.description.toLowerCase().indexOf(s) > 0)
+        } 
+      })
+      return filteredList
+    }
+
+    console.log(eventTypeFilter(eventsToShow))
+
+
+    if (this.props.filter.location.length > 0) {
+      eventsToShow = Array.from(new Set(eventsToShow.concat(locationFilter(this.props.calendar.events))))
+    }
+    if (this.props.filter.organizer.length > 0) {
+      eventsToShow = Array.from(new Set(eventsToShow.concat(organizerFilter(this.props.calendar.events))))
+    }
+    if (this.props.filter.organizerType.length > 0) {
+      eventsToShow = Array.from(new Set(eventsToShow.concat(organizerTypeFilter(this.props.calendar.events))))
+    }
+    if (this.props.filter.eventType.length > 0) {
+      eventsToShow = Array.from(new Set(eventsToShow.concat(eventTypeFilter(this.props.calendar.events))))
+    }
+
+    if (this.props.filter.location.length === 0 && this.props.filter.organizer.length === 0 && this.props.filter.organizerType.length === 0 && this.props.filter.eventType.length === 0) {
+      eventsToShow = this.props.calendar.events
+    }
+
+    console.log(eventsToShow)
+
+    const getEvents = (date) => {
+      console.log(date)
+      const eventsPerDay = eventsToShow.filter(e => e.start_time.toString().substring(0, 10) === date.toString().substring(0, 10))
+      return eventsPerDay
+    }
+
+    return (
+      <Container>
+        <Week getEvents={getEvents} />
+      </Container>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {

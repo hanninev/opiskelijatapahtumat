@@ -2,7 +2,7 @@ import React from 'react'
 import { Dropdown, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation } from '../reducers/filterReducer'
+import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
 
 class Filter extends React.Component {
 
@@ -21,7 +21,19 @@ class Filter extends React.Component {
     this.props.locationFilterCreation(value)
   }
 
+  handleEventTypeChange = (event, { value }) => {
+    console.log(value)
+    this.props.eventTypeFilterCreation(value)
+  }
+
   render() {
+    const getEventType = () => {
+      const inObjects = this.props.selections.eventTypes.map(p => {
+        return { key: p.text, value: { searchAttributes : p.searchAttributes, dontShowIfTitleContains : p.dontShowIfTitleContains, dontShowEvents : p.dontShowEvents }, text: p.text }
+      })
+      return inObjects
+    }
+
     const getOrganizers = () => {
       console.log(this.props.selections)
       const inObjects = this.props.selections.organizers.map(p => {
@@ -53,8 +65,11 @@ class Filter extends React.Component {
 
     return (
       <div>
-        <Grid columns={3} stackable={true} stretched={true}>
+        <Grid columns={4} stackable={true} stretched={true}>
           <Grid.Row>
+          <Grid.Column>
+              <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} />
+            </Grid.Column>
             <Grid.Column>
               <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} />
             </Grid.Column>
@@ -82,7 +97,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   organizerFilterCreation,
   organizerTypeFilterCreation,
-  locationFilterCreation
+  locationFilterCreation,
+  eventTypeFilterCreation
 }
 
 const ConnectedFilter = connect(
