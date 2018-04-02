@@ -4,7 +4,8 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Day from './Day'
-import WeekNavigation from './WeekNavigation'
+// import WeekNavigation from './WeekNavigation'
+import { setCurrentWeek } from '../reducers/calendarReducer'
 
 class Week extends React.Component {
   constructor({ props }) {
@@ -12,20 +13,25 @@ class Week extends React.Component {
   }
 
   render() {
+    const day = moment(this.props.date)
+    const week = [0, 1, 2, 3, 4, 5, 6]
+    const calendar = week.map(w => {
+      return moment(day).add(w, 'd')
+    })
+
     return (
       <Container>
         <Grid columns={1}>
           <Grid.Row>
-            <WeekNavigation />
           </Grid.Row>
           <Grid.Row>
             <Card.Group itemsPerRow='1'>
-              {this.props.calendar.days.map(d =>
+              {calendar.map(d =>
                 <Card key={d}>
-                  <Card.Content header={moment().day(d).format('dddd DD.MM.YYYY')} />
+                  <Card.Content header={d.format('dddd DD.MM.YYYY')} />
                   <Card.Content>
                     <List divided relaxed>
-                      {this.props.getEvents(moment().day(d).format()).map((e, i) =>
+                      {this.props.getEvents(d.format('YYYY-MM-DD')).map((e, i) =>
                         <Day key={i} e={e} i={i} />
                       )}
                     </List>
@@ -46,11 +52,15 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedEvents = connect(
+const mapDispatchToProps = {
+  setCurrentWeek
+}
+
+const ConnectedWeek = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Week)
-export default ConnectedEvents
+export default ConnectedWeek
 
 Week.contextTypes = {
   store: PropTypes.object

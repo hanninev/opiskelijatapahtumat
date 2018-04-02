@@ -4,13 +4,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectionInitialization } from '../reducers/selectionReducer'
 import { setCurrentWeek } from '../reducers/calendarReducer'
-import Week from './Week'
+import WeekNavigation from './WeekNavigation'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 
 class Events extends React.Component {
   componentDidMount = () => {
     this.props.selectionInitialization()
-    this.props.setCurrentWeek()
-  } 
+   // this.props.setCurrentWeek()
+  }
 
   render() {
     let eventsToShow = []
@@ -56,7 +58,7 @@ class Events extends React.Component {
           return true
         } else if (e.description !== undefined) {
           return this.props.filter.eventType[0].searchAttributes.some(s => e.description.toLowerCase().indexOf(s) > 0)
-        } 
+        }
       })
       return filteredList
     }
@@ -89,11 +91,17 @@ class Events extends React.Component {
       return eventsPerDay
     }
 
-    return (
+    if (this.props.view.includes('week')) {
+      return (
+        <Container>
+          <WeekNavigation getEvents={getEvents} />
+        </Container>
+      )
+    } else {
       <Container>
-        <Week getEvents={getEvents} />
+        <p>myöhemmin tulossa kuukausinäkymä</p>
       </Container>
-    )
+    }
   }
 }
 

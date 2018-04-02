@@ -13,4 +13,5 @@
 | 21.3. ke | 8 | Datan kerääminen ja testaaminen isolla datamäärällä, ulkoasun parantamista (mobiili huomioitu), alustava backend | 
 | 24.3. la | 7 | Todettu sovellus hitaaksi isoilla tietomäärillä, saatu nopeammaksi lisäämällä vastuuta backendille. Tehty filtteröintejä. |
 | 27.3. ti | 3 | Säädetty filtteröintiä, rajoitettu näytettäviä hakuvaihtoehtoja.
-| ** yhteensä ** | 55,5 | |
+| 2.4. ma | 4 | Filtteröintejä paranneltu ja aloitettu routereita
+| ** yhteensä ** | 62,5 | |

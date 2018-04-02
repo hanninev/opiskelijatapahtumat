@@ -10,6 +10,9 @@ const initialState = {
 const filterReducer = (state = initialState.filters, action) => {
   console.log(action.type)
   console.log(action)
+  if (action.type === 'INIT_FILTER') {
+    return { action }
+  }
   if (action.type === 'SET_ORGANIZER_FILTER') {
     return { ...state, organizer: action.organizerFilter }
   }
@@ -24,6 +27,16 @@ const filterReducer = (state = initialState.filters, action) => {
   }
   console.log(state)
   return state
+}
+
+export const initFilter = (value) => {
+  return {
+    type: 'INIT_FILTER',
+    organizer: value,
+    organizerType: [],
+    location: [],
+    eventType: []
+  }
 }
 
 export const locationFilterCreation = (value) => {

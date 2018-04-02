@@ -19,7 +19,7 @@ const calendarReducer = (store = initialState.calendar, action) => {
 export const setNextWeek = (thisWeek) => {
   return async (dispatch) => {
     console.log(thisWeek)
-    const days = thisWeek.map(d => d+7)
+    const days = thisWeek.map(d => d.add(7, 'd'))
     console.log(days)
     const events = await eventService.getEvents(days)
     dispatch({
@@ -33,7 +33,7 @@ export const setNextWeek = (thisWeek) => {
 export const setPreviousWeek = (thisWeek) => {
   return async (dispatch) => {
     console.log(thisWeek)
-    const days = thisWeek.map(d => d-7)
+    const days = thisWeek.map(d => d.add(-7, 'd'))
     console.log(days)
     const events = await eventService.getEvents(days)
     dispatch({
@@ -44,9 +44,9 @@ export const setPreviousWeek = (thisWeek) => {
   }
 }
 
-export const setCurrentWeek = () => {
+export const setCurrentWeek = (days) => {
   return async (dispatch) => {
-    const days = [1, 2, 3, 4, 5, 6, 7]
+    // const days = [1, 2, 3, 4, 5, 6, 7]
     const events = await eventService.getEvents(days)
     dispatch({
       type: 'SET_WEEK',

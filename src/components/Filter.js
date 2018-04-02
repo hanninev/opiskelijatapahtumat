@@ -67,7 +67,7 @@ class Filter extends React.Component {
       <div>
         <Grid columns={4} stackable={true} stretched={true}>
           <Grid.Row>
-          <Grid.Column>
+            <Grid.Column>
               <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} />
             </Grid.Column>
             <Grid.Column>
