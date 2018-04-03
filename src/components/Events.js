@@ -3,7 +3,6 @@ import { Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectionInitialization } from '../reducers/selectionReducer'
-import { setCurrentWeek } from '../reducers/calendarReducer'
 import WeekNavigation from './WeekNavigation'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
@@ -11,7 +10,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 class Events extends React.Component {
   componentDidMount = () => {
     this.props.selectionInitialization()
-   // this.props.setCurrentWeek()
   }
 
   render() {
@@ -114,8 +112,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  selectionInitialization,
-  setCurrentWeek
+  selectionInitialization
 }
 
 

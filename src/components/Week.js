@@ -4,21 +4,18 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Day from './Day'
-// import WeekNavigation from './WeekNavigation'
-import { setCurrentWeek } from '../reducers/calendarReducer'
+import { setWeekAndEvents } from '../reducers/calendarReducer'
 
 class Week extends React.Component {
   constructor({ props }) {
     super(props)
   }
 
-  render() {
-    const day = moment(this.props.date)
-    const week = [0, 1, 2, 3, 4, 5, 6]
-    const calendar = week.map(w => {
-      return moment(day).add(w, 'd')
-    })
+  componentDidMount = () => {
+    this.props.setWeekAndEvents(moment(this.props.date))
+  }
 
+  render() {
     return (
       <Container>
         <Grid columns={1}>
@@ -26,7 +23,7 @@ class Week extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Card.Group itemsPerRow='1'>
-              {calendar.map(d =>
+              {this.props.calendar.days.map(d =>
                 <Card key={d}>
                   <Card.Content header={d.format('dddd DD.MM.YYYY')} />
                   <Card.Content>
@@ -53,7 +50,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  setCurrentWeek
+  setWeekAndEvents
 }
 
 const ConnectedWeek = connect(

@@ -1,4 +1,5 @@
 import eventService from '../services/events'
+import moment from 'moment'
 
 const initialState = {
   calendar: {
@@ -16,37 +17,13 @@ const calendarReducer = (store = initialState.calendar, action) => {
   return store
 }
 
-export const setNextWeek = (thisWeek) => {
+export const setWeekAndEvents = (date) => {
   return async (dispatch) => {
-    console.log(thisWeek)
-    const days = thisWeek.map(d => d.add(7, 'd'))
-    console.log(days)
-    const events = await eventService.getEvents(days)
-    dispatch({
-      type: 'SET_WEEK',
-      events: events,
-      days: days
+    const week = [0, 1, 2, 3, 4, 5, 6]
+    const days = week.map(w => {
+      return moment(date).add(w, 'd')
     })
-  }
-}
 
-export const setPreviousWeek = (thisWeek) => {
-  return async (dispatch) => {
-    console.log(thisWeek)
-    const days = thisWeek.map(d => d.add(-7, 'd'))
-    console.log(days)
-    const events = await eventService.getEvents(days)
-    dispatch({
-      type: 'SET_WEEK',
-      events: events,
-      days: days
-    })
-  }
-}
-
-export const setCurrentWeek = (days) => {
-  return async (dispatch) => {
-    // const days = [1, 2, 3, 4, 5, 6, 7]
     const events = await eventService.getEvents(days)
     dispatch({
       type: 'SET_WEEK',

@@ -1,11 +1,9 @@
 import axios from 'axios'
-import moment from 'moment'
 
 const getEvents = async ( days ) => {
- // const format = days.map(d => moment().day(d).format('YYYY-MM-DD'))
   const format = days.map(d => d.format('YYYY-MM-DD'))
   console.log(format)
- const events = await axios.get('http://localhost:3001/events?date=' + format)
+  const events = await axios.get('http://localhost:3001/events?date=' + format)
   console.log(events.data)
   return events.data
 }

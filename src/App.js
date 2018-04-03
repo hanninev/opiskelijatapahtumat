@@ -9,14 +9,14 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 class App extends React.Component {
 
   render() {
+    
     return (
       <Container>
         <TopMenu />
-        <Filter />
         <Router>
-          <Route ecaxt path="/:view" render={({ match }) =>
-            <Events view={(match.params.view)} />}
-          />
+          <Route path="/week" render={({ location, history }) => {
+            return <Filter location={location} history={history} />
+          }} />
         </Router>
       </Container>
     )

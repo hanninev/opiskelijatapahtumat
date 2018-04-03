@@ -14,4 +14,5 @@
 | 24.3. la | 7 | Todettu sovellus hitaaksi isoilla tietomäärillä, saatu nopeammaksi lisäämällä vastuuta backendille. Tehty filtteröintejä. |
 | 27.3. ti | 3 | Säädetty filtteröintiä, rajoitettu näytettäviä hakuvaihtoehtoja.
 | 2.4. ma | 4 | Filtteröintejä paranneltu ja aloitettu routereita
-| ** yhteensä ** | 62,5 | |
+| 3.4. ti | 6 | Routersin käyttöönottoa, navigoinnin mahdollistaminen url:n avulla |
+| ** yhteensä ** | 68,5 | |

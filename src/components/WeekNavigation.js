@@ -2,58 +2,54 @@ import React from 'react'
 import { Button, Icon, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setNextWeek, setPreviousWeek, setCurrentWeek } from '../reducers/calendarReducer'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Week from './Week'
-import eventService from '../services/events'
 import moment from 'moment'
 
 class WeekNavigation extends React.Component {
   render() {
+    const previousWeek = moment(this.props.calendar.days[0]).add(-7, 'd').format('YYYY-MM-DD')
+    const nextWeek = moment(this.props.calendar.days[6]).add(1, 'd').format('YYYY-MM-DD')
+    const currentWeek = moment().format('YYYY-MM-DD')
+
     return (
       <Router>
         <Grid columns={3} stretched={true} centered={true}>
           <Grid.Row only='computer tablet'>
             <Grid.Column>
-              <Link to={'/week/2017-03-02'}>edell</Link>
-
-              <Button onClick={() => this.props.setPreviousWeek(this.props.calendar.days)} icon labelPosition='left'>
+              <Link to={`/week/${previousWeek}` + this.props.location.search}><Button icon labelPosition='left'>
                 <Icon name='left arrow' />
                 Edellinen
-            </Button>
+              </Button></Link>
             </Grid.Column>
             <Grid.Column>
-              <Button onClick={() => this.props.setCurrentWeek(this.props.calendar.days)}>
+              <Link to={`/week/${currentWeek}` + this.props.location.search}><Button>
                 Nykyinen viikko
-            </Button>
+              </Button></Link>
             </Grid.Column>
             <Grid.Column>
-              <Button onClick={() => this.props.setNextWeek(this.props.calendar.days)} icon labelPosition='right'>
+              <Link to={`/week/${nextWeek}` + this.props.location.search}><Button icon labelPosition='right'>
                 Seuraava
-              <Icon name='right arrow' />
-              </Button>
+                <Icon name='right arrow' />
+              </Button></Link>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row stackable={true} only='mobile'>
-            <Button onClick={() => this.props.setPreviousWeek(this.props.calendar.days)} icon>
+            <Button icon>
               <Icon name='left arrow' />
             </Button>
-            <Button onClick={() => this.props.setCurrentWeek()}>
+            <Button>
               Nykyinen viikko
-          </Button>
-            <Button onClick={() => this.props.setNextWeek(this.props.calendar.days)} icon>
+            </Button>
+            <Button icon>
               <Icon name='right arrow' />
             </Button>
           </Grid.Row>
-          <Route exact path="/week/:date" render={({ match }) => {
-            const day = moment(this.props.date)
-            const week = [0, 1, 2, 3, 4, 5, 6]
-            const calendar = week.map(w => {
-              return moment(day).add(w, 'd')
-            })
-            this.props.setCurrentWeek(calendar)
-            return <Week getEvents={this.props.getEvents} date={match.params.date} />
-          }} // filtterit kaiken ylimpänä?
+          <Route exact path="/week/:date" render={({ match, location }) => {
+            console.log(location)
+            window.sessionStorage.setItem('searchParams', location.search)
+            return <Week key={match.params.date} getEvents={this.props.getEvents} date={match.params.date} />
+          }}
           />
         </Grid>
       </Router>
@@ -67,15 +63,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = {
-  setNextWeek,
-  setPreviousWeek,
-  setCurrentWeek
-}
-
 const ConnectedEvents = connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(WeekNavigation)
 export default ConnectedEvents
 
