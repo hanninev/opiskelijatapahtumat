@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
 class Events extends React.Component {
-  componentDidMount = () => {
+/*  componentDidMount = () => {
     this.props.selectionInitialization()
   }
 
@@ -123,5 +123,5 @@ const ConnectedEvents = connect(
 export default ConnectedEvents
 
 Events.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object */
 }

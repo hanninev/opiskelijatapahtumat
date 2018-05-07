@@ -13,11 +13,11 @@ class Filter extends React.Component {
     if (!this.props.location.search.includes('organizer')) {
       window.sessionStorage.setItem('organizer', '')
     } else {
-      window.sessionStorage.setItem('organizer', this.props.location.search.slice(11)) // tähän parempi tapa
+      window.sessionStorage.setItem('organizer', this.props.location.search.slice(11)) // jos hakuehtoja valmiiksi - parempi tapa!
     }
     if (!this.props.location.search.includes('organizer_type')) {
       window.sessionStorage.setItem('organizer_type', '')
-    }    
+    }
     if (!this.props.location.search.includes('location')) {
       window.sessionStorage.setItem('location', '')
     }
@@ -30,16 +30,16 @@ class Filter extends React.Component {
 
   makeRoute = () => {
     this.props.location.search = ''
-    if (window.sessionStorage.getItem('organizer') !== undefined) {
+    if (window.sessionStorage.getItem('organizer') !== undefined && window.sessionStorage.getItem('organizer') !== '') {
       this.props.location.search += 'organizer=' + window.sessionStorage.getItem('organizer') + '&'
     }
-    if (window.sessionStorage.getItem('organizer_type') !== undefined) {
+    if (window.sessionStorage.getItem('organizer_type') !== undefined && window.sessionStorage.getItem('organizer_type') !== '') {
       this.props.location.search += 'organizer_type=' + window.sessionStorage.getItem('organizer_type') + '&'
     }
-    if (window.sessionStorage.getItem('location') !== undefined) {
+    if (window.sessionStorage.getItem('location') !== undefined && window.sessionStorage.getItem('location') !== '') {
       this.props.location.search += 'location=' + window.sessionStorage.getItem('location') + '&'
     }
-    if (window.sessionStorage.getItem('event_type') !== undefined) {
+    if (window.sessionStorage.getItem('event_type') !== undefined && window.sessionStorage.getItem('event_type') !== '') {
       this.props.location.search += 'event_type=' + window.sessionStorage.getItem('event_type')
     }
     this.props.history.push(this.props.location.pathname + '?' + this.props.location.search)
@@ -69,7 +69,8 @@ class Filter extends React.Component {
     if (value.length === 0) {
       window.sessionStorage.setItem('location', '')
     }
-    this.makeRoute()  }
+    this.makeRoute()
+  }
 
   handleEventTypeChange = (event, { value }) => {
     console.log(value)
@@ -83,6 +84,10 @@ class Filter extends React.Component {
   render() {
     console.log(window.sessionStorage.getItem('organizer'))
     const organizers = window.sessionStorage.getItem('organizer').split(',')
+    const locations = window.sessionStorage.getItem('location').split(',')
+    const organizerTypes = window.sessionStorage.getItem('organizer_type').split(',')
+    const eventTypes = window.sessionStorage.getItem('event_type').split(',')
+
 
     const getEventType = () => {
       const inObjects = this.props.selections.eventTypes.map(p => {
@@ -120,15 +125,12 @@ class Filter extends React.Component {
       return inObjects
     }
 
-
-    // events.js:
-
     let eventsToShow = []
 
     const locationFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
         if (e.place !== undefined) {
-          return this.props.filter.location.includes(e.place.name)
+          return locations.includes(e.place.name)
         }
       })
       return filteredList
@@ -147,7 +149,7 @@ class Filter extends React.Component {
 
     const organizerTypeFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
-        return this.props.filter.organizerType.includes(e.organizer.type)
+        return organizerTypes.includes(e.organizer.type)
       })
       return filteredList
     }
@@ -174,13 +176,13 @@ class Filter extends React.Component {
     console.log(eventTypeFilter(eventsToShow))
 
 
-    if (this.props.filter.location.length > 0) {
+    if (window.sessionStorage.getItem('locations') !== '') {
       eventsToShow = Array.from(new Set(eventsToShow.concat(locationFilter(this.props.calendar.events))))
     }
-    //  if (this.props.filter.organizer.length > 0) {
-    eventsToShow = Array.from(new Set(eventsToShow.concat(organizerFilter(this.props.calendar.events))))
-    //  }
-    if (this.props.filter.organizerType.length > 0) {
+    if (window.sessionStorage.getItem('organizer') !== '') {
+      eventsToShow = Array.from(new Set(eventsToShow.concat(organizerFilter(this.props.calendar.events))))
+    }
+    if (window.sessionStorage.getItem('organizerType') !== '') {
       eventsToShow = Array.from(new Set(eventsToShow.concat(organizerTypeFilter(this.props.calendar.events))))
     }
     //  if (this.props.filter.eventType.length > 0) {
@@ -199,8 +201,6 @@ class Filter extends React.Component {
       return eventsPerDay
     }
 
-    //loppuu
-
     return (
       <div>
         <Grid columns={4} stackable={true} stretched={true}>
@@ -212,10 +212,10 @@ class Filter extends React.Component {
               <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
             </Grid.Column>
             <Grid.Column>
-              <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} />
+              <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
             </Grid.Column>
             <Grid.Column only='computer tablet'>
-              <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} />
+              <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
