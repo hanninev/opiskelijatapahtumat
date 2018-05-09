@@ -9,29 +9,53 @@ import { selectionInitialization } from '../reducers/selectionReducer'
 class Filter extends React.Component {
   componentWillMount = () => {
     this.props.selectionInitialization()
+    const searchAttr = this.props.location.search.split('&')
+    console.log(searchAttr)
 
-    if (!this.props.location.search.includes('organizer')) {
-      window.sessionStorage.setItem('organizer', '')
+    if (!this.props.location.search.includes('organizer_id')) {
+      window.sessionStorage.setItem('organizer_id', '')
     } else {
-      window.sessionStorage.setItem('organizer', this.props.location.search.slice(11)) // jos hakuehtoja valmiiksi - parempi tapa!
+      searchAttr.map(s => {
+        if (s.includes('organizer_id')) {
+          window.sessionStorage.setItem('organizer_id', (s.split('=')[1]))
+        }
+      })
     }
     if (!this.props.location.search.includes('organizer_type')) {
       window.sessionStorage.setItem('organizer_type', '')
+    } else {
+      searchAttr.map(s => {
+        if (s.includes('organizer_type')) {
+          window.sessionStorage.setItem('organizer_type', (s.split('=')[1]))
+        }
+      })
     }
     if (!this.props.location.search.includes('location')) {
       window.sessionStorage.setItem('location', '')
+    } else {
+      searchAttr.map(s => {
+        if (s.includes('location')) {
+          window.sessionStorage.setItem('location', (s.split('=')[1]))
+        }
+      })
     }
     if (!this.props.location.search.includes('event_type')) {
       window.sessionStorage.setItem('event_type', '')
+    } else {
+      searchAttr.map(s => {
+        if (s.includes('event_type')) {
+          window.sessionStorage.setItem('event_type', (s.split('=')[1]))
+        }
+      })
     }
 
-    console.log(window.sessionStorage.getItem('organizer'))
+    this.makeRoute()
   }
 
   makeRoute = () => {
     this.props.location.search = ''
-    if (window.sessionStorage.getItem('organizer') !== undefined && window.sessionStorage.getItem('organizer') !== '') {
-      this.props.location.search += 'organizer=' + window.sessionStorage.getItem('organizer') + '&'
+    if (window.sessionStorage.getItem('organizer_id') !== undefined && window.sessionStorage.getItem('organizer_id') !== '') {
+      this.props.location.search += 'organizer_id=' + window.sessionStorage.getItem('organizer_id') + '&'
     }
     if (window.sessionStorage.getItem('organizer_type') !== undefined && window.sessionStorage.getItem('organizer_type') !== '') {
       this.props.location.search += 'organizer_type=' + window.sessionStorage.getItem('organizer_type') + '&'
@@ -47,15 +71,21 @@ class Filter extends React.Component {
 
   handleOrganizerChange = (event, { value }) => {
     console.log(value)
-    window.sessionStorage.setItem('organizer', value)
+    if(value[0] === '') {
+      value.splice(0, 1)
+    }
+    window.sessionStorage.setItem('organizer_id', value)
     if (value.length === 0) {
-      window.sessionStorage.setItem('organizer', '')
+      window.sessionStorage.setItem('organizer_id', '')
     }
     this.makeRoute()
   }
 
   handleOTypeChange = (event, { value }) => {
     console.log(value)
+    if(value[0] === '') {
+      value.splice(0, 1)
+    }
     window.sessionStorage.setItem('organizer_type', value)
     if (value.length === 0) {
       window.sessionStorage.setItem('organizer_type', '')
@@ -65,6 +95,9 @@ class Filter extends React.Component {
 
   handleLocationChange = (event, { value }) => {
     console.log(value)
+    if(value[0] === '') {
+      value.splice(0, 1)
+    }
     window.sessionStorage.setItem('location', value)
     if (value.length === 0) {
       window.sessionStorage.setItem('location', '')
@@ -74,6 +107,9 @@ class Filter extends React.Component {
 
   handleEventTypeChange = (event, { value }) => {
     console.log(value)
+    if(value[0] === '') {
+      value.splice(0, 1)
+    }
     window.sessionStorage.setItem('event_type', value)
     if (value.length === 0) {
       window.sessionStorage.setItem('event_type', '')
@@ -82,8 +118,8 @@ class Filter extends React.Component {
   }
 
   render() {
-    console.log(window.sessionStorage.getItem('organizer'))
-    const organizers = window.sessionStorage.getItem('organizer').split(',')
+    console.log(window.sessionStorage.getItem('organizer_id'))
+    const organizers = window.sessionStorage.getItem('organizer_id').split(',')
     const locations = window.sessionStorage.getItem('location').split(',')
     const organizerTypes = window.sessionStorage.getItem('organizer_type').split(',')
     const eventTypes = window.sessionStorage.getItem('event_type').split(',')
@@ -111,7 +147,7 @@ class Filter extends React.Component {
       })
       const withoutDuplicates = Array.from(new Set(types))
       const inObjects = withoutDuplicates.map(p => {
-        return { key: p, value: p, text: p }
+        return { key: p.split(' ')[0], value: p.split(' ')[0], text: p }
       })
       console.log(inObjects)
       return inObjects
@@ -149,26 +185,34 @@ class Filter extends React.Component {
 
     const organizerTypeFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
-        return organizerTypes.includes(e.organizer.type)
+        return organizerTypes.includes(e.organizer.type.split(' ')[0])
       })
       return filteredList
     }
 
     console.log(organizerTypeFilter(eventsToShow))
-
+    const selectedEventTypes = this.props.selections.eventTypes.filter(et => {
+      return eventTypes.includes(et.text)
+    })
+    
     const eventTypeFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
-        if (this.props.filter.eventType[0].dontShowEvents.includes(e.id)) {
-          return false
-        }
-        if (this.props.filter.eventType[0].dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
-          return false
-        }
-        if (this.props.filter.eventType[0].searchAttributes.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
-          return true
-        } else if (e.description !== undefined) {
-          return this.props.filter.eventType[0].searchAttributes.some(s => e.description.toLowerCase().indexOf(s) > 0)
-        }
+        for (let index = 0; index < selectedEventTypes.length; index++) {
+          const eT = selectedEventTypes[index]
+          if (eT.dontShowEvents.includes(e.id)) {
+            continue
+          }
+          if (eT.dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
+            continue
+          }        
+          if (eT.searchAttributes.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
+            return e
+          } else if (e.description !== undefined) {
+            if (eT.searchAttributes.some(s => e.description.toLowerCase().indexOf(s) > 0)) {
+              return e
+            }
+          }
+        } 
       })
       return filteredList
     }
@@ -179,15 +223,15 @@ class Filter extends React.Component {
     if (window.sessionStorage.getItem('locations') !== '') {
       eventsToShow = Array.from(new Set(eventsToShow.concat(locationFilter(this.props.calendar.events))))
     }
-    if (window.sessionStorage.getItem('organizer') !== '') {
+    if (window.sessionStorage.getItem('organizer_id') !== '') {
       eventsToShow = Array.from(new Set(eventsToShow.concat(organizerFilter(this.props.calendar.events))))
     }
-    if (window.sessionStorage.getItem('organizerType') !== '') {
+    if (window.sessionStorage.getItem('organizer_type') !== '') {
       eventsToShow = Array.from(new Set(eventsToShow.concat(organizerTypeFilter(this.props.calendar.events))))
     }
-    //  if (this.props.filter.eventType.length > 0) {
-    //    eventsToShow = Array.from(new Set(eventsToShow.concat(eventTypeFilter(this.props.calendar.events))))
-    //  }
+    if (window.sessionStorage.getItem('event_type') !== '') {
+      eventsToShow = Array.from(new Set(eventsToShow.concat(eventTypeFilter(this.props.calendar.events))))
+    }
 
     if (this.props.location.search.length === 0) {
       eventsToShow = this.props.calendar.events
@@ -206,7 +250,7 @@ class Filter extends React.Component {
         <Grid columns={4} stackable={true} stretched={true}>
           <Grid.Row>
             <Grid.Column>
-              <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} />
+              <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes}/>
             </Grid.Column>
             <Grid.Column>
               <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />

@@ -17,4 +17,6 @@
 | 3.4. ti | 6 | Routersin käyttöönottoa, navigoinnin mahdollistaminen url:n avulla |
 | 3.5. to | 0,5 | Backend Herokuun |
 | 8.5. ma | 10 | Toimimattomuuden selvittäminen -> Facebook on päivittänyt API:aan siten, ettei tarvitsemiani get-pyyntöjä voi enää tehdä. Luotu testidataa, jotta projekti voi jatkua kovakoodatun datan päällä. Ilmeisesti tapahtumatietoja ei ole enää mahdollista saada Facebookista. Lisäksi parannettu navigointia url:n avulla.  | 
-| ** yhteensä ** | 79 | |
+| 7.5. ti | 2 | Filtteröinnin ja osoitteen yhteensovittamista |
+| 8.5. ke | 5 | Filtteröinnin parantelua |
+| ** yhteensä ** | 86 | |
