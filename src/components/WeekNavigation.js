@@ -10,7 +10,7 @@ class WeekNavigation extends React.Component {
   render() {
     const previousWeek = moment(this.props.calendar.days[0]).add(-7, 'd').format('YYYY-MM-DD')
     const nextWeek = moment(this.props.calendar.days[6]).add(1, 'd').format('YYYY-MM-DD')
-    const currentWeek = moment().format('YYYY-MM-DD')
+    const currentWeek =  moment().isoWeekday(1).format('YYYY-MM-DD')
 
     return (
       <Router>
@@ -47,7 +47,6 @@ class WeekNavigation extends React.Component {
           </Grid.Row>
 
           <Route exact path="/week/:date" render={({ match, location }) => {
-            console.log(location)
             window.sessionStorage.setItem('searchParams', location.search)
             return <Week key={match.params.date} getEvents={this.props.getEvents} date={match.params.date} />
           }}

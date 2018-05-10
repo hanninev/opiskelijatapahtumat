@@ -246,10 +246,7 @@ class Filter extends React.Component {
       const eventsPerDay = eventsToShow.filter(e => e.start_time.toString().substring(0, 10) === date.toString().substring(0, 10))
       return eventsPerDay
     }
-
-    const lastMonday = moment().isoWeekday(1).format('YYYY-MM-DD')
-    const redirectWeek = '/week/' + lastMonday
-
+    console.log(this.props.history)
     return (
       <Router>
         <div>
@@ -269,12 +266,8 @@ class Filter extends React.Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Route exact path="/" render={() => {
-            return <Redirect to={redirectWeek} />
-          }} /> 
-          <Route path="/week/" render={() => {
-            return <WeekNavigation getEvents={getEvents} location={this.props.location} />
-          }} /> 
+
+          <WeekNavigation getEvents={getEvents} location={this.props.location} />
         </div>
       </Router>
     )

@@ -10,14 +10,20 @@ import moment from 'moment'
 class App extends React.Component {
 
   render() {
+    const lastMonday = moment().isoWeekday(1).format('YYYY-MM-DD')
+    const redirectWeek = '/week/' + lastMonday
 
     return (
       <Container>
         <TopMenu />
         <Router>
           <div>
-            <Route path="/" render={({ location, history }) => {
+            <Route path="/week" render={({ location, history }) => {
+              console.log(location)
               return <Filter location={location} history={history} />
+            }} />
+            <Route exact path="/" render={() => {
+              return <Redirect to={redirectWeek} />
             }} /> 
           </div>
         </Router>

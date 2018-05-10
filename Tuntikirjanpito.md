@@ -19,5 +19,5 @@
 | 7.5. ma | 10 | Toimimattomuuden selvittäminen -> Facebook on päivittänyt API:aan siten, ettei tarvitsemiani get-pyyntöjä voi enää tehdä. Luotu testidataa, jotta projekti voi jatkua kovakoodatun datan päällä. Ilmeisesti tapahtumatietoja ei ole enää mahdollista saada Facebookista. Lisäksi parannettu navigointia url:n avulla.  | 
 | 8.5. ti | 2 | Filtteröinnin ja osoitteen yhteensovittamista |
 | 9.5. ke | 5 | Filtteröinnin parantelua |
-| 10.5. to | 2 | Routersin säätämistä |
-| ** yhteensä ** | 88 | |
+| 10.5. to | 4 | Routersin säätämistä |
+| ** yhteensä ** | 90 | |
