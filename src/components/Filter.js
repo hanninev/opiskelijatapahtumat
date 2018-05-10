@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
 import WeekNavigation from './WeekNavigation'
 import { selectionInitialization } from '../reducers/selectionReducer'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import moment from 'moment'
 
 class Filter extends React.Component {
   componentWillMount = () => {
@@ -245,26 +247,36 @@ class Filter extends React.Component {
       return eventsPerDay
     }
 
+    const lastMonday = moment().isoWeekday(1).format('YYYY-MM-DD')
+    const redirectWeek = '/week/' + lastMonday
+
     return (
-      <div>
-        <Grid columns={4} stackable={true} stretched={true}>
-          <Grid.Row>
-            <Grid.Column>
-              <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes}/>
-            </Grid.Column>
-            <Grid.Column>
-              <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
-            </Grid.Column>
-            <Grid.Column>
-              <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
-            </Grid.Column>
-            <Grid.Column only='computer tablet'>
-              <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <WeekNavigation getEvents={getEvents} location={this.props.location} />
-      </div>
+      <Router>
+        <div>
+          <Grid columns={4} stackable={true} stretched={true}>
+            <Grid.Row>
+              <Grid.Column>
+                <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
+              </Grid.Column>
+              <Grid.Column>
+                <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
+              </Grid.Column>
+              <Grid.Column only='computer tablet'>
+                <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <Route exact path="/" render={() => {
+            return <Redirect to={redirectWeek} />
+          }} /> 
+          <Route path="/week/" render={() => {
+            return <WeekNavigation getEvents={getEvents} location={this.props.location} />
+          }} /> 
+        </div>
+      </Router>
     )
   }
 }

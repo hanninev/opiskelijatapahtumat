@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Icon, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import Week from './Week'
 import moment from 'moment'
 
@@ -45,6 +45,7 @@ class WeekNavigation extends React.Component {
               <Icon name='right arrow' />
             </Button>
           </Grid.Row>
+
           <Route exact path="/week/:date" render={({ match, location }) => {
             console.log(location)
             window.sessionStorage.setItem('searchParams', location.search)
