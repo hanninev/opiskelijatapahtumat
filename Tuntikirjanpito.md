@@ -20,4 +20,5 @@
 | 8.5. ti | 2 | Filtteröinnin ja osoitteen yhteensovittamista |
 | 9.5. ke | 5 | Filtteröinnin parantelua |
 | 10.5. to | 4 | Routersin säätämistä |
-| ** yhteensä ** | 90 | |
+| 11.5. pe | 3 | Mongodb:n käyttöönotto ja backendin laajentaminen |
+| ** yhteensä ** | 93 | |
