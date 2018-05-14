@@ -21,4 +21,5 @@
 | 9.5. ke | 5 | Filtteröinnin parantelua |
 | 10.5. to | 4 | Routersin säätämistä |
 | 11.5. pe | 3 | Mongodb:n käyttöönotto ja backendin laajentaminen |
-| ** yhteensä ** | 93 | |
+| 14.5. ma | 7 | Frontend Herokuun, backendin laajentaminen, tietokanta käyttöön ja tietokantaan dataa, hakuehtojen poissulkevuus toteutettu
+| ** yhteensä ** | 100 | |
