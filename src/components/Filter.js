@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Grid } from 'semantic-ui-react'
+import { Dropdown, Grid, Checkbox } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
@@ -48,6 +48,15 @@ class Filter extends React.Component {
         }
       })
     }
+    if (!this.props.location.search.includes('comb')) {
+      window.sessionStorage.setItem('comb', 'or')
+    } else {
+      searchAttr.map(s => {
+        if (s.includes('comb')) {
+          window.sessionStorage.setItem('comb', (s.split('=')[1]))
+        }
+      })
+    }
 
     this.makeRoute()
   }
@@ -64,14 +73,17 @@ class Filter extends React.Component {
       this.props.location.search += 'location=' + window.sessionStorage.getItem('location') + '&'
     }
     if (window.sessionStorage.getItem('event_type') !== undefined && window.sessionStorage.getItem('event_type') !== '') {
-      this.props.location.search += 'event_type=' + window.sessionStorage.getItem('event_type')
+      this.props.location.search += 'event_type=' + window.sessionStorage.getItem('event_type') + '&'
+    }
+    if (window.sessionStorage.getItem('comb') !== undefined && window.sessionStorage.getItem('comb') !== '') {
+      this.props.location.search += 'comb=' + window.sessionStorage.getItem('comb')
     }
     this.props.history.push(this.props.location.pathname + '?' + this.props.location.search)
   }
 
   handleOrganizerChange = (event, { value }) => {
     console.log(value)
-    if(value[0] === '') {
+    if (value[0] === '') {
       value.splice(0, 1)
     }
     window.sessionStorage.setItem('organizer_id', value)
@@ -83,7 +95,7 @@ class Filter extends React.Component {
 
   handleOTypeChange = (event, { value }) => {
     console.log(value)
-    if(value[0] === '') {
+    if (value[0] === '') {
       value.splice(0, 1)
     }
     window.sessionStorage.setItem('organizer_type', value)
@@ -95,7 +107,7 @@ class Filter extends React.Component {
 
   handleLocationChange = (event, { value }) => {
     console.log(value)
-    if(value[0] === '') {
+    if (value[0] === '') {
       value.splice(0, 1)
     }
     window.sessionStorage.setItem('location', value)
@@ -107,13 +119,23 @@ class Filter extends React.Component {
 
   handleEventTypeChange = (event, { value }) => {
     console.log(value)
-    if(value[0] === '') {
+    if (value[0] === '') {
       value.splice(0, 1)
     }
     window.sessionStorage.setItem('event_type', value)
     if (value.length === 0) {
       window.sessionStorage.setItem('event_type', '')
     }
+    this.makeRoute()
+  }
+
+  onOrChange = () => {
+    window.sessionStorage.setItem('comb', 'or')
+    this.makeRoute()
+  }
+
+  onAndChange = () => {
+    window.sessionStorage.setItem('comb', 'and')
     this.makeRoute()
   }
 
@@ -161,8 +183,6 @@ class Filter extends React.Component {
       return inObjects
     }
 
-    let eventsToShow = []
-
     const locationFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
         if (e.place !== undefined) {
@@ -172,16 +192,12 @@ class Filter extends React.Component {
       return filteredList
     }
 
-    console.log(locationFilter(eventsToShow))
-
     const organizerFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
         return organizers.includes(e.organizer.fbpage_id.toString())
       })
       return filteredList
     }
-
-    console.log(organizerFilter(eventsToShow))
 
     const organizerTypeFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
@@ -190,11 +206,10 @@ class Filter extends React.Component {
       return filteredList
     }
 
-    console.log(organizerTypeFilter(eventsToShow))
     const selectedEventTypes = this.props.selections.eventTypes.filter(et => {
       return eventTypes.includes(et.text)
     })
-    
+
     const eventTypeFilter = (listToFilter) => {
       const filteredList = listToFilter.filter(e => {
         for (let index = 0; index < selectedEventTypes.length; index++) {
@@ -204,7 +219,7 @@ class Filter extends React.Component {
           }
           if (eT.dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
             continue
-          }        
+          }
           if (eT.searchAttributes.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
             return e
           } else if (e.description !== undefined) {
@@ -212,28 +227,54 @@ class Filter extends React.Component {
               return e
             }
           }
-        } 
+        }
       })
       return filteredList
     }
 
-    console.log(eventTypeFilter(eventsToShow))
 
-
+    let commonList = []
     if (window.sessionStorage.getItem('locations') !== '') {
-      eventsToShow = Array.from(new Set(eventsToShow.concat(locationFilter(this.props.calendar.events))))
+      commonList = Array.from(new Set(commonList.concat(locationFilter(this.props.calendar.events))))
     }
     if (window.sessionStorage.getItem('organizer_id') !== '') {
-      eventsToShow = Array.from(new Set(eventsToShow.concat(organizerFilter(this.props.calendar.events))))
+      commonList = Array.from(new Set(commonList.concat(organizerFilter(this.props.calendar.events))))
     }
     if (window.sessionStorage.getItem('organizer_type') !== '') {
-      eventsToShow = Array.from(new Set(eventsToShow.concat(organizerTypeFilter(this.props.calendar.events))))
+      commonList = Array.from(new Set(commonList.concat(organizerTypeFilter(this.props.calendar.events))))
     }
     if (window.sessionStorage.getItem('event_type') !== '') {
-      eventsToShow = Array.from(new Set(eventsToShow.concat(eventTypeFilter(this.props.calendar.events))))
+      commonList = Array.from(new Set(commonList.concat(eventTypeFilter(this.props.calendar.events))))
     }
 
-    if (this.props.location.search.length === 0) {
+    let eventsToShow = []
+    if (window.sessionStorage.getItem('comb') === 'or') {
+      eventsToShow = commonList
+    } else if (window.sessionStorage.getItem('comb') === 'and') {
+      if (window.sessionStorage.getItem('locations') !== '') {
+        eventsToShow.push(locationFilter(this.props.calendar.events))
+      }
+      if (window.sessionStorage.getItem('organizer_id') !== '') {
+        eventsToShow.push(organizerFilter(this.props.calendar.events))
+      }
+      if (window.sessionStorage.getItem('organizer_type') !== '') {
+        eventsToShow.push(organizerTypeFilter(this.props.calendar.events))
+      }
+      if (window.sessionStorage.getItem('event_type') !== '') {
+        eventsToShow.push(eventTypeFilter(this.props.calendar.events))
+      }
+
+      eventsToShow = eventsToShow.filter(e => e.length > 0)
+      commonList = commonList.filter(e => {
+        return eventsToShow.every(array => {
+          return array.includes(e)
+        })
+      })
+      eventsToShow = commonList
+      console.log(eventsToShow)
+    }
+
+    if (this.props.location.search.length <= 9) {
       eventsToShow = this.props.calendar.events
     }
 
@@ -250,24 +291,33 @@ class Filter extends React.Component {
         <Grid columns={4} stackable={true} stretched={true}>
           <Grid.Row>
             <Grid.Column>
-            Valitse tapahtuman tyyppi
-              <Dropdown onChange={this.handleEventTypeChange} fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes}/>
+              Valitse tapahtuman tyyppi
+              <Dropdown onChange={this.handleEventTypeChange} fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes} />
             </Grid.Column>
             <Grid.Column>
-            Valitse järjestäjä
+              Valitse järjestäjä
               <Dropdown onChange={this.handleOrganizerChange} fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
             </Grid.Column>
             <Grid.Column>
-            Valitse järjestäjän tyyppi
+              Valitse järjestäjän tyyppi
               <Dropdown onChange={this.handleOTypeChange} fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
             </Grid.Column>
             <Grid.Column only='computer tablet'>
-            Valitse paikka
+              Valitse paikka
               <Dropdown onChange={this.handleLocationChange} fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
-
+        <Grid columns={2} centered={true}>
+          <Grid.Row>
+            <Grid.Column>
+              <Checkbox radio label='Toteuttaa vähintään yhden hakuehdon' name='comb' checked={window.sessionStorage.getItem('comb') === 'or'} onChange={this.onOrChange} />
+            </Grid.Column>
+            <Grid.Column>
+              <Checkbox radio label='Toteuttaa kaikki hakuehdot' name='comb' checked={window.sessionStorage.getItem('comb') === 'and'} onChange={this.onAndChange} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <WeekNavigation getEvents={getEvents} location={this.props.location} />
       </div>
     )
