@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
 import WeekNavigation from './WeekNavigation'
 import { selectionInitialization } from '../reducers/selectionReducer'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
-import moment from 'moment'
 
 class Filter extends React.Component {
   componentWillMount = () => {
@@ -248,28 +246,30 @@ class Filter extends React.Component {
     }
     console.log(this.props.history)
     return (
-      <Router>
-        <div>
-          <Grid columns={4} stackable={true} stretched={true}>
-            <Grid.Row>
-              <Grid.Column>
-                <Dropdown onChange={this.handleEventTypeChange} placeholder='Valitse tapahtuman tyyppi' fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes}/>
-              </Grid.Column>
-              <Grid.Column>
-                <Dropdown onChange={this.handleOrganizerChange} placeholder='Valitse järjestäjä' fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
-              </Grid.Column>
-              <Grid.Column>
-                <Dropdown onChange={this.handleOTypeChange} placeholder='Valitse järjestäjän tyyppi' fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
-              </Grid.Column>
-              <Grid.Column only='computer tablet'>
-                <Dropdown onChange={this.handleLocationChange} placeholder='Valitse paikka' fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+      <div>
+        <Grid columns={4} stackable={true} stretched={true}>
+          <Grid.Row>
+            <Grid.Column>
+            Valitse tapahtuman tyyppi
+              <Dropdown onChange={this.handleEventTypeChange} fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes}/>
+            </Grid.Column>
+            <Grid.Column>
+            Valitse järjestäjä
+              <Dropdown onChange={this.handleOrganizerChange} fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
+            </Grid.Column>
+            <Grid.Column>
+            Valitse järjestäjän tyyppi
+              <Dropdown onChange={this.handleOTypeChange} fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
+            </Grid.Column>
+            <Grid.Column only='computer tablet'>
+            Valitse paikka
+              <Dropdown onChange={this.handleLocationChange} fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
 
-          <WeekNavigation getEvents={getEvents} location={this.props.location} />
-        </div>
-      </Router>
+        <WeekNavigation getEvents={getEvents} location={this.props.location} />
+      </div>
     )
   }
 }

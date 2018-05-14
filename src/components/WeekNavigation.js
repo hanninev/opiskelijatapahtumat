@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Icon, Grid } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Week from './Week'
 import moment from 'moment'
 
@@ -10,7 +10,7 @@ class WeekNavigation extends React.Component {
   render() {
     const previousWeek = moment(this.props.calendar.days[0]).add(-7, 'd').format('YYYY-MM-DD')
     const nextWeek = moment(this.props.calendar.days[6]).add(1, 'd').format('YYYY-MM-DD')
-    const currentWeek =  moment().isoWeekday(1).format('YYYY-MM-DD')
+    const currentWeek = moment().isoWeekday(1).format('YYYY-MM-DD')
 
     return (
       <Router>
@@ -34,16 +34,17 @@ class WeekNavigation extends React.Component {
               </Button></Link>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row stackable={true} only='mobile'>
-            <Button icon>
+          <Grid.Row stackable="true" only='mobile'>
+            <Link to={`/week/${previousWeek}` + this.props.location.search}><Button icon>
               <Icon name='left arrow' />
-            </Button>
-            <Button>
-              Nykyinen viikko
-            </Button>
-            <Button icon>
+            </Button></Link>
+            <Link to={`/week/${currentWeek}` + this.props.location.search}>
+              <Button>
+                Nykyinen viikko
+              </Button></Link>
+            <Link to={`/week/${nextWeek}` + this.props.location.search}><Button icon>
               <Icon name='right arrow' />
-            </Button>
+            </Button></Link>
           </Grid.Row>
 
           <Route exact path="/week/:date" render={({ match, location }) => {
