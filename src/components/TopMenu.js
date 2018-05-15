@@ -15,14 +15,8 @@ class TopMenu extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user
-  }
-}
-
 const ConnectedEvents = connect(
-  mapStateToProps,
+  null,
   null
 )(TopMenu)
 export default ConnectedEvents

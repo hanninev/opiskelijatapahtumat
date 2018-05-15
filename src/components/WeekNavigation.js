@@ -22,12 +22,12 @@ class WeekNavigation extends React.Component {
                 Edellinen
               </Button></Link>
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column textAlign={'center'}>
               <Link to={`/week/${currentWeek}` + this.props.location.search}><Button>
                 Nykyinen viikko
               </Button></Link>
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column textAlign={'right'}>
               <Link to={`/week/${nextWeek}` + this.props.location.search}><Button icon labelPosition='right'>
                 Seuraava
                 <Icon name='right arrow' />

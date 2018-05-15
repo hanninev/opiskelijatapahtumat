@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Grid, Checkbox } from 'semantic-ui-react'
+import { Dropdown, Grid, Checkbox, Button, Icon } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
@@ -7,6 +7,13 @@ import WeekNavigation from './WeekNavigation'
 import { selectionInitialization } from '../reducers/selectionReducer'
 
 class Filter extends React.Component {
+  constructor({ props }) {
+    super(props)
+    this.state = {
+      visible: false,
+    }
+  }
+
   componentWillMount = () => {
     this.props.selectionInitialization()
     const searchAttr = this.props.location.search.split('&')
@@ -286,6 +293,15 @@ class Filter extends React.Component {
       return eventsPerDay
     }
     console.log(this.props.history)
+
+    const devices = () => {
+      if (this.state.visible) {
+        return 'computer tablet mobile'
+      } else {
+        return 'computer tablet'
+      }
+    }
+
     return (
       <div>
         <Grid columns={4} stackable={true} stretched={true}>
@@ -294,27 +310,36 @@ class Filter extends React.Component {
               Valitse tapahtuman tyyppi
               <Dropdown onChange={this.handleEventTypeChange} fluid multiple search closeOnChange selection options={getEventType()} defaultValue={eventTypes} />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column only={devices()}>
               Valitse järjestäjä
               <Dropdown onChange={this.handleOrganizerChange} fluid multiple search closeOnChange selection options={getOrganizers()} defaultValue={organizers} />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column only={devices()}>
               Valitse järjestäjän tyyppi
               <Dropdown onChange={this.handleOTypeChange} fluid multiple search closeOnChange selection options={getOrganizerTypes()} defaultValue={organizerTypes} />
             </Grid.Column>
-            <Grid.Column only='computer tablet'>
+            <Grid.Column only={devices()}>
               Valitse paikka
               <Dropdown onChange={this.handleLocationChange} fluid multiple search closeOnChange selection options={getLocations()} defaultValue={locations} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} centered={true}>
+        <Grid columns={2} stretched={true} centered={true}>
           <Grid.Row>
-            <Grid.Column>
+            <Grid.Column only={devices()}>
               <Checkbox radio label='Toteuttaa vähintään yhden hakuehdon' name='comb' checked={window.sessionStorage.getItem('comb') === 'or'} onChange={this.onOrChange} />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column only={devices()}>
               <Checkbox radio label='Toteuttaa kaikki hakuehdot' name='comb' checked={window.sessionStorage.getItem('comb') === 'and'} onChange={this.onAndChange} />
+            </Grid.Column>
+            </Grid.Row>
+            <Grid.Row columns={1} >
+            <Grid.Column only='mobile'>
+              {!this.state.visible ? (
+                <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow down' /> Näytä enemmän hakuehtoja</Button>
+              ) : (
+                <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow up' /> Näytä vähemmän hakuehtoja</Button>
+              )}
             </Grid.Column>
           </Grid.Row>
         </Grid>
