@@ -13,11 +13,11 @@ class EventTypeList extends React.Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>event type</Table.HeaderCell>
-              <Table.HeaderCell>search attributes</Table.HeaderCell>
-              <Table.HeaderCell>don't show if title contains</Table.HeaderCell>
-              <Table.HeaderCell>don't show events</Table.HeaderCell>
-              <Table.HeaderCell>edit</Table.HeaderCell>
+              <Table.HeaderCell>Tapahtuman tyyppi</Table.HeaderCell>
+              <Table.HeaderCell>Hakusanat</Table.HeaderCell>
+              <Table.HeaderCell>Älä näytä, jos otsikko sisältää näitä sanoja</Table.HeaderCell>
+              <Table.HeaderCell>Älä näytä näitä tapahtumia</Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 

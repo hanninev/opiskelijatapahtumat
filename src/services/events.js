@@ -30,4 +30,15 @@ const getEventTypes = async () => {
   return o.data
 }
 
-export default { getEvents, getOrganizers, getLocations, getOrganizerTypes, getEventTypes }
+const createEventType = async (blogObject) => {
+  const response = await axios.post(url + 'admin/', blogObject)
+  return response.data
+}
+
+const updateEventType = (id, newObject) => {
+  console.log(newObject)
+  const request = axios.put(`${url}admin/${id}`, newObject)
+  return request.then(response => response.data)
+}
+
+export default { getEvents, getOrganizers, getLocations, getOrganizerTypes, getEventTypes, createEventType, updateEventType }

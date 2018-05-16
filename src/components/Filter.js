@@ -332,8 +332,8 @@ class Filter extends React.Component {
             <Grid.Column only={devices()}>
               <Checkbox radio label='Toteuttaa kaikki hakuehdot' name='comb' checked={window.sessionStorage.getItem('comb') === 'and'} onChange={this.onAndChange} />
             </Grid.Column>
-            </Grid.Row>
-            <Grid.Row columns={1} >
+          </Grid.Row>
+          <Grid.Row columns={1} >
             <Grid.Column only='mobile'>
               {!this.state.visible ? (
                 <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow down' /> Näytä enemmän hakuehtoja</Button>

@@ -23,4 +23,5 @@
 | 11.5. pe | 3 | Mongodb:n käyttöönotto ja backendin laajentaminen |
 | 14.5. ma | 7 | Frontend Herokuun, backendin laajentaminen, tietokanta käyttöön ja tietokantaan dataa, hakuehtojen poissulkevuus toteutettu
 | 15.5. ti | 3,5 | Näytettävien hakukenttien piilottaminen/näyttäminen mobiililaitteilla, ylläpitonäkymän aloittaminen |
-| ** yhteensä ** | 103,5 | |
+| 16.5. ke | 3 | Ylläpitotoimintojen kehittäminen |
+| ** yhteensä ** | 106,5 | |
