@@ -1,5 +1,5 @@
-# opiskelijatapahtumat
-Harjoitustyön aiheena on tehdä kalenterisovellus, josta näkee yhdelllä vilkaisulla kaikki kunkin päivän opiskelijatapahtumat. Tiedot haetaan ainejärjestöjen ja osakuntien Facebook-sivuilta käyttäen Facebookin APIa.
+# Opiskelijatapahtumat
+Harjoitustyön aiheena on tehdä kalenterisovellus, josta näkee yhdelllä vilkaisulla kaikki kunkin viikon opiskelijatapahtumat. Tiedot haetaan ainejärjestöjen ja osakuntien Facebook-sivuilta käyttäen Facebookin APIa.
 
 [Linkki sovellukseen](http://opiskelijatapahtumat.herokuapp.com)
 
@@ -7,3 +7,4 @@ Projekti koki takaiskun, kun Facebook päivitti API:aan ja esti kaikki kyselyt t
 
 [Backendin repo](https://github.com/hanninev/opiskelijatapahtumat-backend)
 [Tuntikirjanpito](https://github.com/hanninev/opiskelijatapahtumat/blob/master/Tuntikirjanpito.md)
+[Käyttöohjeet](https://github.com/hanninev/opiskelijatapahtumat/blob/master/Kayttoohjeet.md)
