@@ -24,4 +24,5 @@
 | 14.5. ma | 7 | Frontend Herokuun, backendin laajentaminen, tietokanta käyttöön ja tietokantaan dataa, hakuehtojen poissulkevuus toteutettu
 | 15.5. ti | 3,5 | Näytettävien hakukenttien piilottaminen/näyttäminen mobiililaitteilla, ylläpitonäkymän aloittaminen |
 | 16.5. ke | 3 | Ylläpitotoimintojen kehittäminen |
-| ** yhteensä ** | 106,5 | |
+| 17.5. to | 2,5 | Sovelluksen viimeistely |
+| ** yhteensä ** | 109 | |
