@@ -25,4 +25,4 @@
 | 15.5. ti | 3,5 | Näytettävien hakukenttien piilottaminen/näyttäminen mobiililaitteilla, ylläpitonäkymän aloittaminen |
 | 16.5. ke | 3 | Ylläpitotoimintojen kehittäminen |
 | 17.5. to | 2,5 | Sovelluksen viimeistely |
-| ** yhteensä ** | 109 | |
+| **yhteensä** | **109** | |
