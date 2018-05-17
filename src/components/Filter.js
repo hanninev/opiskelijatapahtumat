@@ -136,12 +136,12 @@ class Filter extends React.Component {
     this.makeRoute()
   }
 
-  onOrChange = () => {
+  handleOrChange = () => {
     window.sessionStorage.setItem('comb', 'or')
     this.makeRoute()
   }
 
-  onAndChange = () => {
+  handleAndChange = () => {
     window.sessionStorage.setItem('comb', 'and')
     this.makeRoute()
   }
@@ -224,13 +224,13 @@ class Filter extends React.Component {
           if (eT.dontShowEvents.includes(e.id)) {
             continue
           }
-          if (eT.dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
+          if (eT.dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s.toLowerCase()) > 0)) {
             continue
           }
-          if (eT.searchAttributes.some(s => e.name.toLowerCase().indexOf(s) > 0)) {
+          if (eT.searchAttributes.some(s => e.name.toLowerCase().indexOf(s.toLowerCase()) > 0)) {
             return e
           } else if (e.description !== undefined) {
-            if (eT.searchAttributes.some(s => e.description.toLowerCase().indexOf(s) > 0)) {
+            if (eT.searchAttributes.some(s => e.description.toLowerCase().indexOf(s.toLowerCase()) > 0)) {
               return e
             }
           }
@@ -327,10 +327,10 @@ class Filter extends React.Component {
         <Grid columns={2} stretched={true} centered={true}>
           <Grid.Row>
             <Grid.Column only={devices()}>
-              <Checkbox radio label='Toteuttaa vähintään yhden hakuehdon' name='comb' checked={window.sessionStorage.getItem('comb') === 'or'} onChange={this.onOrChange} />
+              <Checkbox radio label='Toteuttaa vähintään yhden hakuehdon' name='comb' checked={window.sessionStorage.getItem('comb') === 'or'} onChange={this.handleOrChange} />
             </Grid.Column>
             <Grid.Column only={devices()}>
-              <Checkbox radio label='Toteuttaa kaikki hakuehdot' name='comb' checked={window.sessionStorage.getItem('comb') === 'and'} onChange={this.onAndChange} />
+              <Checkbox radio label='Toteuttaa kaikki hakuehdot' name='comb' checked={window.sessionStorage.getItem('comb') === 'and'} onChange={this.handleAndChange} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={1} >
