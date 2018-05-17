@@ -6,21 +6,12 @@ import TopMenu from './components/TopMenu'
 import Admin from './components/Admin'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import moment from 'moment'
-import { selectionInitialization } from './reducers/selectionReducer'
 
 class App extends React.Component {
-
-  componentWillMount = () => {
-    this.props.selectionInitialization()
-  }
 
   render() {
     const lastMonday = moment().isoWeekday(1).format('YYYY-MM-DD')
     const redirectWeek = '/week/' + lastMonday
-
-    const eventTypeById = (id) => {
-      return this.props.selections.eventTypes.find(eventType => eventType._id === id)
-    }
 
     return (
       <Container>
@@ -44,17 +35,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    selections: state.selections
-  }
-}
-
-const mapDispatchToProps = {
-  selectionInitialization
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  null,
+  null
 )(App)

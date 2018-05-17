@@ -23,31 +23,25 @@ class EventTypeList extends React.Component {
 
           <Table.Body>
             {this.props.selections.eventTypes.map(e =>
-              <Table.Row key={e}>
+              <Table.Row key={e._id}>
                 <Table.Cell>{e.text}</Table.Cell>
                 <Table.Cell>
                   {e.searchAttributes.map(sa =>
-                    <Table.Row key={sa}>
-                      {sa}
-                    </Table.Row>
+                    <li key={sa}>{sa}</li>
                   )}
                 </Table.Cell>
                 <Table.Cell>
                   {e.dontShowIfTitleContains.map(word =>
-                    <Table.Row key={word}>
-                      {word}
-                    </Table.Row>
+                    <li key={word}>{word}</li>
                   )}
                 </Table.Cell>
                 <Table.Cell>
                   {e.dontShowEvents.map(event =>
-                    <Table.Row key={event}>
-                      {event}
-                    </Table.Row>
+                    <li key={event}>{event}</li>
                   )}
                 </Table.Cell>
                 <Table.Cell>
-                  <Link to='admin/5af9b121207438714d203dfb'>muokkaa</Link>
+                  <Link to={`/admin/${e._id}`}>muokkaa</Link>
                 </Table.Cell>
               </Table.Row>
             )}

@@ -21,7 +21,7 @@ componentWillMount = () => {
 }
 
   handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState({ [event.target.name]: event.target.value.split(',') })
   }
 
   update = () => async () => {
@@ -44,9 +44,9 @@ componentWillMount = () => {
         <Form onSubmit={this.update()}>
           <Form.Group widths='equal'>
             <Form.Input fluid id='form-subcomponent-shorthand-input-first-name' onChange={this.handleChange} name='text' value={this.state.text} label='Tapahtuman tyyppi' placeholder='Event type' />
-            <TextArea placeholder='Hakusanat' name='searchAttributes' onChange={this.handleChange} value={this.state.searchAttributes} />
-            <TextArea placeholder='Älä näytä, jos otsikko sisältää nämä sanat' onChange={this.handleChange} name='dontShowIfTitleContains' value={this.state.dontShowIfTitleContains} />
-            <TextArea placeholder='Kirjoita tapahtumien id:t, joita ei näytetä' onChange={this.handleChange} name='dontShowEvents' value={this.state.dontShowEvents} />
+            <TextArea placeholder='Hakusanat otsikosta ja kuvauksesta' name='searchAttributes' onChange={this.handleChange} value={this.state.searchAttributes.toString()} />
+            <TextArea placeholder='Älä näytä, jos otsikko sisältää nämä sanat' onChange={this.handleChange} name='dontShowIfTitleContains' value={this.state.dontShowIfTitleContains.toString()} />
+            <TextArea placeholder='Kirjoita tapahtumien id:t, joita ei näytetä' onChange={this.handleChange} name='dontShowEvents' value={this.state.dontShowEvents.toString()} />
           </Form.Group>
           <Button type='submit'>Tallenna</Button>
         </Form>

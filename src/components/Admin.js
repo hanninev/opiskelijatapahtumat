@@ -26,18 +26,6 @@ class Admin extends React.Component {
       this.setState({ [event.target.name]: event.target.value })
     }
 
-    update = (eventTypeId) => async () => {
-      const eventTypeObject = {
-        text: this.state.text,
-        searchAttributes: this.state.searchAttributes,
-        dontShowIfTitleContains: this.state.dontShowIfTitleContains,
-        dontShowEvents: this.state.dontShowEvents
-      } 
-      await eventService.updateEventType(eventTypeId, eventTypeObject)
-      const eventTypes = await eventService.getEventTypes()
-      this.setState({ eventTypes })
-    }
-
     render() {
 
       const eventTypeById = (id) => {
