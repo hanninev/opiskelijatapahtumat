@@ -224,13 +224,13 @@ class Filter extends React.Component {
           if (eT.dontShowEvents.includes(e.id)) {
             continue
           }
-          if (eT.dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s.toLowerCase()) > 0)) {
+          if (eT.dontShowIfTitleContains.some(s => e.name.toLowerCase().indexOf(s.toLowerCase()) >= 0)) {
             continue
           }
-          if (eT.searchAttributes.some(s => e.name.toLowerCase().indexOf(s.toLowerCase()) > 0)) {
+          if (eT.searchAttributes.some(s => e.name.toLowerCase().indexOf(s.toLowerCase()) >= 0)) {
             return e
           } else if (e.description !== undefined) {
-            if (eT.searchAttributes.some(s => e.description.toLowerCase().indexOf(s.toLowerCase()) > 0)) {
+            if (eT.searchAttributes.some(s => e.description.toLowerCase().indexOf(s.toLowerCase()) >= 0)) {
               return e
             }
           }
