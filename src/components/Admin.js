@@ -1,5 +1,4 @@
 import React from 'react'
-import eventService from '../services/events'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import EventTypeList from './EventTypeList'
 import EventType from './EventType'

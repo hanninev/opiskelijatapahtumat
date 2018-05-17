@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 class EventTypeList extends React.Component {
   constructor({ props }) {
@@ -13,8 +13,8 @@ class EventTypeList extends React.Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Tapahtuman tyyppi</Table.HeaderCell>
-              <Table.HeaderCell>Hakusanat</Table.HeaderCell>
+              <Table.HeaderCell>Näytettävä nimi</Table.HeaderCell>
+              <Table.HeaderCell>Hakusanat otsikoista ja kuvauksista</Table.HeaderCell>
               <Table.HeaderCell>Älä näytä, jos otsikko sisältää näitä sanoja</Table.HeaderCell>
               <Table.HeaderCell>Älä näytä näitä tapahtumia</Table.HeaderCell>
               <Table.HeaderCell></Table.HeaderCell>
@@ -39,9 +39,6 @@ class EventTypeList extends React.Component {
                   {e.dontShowEvents.map(event =>
                     <li key={event}>{event}</li>
                   )}
-                </Table.Cell>
-                <Table.Cell>
-                  <Link to={`/admin/${e._id}`}>muokkaa</Link>
                 </Table.Cell>
               </Table.Row>
             )}
