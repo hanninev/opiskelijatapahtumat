@@ -3,7 +3,7 @@ Harjoitustyön aiheena on tehdä kalenterisovellus, josta näkee yhdelllä vilka
 
 [Linkki sovellukseen](http://opiskelijatapahtumat.herokuapp.com)
 
-[Käyttöohjeet](https://github.com/hanninev/opiskelijatapahtumat/blob/master/Kayttoohjeet.md)
+Käyttöohjeet
 
 [Tuntikirjanpito](https://github.com/hanninev/opiskelijatapahtumat/blob/master/Tuntikirjanpito.md)
 
