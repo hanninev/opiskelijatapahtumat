@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://fb-opiskelijatapahtumat-backend.herokuapp.com/'
+const url = 'http://fb-opiskelijatapahtumat-back.herokuapp.com/'
 // const url = 'http://localhost:3001/'
 
 const getEvents = async (days) => {
