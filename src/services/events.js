@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-const url = 'http://opiskelijatapahtumat-backend.herokuapp.com/'
+const url = 'http://fb-opiskelijatapahtumat-backend.herokuapp.com/'
+// const url = 'http://localhost:3001/'
 
-const getEvents = async ( days ) => {
+const getEvents = async (days) => {
   const format = days.map(d => d.format('YYYY-MM-DD'))
   console.log(format)
   const events = await axios.get(url + 'events?date=' + format)
@@ -21,7 +22,7 @@ const getOrganizerTypes = async () => {
 }
 
 const getLocations = async () => {
-  const o = await axios.get(url + 'locations')
+  const o = await axios.get(url + 'events/locations')
   return o.data
 }
 
