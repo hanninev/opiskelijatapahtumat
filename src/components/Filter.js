@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
 import WeekNavigation from './WeekNavigation'
 import { selectionInitialization } from '../reducers/selectionReducer'
+import eventService from '../services/events'
 
 class Filter extends React.Component {
   constructor({ props }) {
@@ -15,6 +16,9 @@ class Filter extends React.Component {
   }
 
   componentWillMount = () => {
+
+    console.log(eventService.getEvents())
+
     this.props.selectionInitialization()
     const searchAttr = this.props.location.search.split('&')
     console.log(searchAttr)
@@ -338,8 +342,8 @@ class Filter extends React.Component {
               {!this.state.visible ? (
                 <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow down' /> Näytä enemmän hakuehtoja</Button>
               ) : (
-                <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow up' /> Näytä vähemmän hakuehtoja</Button>
-              )}
+                  <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow up' /> Näytä vähemmän hakuehtoja</Button>
+                )}
             </Grid.Column>
           </Grid.Row>
         </Grid>
