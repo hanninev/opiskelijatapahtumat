@@ -28,4 +28,5 @@
 | 17.6. su | 2 | Selvittelyä, voisiko tapahtumat saada muualta kuin Facebookista, backendiin tapahtumien lisäys |
 | 18.7. ke | 3 | Tapahtumia ei saa enää Facebookista eikä mistään muualtakaan järkevästi. Eriytetty sovelluksen versio, jossa tapahtumat haetaan Facebookista, omakseen ja otettu sovellukselle  uusi suunta. Tässä tapahtumia ei haeta mistään, vaan käyttäjät voivat lähettää sovellukselle tapahtumaehdotuksia. Selvitelty muutoksen aiheuttamia tarpeita tietokannan rakenteeseen. |
 | 19.7. to | 4 | Backendin rakenne uusiksi: attribuutteja muunneltu sekä lisätty kokoelmat käyttäjä ja paikka. Lisäksi frontin service-luokkia aloitettu. |
-| **yhteensä** | **118** | |
+| 25.7. ke | 3,5 | Backend toimivaksi, lomakkeiden tekemistä fronttiin. |
+| **yhteensä** | **121,5** |
