@@ -5,10 +5,16 @@ import { connect } from 'react-redux'
 import TopMenu from './components/TopMenu'
 import Admin from './components/Admin'
 import AddEvent from './components/AddEvent'
+import { selectionInit } from './reducers/selectionReducer'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import moment from 'moment'
 
 class App extends React.Component {
+
+  componentWillMount = async () => {
+    console.log('app will mount')
+    await this.props.selectionInit()
+  }
 
   render() {
     const lastMonday = moment().isoWeekday(1).format('YYYY-MM-DD')
@@ -39,7 +45,12 @@ class App extends React.Component {
   }
 }
 
-export default connect(
+const mapDispatchToProps = {
+  selectionInit
+}
+
+const ConnectedApp = connect(
   null,
-  null
+  mapDispatchToProps
 )(App)
+export default ConnectedApp

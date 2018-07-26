@@ -8,7 +8,7 @@ import calendarReducer from './reducers/calendarReducer'
 const reducer = combineReducers({
   filter: filterReducer,
   selections: selectionReducer,
-  calendar: calendarReducer,
+  calendar: calendarReducer
 })
 
 const store = createStore(

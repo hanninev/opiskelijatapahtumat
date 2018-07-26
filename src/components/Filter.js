@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { organizerFilterCreation, organizerTypeFilterCreation, locationFilterCreation, eventTypeFilterCreation } from '../reducers/filterReducer'
 import WeekNavigation from './WeekNavigation'
-import { selectionInitialization } from '../reducers/selectionReducer'
 import eventService from '../services/events'
 
 class Filter extends React.Component {
@@ -365,8 +364,7 @@ const mapDispatchToProps = {
     organizerFilterCreation,
     organizerTypeFilterCreation,
     locationFilterCreation,
-    eventTypeFilterCreation,
-    selectionInitialization
+    eventTypeFilterCreation
 }
 
 const ConnectedFilter = connect(

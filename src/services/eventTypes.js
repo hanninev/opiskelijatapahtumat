@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://opiskelijatapahtumat-backend.herokuapp.com/api'
+const url = 'http://opiskelijatapahtumat-backend.herokuapp.com/api/event_types'
 // const url = 'http://localhost:3001/'
 
 const getEventTypes = async () => {

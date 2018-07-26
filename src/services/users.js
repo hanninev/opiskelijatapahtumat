@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://opiskelijatapahtumat-backend.herokuapp.com/api'
+const url = 'http://opiskelijatapahtumat-backend.herokuapp.com/api/users'
 // const url = 'http://localhost:3001/'
 
 const getUsers = async () => {

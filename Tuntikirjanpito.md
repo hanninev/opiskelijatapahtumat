@@ -2,10 +2,10 @@
 
 | Päivä        | Tunnit           | Kuvaus  |
 | ------------- |-------------| -----|
-| 16.3. pe      |  8 | Aiheen suunnittelua, tutustumista Graph API:in, Facebook-kirjautuminen, kovakoodatut get-metodit kahden ainejärjestön tapahtumille, joiden avulla pääsee alkuun |
+| 16.3. pe      |  8 | Aiheen suunnittelua, tutustumista Facebookin API:in, Facebook-kirjautuminen, kovakoodatut get-metodit kahden ainejärjestön tapahtumille, joiden avulla pääsee alkuun |
 | 16.3. pe	|  5 | Alustavat toteutukset paikka- ja järjestäjäfiltteröinnille, frameworkin valinta ja käyttöönotto	|
 | 17.3. la | 2,5 | Näkymän rakentamista, lajittelu päivämäärän mukaan. |
-| 17.3. la | 2 | Tapahtumien haku ilman copypastea: järjestäjien Facebook-sivujen id:t haetaan json-muotoisesta datasta, minkä jälkeen tehdään kysely Graph APIin kullekin id:lle |
+| 17.3. la | 2 | Tapahtumien haku ilman copypastea: järjestäjien Facebook-sivujen id:t haetaan json-muotoisesta datasta, minkä jälkeen tehdään kysely Facebookin APIin kullekin id:lle |
 | 19.3. ma | 3 | Moment.js käyttöön, näkymän parantelua |
 | 19.3. ma | 2 | Filtteröinnin parantelua |
 | 19.3. ma | 8 | Redux käyttöön ja Facebook-kirjatumisen fiksailua |
@@ -29,4 +29,5 @@
 | 18.7. ke | 3 | Tapahtumia ei saa enää Facebookista eikä mistään muualtakaan järkevästi. Eriytetty sovelluksen versio, jossa tapahtumat haetaan Facebookista, omakseen ja otettu sovellukselle  uusi suunta. Tässä tapahtumia ei haeta mistään, vaan käyttäjät voivat lähettää sovellukselle tapahtumaehdotuksia. Selvitelty muutoksen aiheuttamia tarpeita tietokannan rakenteeseen. |
 | 19.7. to | 4 | Backendin rakenne uusiksi: attribuutteja muunneltu sekä lisätty kokoelmat käyttäjä ja paikka. Lisäksi frontin service-luokkia aloitettu. |
 | 25.7. ke | 3,5 | Backend toimivaksi, lomakkeiden tekemistä fronttiin. |
-| **yhteensä** | **121,5** |
+| 26.7. to | 7 | Frontin service-luokat kuntoon. Tapahtumien lisäyslomakkeen tekemistä.
+| **yhteensä** | **128,5** |
