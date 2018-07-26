@@ -8,19 +8,14 @@ class Day extends React.Component {
 
   render() {
     const { e, i } = this.props
-    const eventUrl = 'https://www.facebook.com/events/'
-    const eventName = e.name
-    let placeName = ''
-    if (e.place !== undefined) {
-      placeName = e.place.name
-    }
-    const organizerName = e.organizer.name
-    const eventId = e.id
+    const organizers = e.organizers.map(o => o.name + '   ')
+    const locations = e.locations.map(l => l.name + '   ')
+
     return (
       <List.Item key={i}>
         <List.Content>
-          <List.Header as='a' href={eventUrl + eventId}>{eventName}</List.Header>
-          <List.Description>{organizerName} | {placeName}</List.Description>
+          <List.Header>{e.name}</List.Header>
+          <List.Description>{organizers} | {locations} </List.Description>
         </List.Content>
       </List.Item>
     )}

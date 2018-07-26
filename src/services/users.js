@@ -10,12 +10,12 @@ const getUsers = async () => {
 
 const getUser = async (id) => {
   const request = await axios.get(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const createUser = (event) => {
   const request = axios.post(url + '/', event)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const updateUser = (id, newObject) => {
@@ -25,7 +25,7 @@ const updateUser = (id, newObject) => {
 
 const removeUser = (id) => {
   const request = axios.delete(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 export default { getUsers, getUser, createUser, updateUser, removeUser }

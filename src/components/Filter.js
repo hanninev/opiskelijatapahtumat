@@ -15,10 +15,6 @@ class Filter extends React.Component {
     }
 
   componentWillMount = () => {
-
-      console.log(eventService.getEvents())
-
-      this.props.selectionInitialization()
       const searchAttr = this.props.location.search.split('&')
       console.log(searchAttr)
 
@@ -159,7 +155,7 @@ class Filter extends React.Component {
 
       const getEventType = () => {
           const inObjects = this.props.selections.eventTypes.map(p => {
-              return { key: p.text, value: p.text, text: p.text }
+              return { key: p.id, value: p.name, text: p.name }
           })
           return inObjects
       }
@@ -167,7 +163,7 @@ class Filter extends React.Component {
       const getOrganizers = () => {
           console.log(this.props.selections)
           const inObjects = this.props.selections.organizers.map(p => {
-              return { key: p.fbpage_id.toString(), value: p.fbpage_id.toString(), text: p.name }
+              return { key: p.id, value: p.name, text: p.name }
           })
           console.log(inObjects)
           return inObjects
@@ -175,10 +171,11 @@ class Filter extends React.Component {
 
       const getOrganizerTypes = () => {
           const types = this.props.selections.organizers.map(organizer => {
-              return organizer.type
+              return organizer.organizer_type
           })
           const withoutDuplicates = Array.from(new Set(types))
-          const inObjects = withoutDuplicates.map(p => {
+          const withoutUndefined = withoutDuplicates.filter(p => p!== undefined && p !== '')
+          const inObjects = withoutUndefined.map(p => {
               return { key: p.split(' ')[0], value: p.split(' ')[0], text: p }
           })
           console.log(inObjects)
@@ -187,7 +184,7 @@ class Filter extends React.Component {
 
       const getLocations = () => {
           const inObjects = this.props.selections.locations.map(p => {
-              return { key: p, value: p, text: p }
+              return { key: p.id, value: p.name, text: p.name }
           })
           console.log(inObjects)
           return inObjects

@@ -5,21 +5,24 @@ import { selectionInit, addNewOrganizer, addNewEventType, addNewLocation, setEve
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
+import eventService from '../services/events'
+import Redirect from 'react-dom'
 
 class AddEvent extends React.Component {
     constructor({ props }) {
         super(props)
         this.state = {
             name: '',
-            descriptipn: '',
+            description: '',
             newOrganizerName: '',
             newOrganizerFaculty: '',
             newOrganizerType: '',
             newEventTypeName: '',
             newLocationName: '',
             newLocationAddress: '',
-            startDate: moment(),
-            endDate: moment()
+            startDate: '',
+            endDate: '',
+            redirect: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleStartDateChange = this.handleStartDateChange.bind(this)
@@ -31,6 +34,7 @@ class AddEvent extends React.Component {
         this.handleNewOrganizerAdd = this.handleNewOrganizerAdd.bind(this)
         this.handleNewLocationAdd = this.handleNewLocationAdd.bind(this)
         this.handleNewEventTypeAdd = this.handleNewEventTypeAdd.bind(this)
+        this.handleNewEventAdd = this.handleNewEventAdd.bind(this)
     }
 
     // Organizer
@@ -59,11 +63,11 @@ class AddEvent extends React.Component {
 
     handleNewEventTypeAdd(e) {
         e.preventDefault()
-        this.props.addNewOrganizer({
-            name: this.state.newEventTypeName,
+        this.props.addNewEventType({
+            name: this.state.newEventTypeName
         })
         this.setState({
-            newEventTypeName: '',
+            newEventTypeName: ''
         })
     }
 
@@ -74,7 +78,7 @@ class AddEvent extends React.Component {
 
     handleNewLocationAdd(e) {
         e.preventDefault()
-        this.props.addNewOrganizer({
+        this.props.addNewLocation({
             name: this.state.newLocationName,
             address: this.state.newLocationAddress
         })
@@ -106,13 +110,29 @@ class AddEvent extends React.Component {
         console.log(this.state)
     }
 
+    handleNewEventAdd(e) {
+        e.preventDefault()
+        const event = {
+            name: this.state.name,
+            description: this.state.description,
+            start_time: this.state.startDate,
+            end_time: this.state.endDate,
+            eventTypes: this.props.selections.newEvent_eventTypes.map(e => e.id),
+            locations: this.props.selections.newEvent_locations.map(e => e.id),
+            organizers: this.props.selections.newEvent_organizers.map(e => e.id)
+        }
 
-    timeForm(label, handler) {
+        eventService.createEvent(event)
+        this.setState({redirect: true})
+    }
+
+
+    timeForm(label, selected, handler) {
         return (
             <div>
                 <Form.Field label={label} />
                 <DatePicker
-                    selected={this.state.startDate}
+                    selected={selected}
                     onChange={handler}
                     locale="en-gb"
                     //  showTimeSelect
@@ -128,24 +148,27 @@ class AddEvent extends React.Component {
         )
     }
 
-    popUpSelection(options, handler, value, label, header, fields, multiple) {
+    popUpEventType() {
+        const getEventTypes = () => {
+            const inObjects = this.props.selections.eventTypes.map(e => {
+                return { key: e.id, value: e, text: e.name }
+            })
+            return inObjects
+        }
+
         return (
             <Grid columns={2}>
                 <Grid.Row>
                     <Grid.Column>
-                        <Form.Dropdown label={label} onChange={handler} value={value} fluid multiple={multiple} search closeOnChange selection options={options} />
+                        <Form.Dropdown label='Valitse tapahtumatyyppi' onChange={this.handleEventTypeChange} value={this.props.selections.newEvent_eventTypes} fluid multiple search closeOnChange selection options={getEventTypes()} />
                     </Grid.Column>
                     <Grid.Column>
                         <br />
-                        <Popup trigger={<Button>{header}</Button>} flowing hoverable>
-                            <Header as='h4'>{header}</Header>
-                            <Form>
-                                {fields.map((field, key) => {
-                                    return (
-                                        <Form.Input key={key} fluid label={field} placeholder={field} />
-                                    )
-                                })}
-                                <Form.Button>Lisää</Form.Button>
+                        <Popup trigger={<Button>Lisää uusi tapahtumatyyppi</Button>} flowing hoverable>
+                            <Header as='h4'>Lisää uusi tapahtumatyyppi</Header>
+                            <Form onSubmit={this.handleNewEventTypeAdd}>
+                                <Form.Input onChange={this.handleChange} name='newEventTypeName' fluid label='Nimi' placeholder='Nimi' />
+                                <Form.Button type='submit'>Lisää</Form.Button>
                             </Form>
                         </Popup>
                     </Grid.Column>
@@ -154,7 +177,45 @@ class AddEvent extends React.Component {
         )
     }
 
-    popUpOrganizer(options) {
+    popUpLocation() {
+        const getLocations = () => {
+            const inObjects = this.props.selections.locations.map(e => {
+                return { key: e.id, value: e, text: e.name }
+            })
+            return inObjects
+        }
+
+        return (
+            <Grid columns={2}>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Form.Dropdown label={'Valitse paikka'} onChange={this.handleLocationChange} value={this.props.selections.newEvent_locations} fluid multiple search closeOnChange selection options={getLocations()} />
+                    </Grid.Column>
+                    <Grid.Column>
+                        <br />
+                        <Popup trigger={<Button>Lisää uusi paikka</Button>} flowing hoverable>
+                            <Header as='h4'>Lisää uusi paikka</Header>
+                            <Form onSubmit={this.handleNewLocationAdd}>
+                                <Form.Input onChange={this.handleChange} name='newLocationName' fluid label='Nimi' placeholder='Nimi' />
+                                <Form.Input onChange={this.handleChange} name='newLocationAddress' fluid label='Osoite' placeholder='Osoite' />
+                                <Form.Button type='submit'>Lisää</Form.Button>
+                            </Form>
+                        </Popup>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        )
+    }
+
+
+    popUpOrganizer() {
+        const getOrganizers = () => {
+            const inObjects = this.props.selections.organizers.map(e => {
+                return { key: e.id, value: e, text: e.name }
+            })
+            return inObjects
+        }
+
         const getOrganizerTypes = () => {
             const organizerTypes = ['Tiedekunta- ja ainejärjestöt', 'Osakunnat', 'Muut']
             const inObjects = organizerTypes.map(e => {
@@ -175,16 +236,16 @@ class AddEvent extends React.Component {
             <Grid columns={2}>
                 <Grid.Row>
                     <Grid.Column>
-                        <Form.Dropdown label='Valitse järjestäjät' onChange={this.handleOrganizerChange} value={this.props.selections.newEvent_organizers} fluid multiple search closeOnChange selection options={options} />
+                        <Form.Dropdown label='Valitse järjestäjät' onChange={this.handleOrganizerChange} value={this.props.selections.newEvent_organizers} fluid multiple search closeOnChange selection options={getOrganizers()} />
                     </Grid.Column>
                     <Grid.Column>
                         <br />
                         <Popup trigger={<Button>Lisää uusi järjestäjä</Button>} flowing hoverable>
                             <Header as='h4'>Lisää uusi järjestäjä</Header>
-                            <Form onSubmit={this.handleOrganizerAdd}>
-                                <Form.Input fluid label='Nimi' value={this.state.newOrganizerName} name='organizerName' onChange={this.handleChange} placeholder='Nimi' />
-                                <Form.Select label='Tyyppi' name='organizerType' value={this.state.newOrganizerType} onChange={this.handleDropDownChange} fluid search closeOnChange selection options={getOrganizerTypes()} />
-                                <Form.Select label='Tiedekunta' name='organizerFaculty' value={this.state.newOrganizerFaculty} onChange={this.handleDropDownChange} fluid search closeOnChange selection options={getFaculties()} />
+                            <Form onSubmit={this.handleNewOrganizerAdd}>
+                                <Form.Input fluid label='Nimi' value={this.state.newOrganizerName} name='newOrganizerName' onChange={this.handleChange} placeholder='Nimi' />
+                                <Form.Select label='Tyyppi' name='newOrganizerType' value={this.state.newOrganizerType} onChange={this.handleDropDownChange} fluid search closeOnChange selection options={getOrganizerTypes()} />
+                                <Form.Select label='Tiedekunta' name='newOrganizerFaculty' value={this.state.newOrganizerFaculty} onChange={this.handleDropDownChange} fluid search closeOnChange selection options={getFaculties()} />
                                 <Form.Button type='submit'>Lisää</Form.Button>
                             </Form>
                         </Popup>
@@ -195,53 +256,34 @@ class AddEvent extends React.Component {
     }
 
     render() {
-        const getEventTypes = () => {
-            const inObjects = this.props.selections.eventTypes.map(e => {
-                return { key: e.id, value: e, text: e.name }
-            })
-            return inObjects
+        if (this.state.redirect) {
+            return <Redirect to='/week' />
         }
-
-        const getOrganizers = () => {
-            const inObjects = this.props.selections.organizers.map(e => {
-                return { key: e.id, value: e, text: e.name }
-            })
-            return inObjects
-        }
-
-        const getLocations = () => {
-            const inObjects = this.props.selections.locations.map(e => {
-                return { key: e.id, value: e, text: e.name }
-            })
-            return inObjects
-        }
-
         return (
             <Grid>
                 <Grid.Row>
                     <Grid.Column>
-                        <Form>
+                        <Form onSubmit={this.handleNewEventAdd}>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Tapahtuman nimi' name="name" placeholder='Tapahtuman nimi' />
+                                <Form.Input fluid label='Tapahtuman nimi' name='name' value={this.state.name} onChange={this.handleChange} placeholder='Tapahtuman nimi' />
                             </Form.Group>
                             <Form.Group widths='equal'>
                                 <Grid columns={2} stackable={true} stretched={true}>
                                     <Grid.Row>
                                         <Grid.Column>
-                                            {this.timeForm('Alkamisaika', this.handleStartDateChange)}
+                                            {this.timeForm('Alkamisaika', this.state.startDate, this.handleStartDateChange)}
                                         </Grid.Column>
                                         <Grid.Column>
-                                            {this.timeForm('Päättymisaika', this.handleEndDateChange)}
+                                            {this.timeForm('Päättymisaika', this.state.endDate, this.handleEndDateChange)}
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
                             </Form.Group>
-                            {this.popUpSelection(getEventTypes(), this.handleEventTypeChange, this.props.selections.newEvent_eventTypes, 'Valitse tapahtumatyypit', 'Lisää uusi tapahtumatyyppi', ['Nimi'], true)}
-                            {this.popUpOrganizer(getOrganizers())}
-                            {this.popUpSelection(getLocations(), this.handleLocationChange, this.props.selections.newEvent_locations, 'Valitse paikka', 'Lisää uusi paikka', ['Nimi', 'Osoite'], false)}
-
-                            <Form.TextArea label='Kuvaus' placeholder='Kuvaus' />
-                            <Form.Button>Lähetä</Form.Button>
+                            {this.popUpEventType()}
+                            {this.popUpOrganizer()}
+                            {this.popUpLocation()}
+                            <Form.TextArea label='Kuvaus' name='description' value={this.state.description} onChange={this.handleChange} placeholder='Kuvaus' />
+                            <Form.Button type='submit'>Lähetä</Form.Button>
                         </Form>
                     </Grid.Column>
                 </Grid.Row>

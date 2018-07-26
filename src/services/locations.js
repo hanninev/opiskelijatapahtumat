@@ -10,12 +10,12 @@ const getLocations = async () => {
 
 const getLocation = async (id) => {
   const request = await axios.get(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const createLocation = (event) => {
   const request = axios.post(url + '/', event)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const updateLocation = (id, newObject) => {
@@ -25,7 +25,7 @@ const updateLocation = (id, newObject) => {
 
 const removeLocation = (id) => {
   const request = axios.delete(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 export default { getLocations, getLocation, createLocation, updateLocation, removeLocation }

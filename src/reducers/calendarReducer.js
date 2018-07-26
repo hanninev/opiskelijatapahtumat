@@ -24,7 +24,7 @@ export const setWeekAndEvents = (date) => {
       return moment(date).add(w, 'd')
     })
 
-    const events = await eventService.getEvents(days)
+    const events = await eventService.getEvents(days[0], days[days.length-1])
     dispatch({
       type: 'SET_WEEK',
       events: events,

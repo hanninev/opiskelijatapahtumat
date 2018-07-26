@@ -10,12 +10,12 @@ const getEventTypes = async () => {
 
 const getEventType = async (id) => {
   const eventTypes = await axios.get(`${url}/${id}`)
-  return eventTypes.then(response => { return response })
+  return eventTypes.then(response => { return response.data })
 }
 
 const createEventType = (event) => {
   const request = axios.post(url + '/', event)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const updateEventType = (id, newObject) => {
@@ -25,7 +25,7 @@ const updateEventType = (id, newObject) => {
 
 const removeEventType = (id) => {
   const request = axios.delete(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 export default { getEventTypes, getEventType, createEventType, updateEventType, removeEventType }

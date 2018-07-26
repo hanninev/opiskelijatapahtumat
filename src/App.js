@@ -36,7 +36,9 @@ class App extends React.Component {
               <Route exact path="/admin" render={() => {
                 return <Admin selections={this.props.selections} />
               }} />
-              <Route exact path="/addEvent" component={AddEvent} />
+              <Route exact path="/addEvent" render={() => {
+                return <AddEvent />
+              }} />
             </div>
           </Switch>
         </BrowserRouter>

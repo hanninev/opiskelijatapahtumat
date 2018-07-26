@@ -21,7 +21,7 @@ const selectionReducer = (store = initialState.selections, action) => {
   }
   if (action.type === 'ADD_NEW_ORGANIZER') {
     console.log(action)
-    return { ...store, organizers: store.organizers.concat(action.organizer), newEvent_organizers: store.newOrganizers.concat(action.organizer) }
+    return { ...store, organizers: store.organizers.concat(action.organizer), newEvent_organizers: store.newEvent_organizers.concat(action.organizer) }
   }
   if (action.type === 'SET_EVENT_ORGANIZERS') {
     console.log(action)
@@ -29,7 +29,7 @@ const selectionReducer = (store = initialState.selections, action) => {
   }
   if (action.type === 'ADD_NEW_LOCATION') {
     console.log(action)
-    return { ...store, locations: store.locations.concat(action.location), newEvent_locations: store.newLocations.concat(action.location) }
+    return { ...store, locations: store.locations.concat(action.location), newEvent_locations: store.newEvent_locations.concat(action.location) }
   }
   if (action.type === 'SET_EVENT_LOCATIONS') {
     console.log(action)
@@ -37,7 +37,7 @@ const selectionReducer = (store = initialState.selections, action) => {
   }
   if (action.type === 'ADD_NEW_EVENT_TYPE') {
     console.log(action)
-    return { ...store, eventTypes: store.eventTypes.concat(action.eventType), newEvent_eventTypes: store.newEventTypes.concat(action.eventType) }
+    return { ...store, eventTypes: store.eventTypes.concat(action.eventType), newEvent_eventTypes: store.newEvent_eventTypes.concat(action.eventType) }
   }
   if (action.type === 'SET_EVENT_EVENT_TYPES') {
     console.log(action)
@@ -65,7 +65,7 @@ export const addNewOrganizer = (organizer) => {
     const addedOrganizer = await organizerService.createOrganizer(organizer)
     dispatch({
       type: 'ADD_NEW_ORGANIZER',
-      organizer: addedOrganizer.data,
+      organizer: addedOrganizer,
     })
   }
 }
@@ -82,7 +82,7 @@ export const addNewLocation = (location) => {
     const addedLocation = await locationService.createLocation(location)
     dispatch({
       type: 'ADD_NEW_LOCATION',
-      organizer: addedLocation.data,
+      location: addedLocation,
     })
   }
 }
@@ -96,10 +96,10 @@ export const setEventLocations = (locations) => {
 
 export const addNewEventType = (eventType) => {
   return async (dispatch) => {
-    const addedEventType = await eventTypeService.createeventType(eventType)
+    const addedEventType = await eventTypeService.createEventType(eventType)
     dispatch({
       type: 'ADD_NEW_EVENT_TYPE',
-      eventType: addedEventType.data,
+      eventType: addedEventType,
     })
   }
 }

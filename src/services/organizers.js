@@ -10,12 +10,12 @@ const getOrganizers = async () => {
 
 const getOrganizer = async (id) => {
   const request = await axios.get(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const createOrganizer = (event) => {
   const request = axios.post(url + '/', event)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 const updateOrganizer = (id, newObject) => {
@@ -25,7 +25,7 @@ const updateOrganizer = (id, newObject) => {
 
 const removeOrganizer = (id) => {
   const request = axios.delete(`${url}/${id}`)
-  return request.then(response => { return response })
+  return request.then(response => { return response.data })
 }
 
 export default { getOrganizers, getOrganizer, createOrganizer, updateOrganizer, removeOrganizer }
