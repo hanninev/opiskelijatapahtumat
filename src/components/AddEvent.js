@@ -6,7 +6,6 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 import eventService from '../services/events'
-import Redirect from 'react-dom'
 
 class AddEvent extends React.Component {
     constructor({ props }) {
@@ -21,8 +20,7 @@ class AddEvent extends React.Component {
             newLocationName: '',
             newLocationAddress: '',
             startDate: '',
-            endDate: '',
-            redirect: false
+            endDate: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleStartDateChange = this.handleStartDateChange.bind(this)
@@ -123,7 +121,7 @@ class AddEvent extends React.Component {
         }
 
         eventService.createEvent(event)
-        this.setState({redirect: true})
+        this.props.history.push('/week')
     }
 
 
@@ -256,9 +254,6 @@ class AddEvent extends React.Component {
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/week' />
-        }
         return (
             <Grid>
                 <Grid.Row>

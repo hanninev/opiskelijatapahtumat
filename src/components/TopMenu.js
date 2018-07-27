@@ -2,16 +2,13 @@ import React from 'react'
 import { Menu } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-dom'
+import { Link } from 'react-router-dom'
 
 class TopMenu extends React.Component {
   state = {}
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name })
-    return (
-      <Redirect to='/' />
-    )
   }
 
   render() {
@@ -22,11 +19,20 @@ class TopMenu extends React.Component {
         <Menu.Menu position='right'>
         </Menu.Menu>
         <Menu.Item
+          as={Link} to='/'
           name='tapahtumat'
           active={activeItem === 'tapahtumat'}
           onClick={this.handleItemClick}
         >
           Tapahtumat
+          </Menu.Item>
+        <Menu.Item
+          as={Link} to='/addEvent'
+          name='uusi'
+          active={activeItem === 'uusi'}
+          onClick={this.handleItemClick}
+        >
+          Ilmoita uusi tapahtuma
           </Menu.Item>
       </Menu>
     )
