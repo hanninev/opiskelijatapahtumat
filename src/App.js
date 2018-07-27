@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Menu } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import Filter from './components/Filter'
 import { connect } from 'react-redux'
 import TopMenu from './components/TopMenu'
@@ -8,6 +8,7 @@ import AddEvent from './components/AddEvent'
 import { selectionInit } from './reducers/selectionReducer'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import moment from 'moment'
+import TopMessage from './components/TopMessage'
 
 class App extends React.Component {
 
@@ -25,6 +26,7 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             <TopMenu />
+            <TopMessage />
             <Route path="/week" render={({ location, history }) => {
               console.log(location)
               return <Filter location={location} history={history} />
@@ -45,12 +47,18 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+      message: state.message
+  }
+}
+
 const mapDispatchToProps = {
   selectionInit
 }
 
 const ConnectedApp = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App)
 export default ConnectedApp

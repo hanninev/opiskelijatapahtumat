@@ -20,7 +20,7 @@ const getEvent = async (id) => {
 
 const createEvent = (event) => {
   const request = axios.post(url + '/', event)
-  return request.then(response => { return response.data })
+  return request.then(response => { return response })
 }
 
 const updateEvent = (id, newObject) => {

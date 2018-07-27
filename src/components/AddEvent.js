@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Grid, Popup, Header, Button } from 'semantic-ui-react'
 import { selectionInit, addNewOrganizer, addNewEventType, addNewLocation, setEventOrganizers, setEventEventTypes, setEventLocations } from '../reducers/selectionReducer'
+import { setMessage } from '../reducers/messageReducer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
@@ -42,16 +43,29 @@ class AddEvent extends React.Component {
 
     handleNewOrganizerAdd(e) {
         e.preventDefault()
-        this.props.addNewOrganizer({
-            name: this.state.newOrganizerName,
-            organizer_type: this.state.newOrganizerType,
-            faculty: this.state.newOrganizerFaculty
-        })
-        this.setState({
-            newOrganizerName: '',
-            newOrganizerType: '',
-            newOrganizerFaculty: ''
-        })
+
+        const errors = []
+        if (this.state.newOrganizerName === undefined || this.state.newOrganizerName === '') {
+            errors.push('Uuden järjestäjän nimi puuttuu')
+        }
+        if (this.state.newOrganizerType === undefined || this.state.newOrganizerType === '') {
+            errors.push('Uuden järjestäjän tyyppi puuttuu')
+        }
+        if (errors.length !== 0) {
+            this.props.setMessage('Virhe!', errors, 'red', 10)
+        } else {
+            this.props.setMessage('Uuden järjestäjän lisääminen onnistui!', '', 'green')
+            this.props.addNewOrganizer({
+                name: this.state.newOrganizerName,
+                organizer_type: this.state.newOrganizerType,
+                faculty: this.state.newOrganizerFaculty
+            })
+            this.setState({
+                newOrganizerName: '',
+                newOrganizerType: '',
+                newOrganizerFaculty: ''
+            })
+        }
     }
 
     // EventType
@@ -61,12 +75,22 @@ class AddEvent extends React.Component {
 
     handleNewEventTypeAdd(e) {
         e.preventDefault()
-        this.props.addNewEventType({
-            name: this.state.newEventTypeName
-        })
-        this.setState({
-            newEventTypeName: ''
-        })
+
+        const errors = []
+        if (this.state.newEventTypeName === undefined || this.state.newEventTypeName === '') {
+            errors.push('Uuden tapahtumatyypin nimi puuttuu')
+        }
+        if (errors.length !== 0) {
+            this.props.setMessage('Virhe!', errors, 'red', 10)
+        } else {
+            this.props.setMessage('Uuden tapahtumatyypin lisääminen onnistui!', '', 'green')
+            this.props.addNewEventType({
+                name: this.state.newEventTypeName
+            })
+            this.setState({
+                newEventTypeName: ''
+            })
+        }
     }
 
     // Location
@@ -76,14 +100,27 @@ class AddEvent extends React.Component {
 
     handleNewLocationAdd(e) {
         e.preventDefault()
-        this.props.addNewLocation({
-            name: this.state.newLocationName,
-            address: this.state.newLocationAddress
-        })
-        this.setState({
-            newLocationName: '',
-            newLocationAddress: ''
-        })
+
+        const errors = []
+        if (this.state.newLocationName === undefined || this.state.newLocationName === '') {
+            errors.push('Uuden paikan nimi puuttuu')
+        }
+        if (this.state.newLocationAddress === undefined || this.state.newLocationAddress === '') {
+            errors.push('Uuden paikan osoite puuttuu')
+        }
+        if (errors.length !== 0) {
+            this.props.setMessage('Virhe!', errors, 'red', 10)
+        } else {
+            this.props.setMessage('Uuden paikan lisääminen onnistui!', '', 'green')
+            this.props.addNewLocation({
+                name: this.state.newLocationName,
+                address: this.state.newLocationAddress
+            })
+            this.setState({
+                newLocationName: '',
+                newLocationAddress: ''
+            })
+        }
     }
 
     handleStartDateChange(date) {
@@ -108,7 +145,7 @@ class AddEvent extends React.Component {
         console.log(this.state)
     }
 
-    handleNewEventAdd(e) {
+    async handleNewEventAdd(e) {
         e.preventDefault()
         const event = {
             name: this.state.name,
@@ -120,8 +157,39 @@ class AddEvent extends React.Component {
             organizers: this.props.selections.newEvent_organizers.map(e => e.id)
         }
 
-        eventService.createEvent(event)
-        this.props.history.push('/week')
+        try {
+            const response = await eventService.createEvent(event)
+            console.log(response)
+            this.props.setMessage('Tapahtuman lisäys onnistui!', '', 'green')
+            this.props.history.push('/')
+        } catch (e) {
+            const errors = []
+            if (this.state.name === undefined || this.state.name === '') {
+                errors.push('Tapahtuman nimi puuttuu')
+            }
+            if (this.state.description === undefined || this.state.description === '') {
+                errors.push('Tapahtuman kuvaus puuttuu')
+            }
+            if (this.state.startDate === undefined || this.state.startDate === '') {
+                errors.push('Tapahtuman alkamisaika puuttuu')
+            }
+            if (this.state.endDate === undefined || this.state.endDate === '') {
+                errors.push('Tapahtuman päättymisaika puuttuu')
+            }
+            if (this.props.selections.newEvent_eventTypes.length === 0) {
+                errors.push('Tapahtuman tyyppi puuttuu')
+            }
+            if (this.props.selections.newEvent_locations.length === 0) {
+                errors.push('Tapahtuman sijainti puuttuu')
+            }
+            if (this.props.selections.newEvent_organizers.length === 0) {
+                errors.push('Tapahtuman järjestäjä puuttuu')
+            }
+            if (errors.length === 0) {
+                errors.push('Jotain meni pieleen!')
+            }
+            this.props.setMessage('Virhe!', errors, 'red', 10)
+        }
     }
 
 
@@ -238,7 +306,7 @@ class AddEvent extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                         <br />
-                        <Popup trigger={<Button>Lisää uusi järjestäjä</Button>} flowing hoverable>
+                        <Popup trigger={<Button> Lisää uusi järjestäjä</Button>} flowing hoverable>
                             <Header as='h4'>Lisää uusi järjestäjä</Header>
                             <Form onSubmit={this.handleNewOrganizerAdd}>
                                 <Form.Input fluid label='Nimi' value={this.state.newOrganizerName} name='newOrganizerName' onChange={this.handleChange} placeholder='Nimi' />
@@ -258,7 +326,7 @@ class AddEvent extends React.Component {
             <Grid>
                 <Grid.Row>
                     <Grid.Column>
-                        <Form onSubmit={this.handleNewEventAdd}>
+                        <Form>
                             <Form.Group widths='equal'>
                                 <Form.Input fluid label='Tapahtuman nimi' name='name' value={this.state.name} onChange={this.handleChange} placeholder='Tapahtuman nimi' />
                             </Form.Group>
@@ -278,7 +346,7 @@ class AddEvent extends React.Component {
                             {this.popUpOrganizer()}
                             {this.popUpLocation()}
                             <Form.TextArea label='Kuvaus' name='description' value={this.state.description} onChange={this.handleChange} placeholder='Kuvaus' />
-                            <Form.Button type='submit'>Lähetä</Form.Button>
+                            <Form.Button type='submit' onClick={this.handleNewEventAdd}>Lähetä</Form.Button>
                         </Form>
                     </Grid.Column>
                 </Grid.Row>
@@ -289,7 +357,8 @@ class AddEvent extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        selections: state.selections
+        selections: state.selections,
+        message: state.message
     }
 }
 
@@ -300,7 +369,8 @@ const mapDispatchToProps = {
     setEventLocations,
     addNewOrganizer,
     addNewEventType,
-    addNewLocation
+    addNewLocation,
+    setMessage
 }
 
 const ConnectedAddEvent = connect(
