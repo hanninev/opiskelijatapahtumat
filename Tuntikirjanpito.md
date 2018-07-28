@@ -31,4 +31,5 @@
 | 25.7. ke | 3,5 | Backend toimivaksi, lomakkeiden tekemistä fronttiin. |
 | 26.7. to | 11,5 | Frontin service-luokat kuntoon. Tapahtumien lisäyslomake valmiiksi (samalla myös tapahtumatyyppien, paikkojen ja järjestäjien lisäys). Kalenterinäkymä toimiviksi uuden muotoisella datalla. Filtteröinti toimivaksi. Aloitettu menuvalikkoa.
 | 27.7. pe | 5 | Navigaatio toimivaksi. Syötteiden validointia paremmaksi, virheviestit. Tunnistautumisen aloittaminen backendissä.  |
-| **yhteensä** | **138** |
+| 28.7. la | 8 | Kirjautuminen toimivaksi. Tietyt toiminnot vain kirjautuneille käyttäjille. Admin-toimintoja. Validoinnin viimeistelyä.
+| **yhteensä** | **146** |
