@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Grid, Popup, Header, Button } from 'semantic-ui-react'
-import { selectionInit, addNewOrganizer, addNewEventType, addNewLocation, setEventOrganizers, setEventEventTypes, setEventLocations } from '../reducers/selectionReducer'
+import { selectionInit, initNewEventValues, addNewOrganizer, addNewEventType, addNewLocation, setEventOrganizers, setEventEventTypes, setEventLocations } from '../reducers/selectionReducer'
 import { setMessage } from '../reducers/messageReducer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -54,12 +54,16 @@ class AddEvent extends React.Component {
         if (errors.length !== 0) {
             this.props.setMessage('Virhe!', errors, 'red', 10)
         } else {
-            this.props.setMessage('Uuden järjestäjän lisääminen onnistui!', '', 'green')
+            if (this.props.user.loggedIn === null) {
+                this.props.setMessage('Uusi järjestäjä lähetettiin ylläpidon tarkitettavaksi!', '', 'yellow')
+            } else {
+                this.props.setMessage('Uuden järjestäjän lisääminen onnistui!', '', 'green')
+            }
             this.props.addNewOrganizer({
                 name: this.state.newOrganizerName,
                 organizer_type: this.state.newOrganizerType,
                 faculty: this.state.newOrganizerFaculty
-            })
+            }, this.props.user.loggedIn)
             this.setState({
                 newOrganizerName: '',
                 newOrganizerType: '',
@@ -83,10 +87,14 @@ class AddEvent extends React.Component {
         if (errors.length !== 0) {
             this.props.setMessage('Virhe!', errors, 'red', 10)
         } else {
-            this.props.setMessage('Uuden tapahtumatyypin lisääminen onnistui!', '', 'green')
+            if (this.props.user.loggedIn === null) {
+                this.props.setMessage('Uusi tapahtumatyyppi lähetettiin ylläpidon tarkitettavaksi!', '', 'yellow')
+            } else {
+                this.props.setMessage('Uuden tapahtumatyypin lisääminen onnistui!', '', 'green')
+            }
             this.props.addNewEventType({
                 name: this.state.newEventTypeName
-            })
+            }, this.props.user.loggedIn)
             this.setState({
                 newEventTypeName: ''
             })
@@ -111,11 +119,15 @@ class AddEvent extends React.Component {
         if (errors.length !== 0) {
             this.props.setMessage('Virhe!', errors, 'red', 10)
         } else {
-            this.props.setMessage('Uuden paikan lisääminen onnistui!', '', 'green')
+            if (this.props.user.loggedIn === null) {
+                this.props.setMessage('Uusi paikka lähetettiin ylläpidon tarkitettavaksi!', '', 'yellow')
+            } else {
+                this.props.setMessage('Uuden paikan lisääminen onnistui!', '', 'green')
+            }
             this.props.addNewLocation({
                 name: this.state.newLocationName,
                 address: this.state.newLocationAddress
-            })
+            }, this.props.user.loggedIn)
             this.setState({
                 newLocationName: '',
                 newLocationAddress: ''
@@ -154,13 +166,19 @@ class AddEvent extends React.Component {
             end_time: this.state.endDate,
             eventTypes: this.props.selections.newEvent_eventTypes.map(e => e.id),
             locations: this.props.selections.newEvent_locations.map(e => e.id),
-            organizers: this.props.selections.newEvent_organizers.map(e => e.id)
+            organizers: this.props.selections.newEvent_organizers.map(e => e.id),
+            createdUser: this.props.user.loggedIn === null ? null : this.props.user.loggedIn.id
         }
 
         try {
-            const response = await eventService.createEvent(event)
+            const response = await eventService.createEvent(event, this.props.user.loggedIn)
             console.log(response)
-            this.props.setMessage('Tapahtuman lisäys onnistui!', '', 'green')
+            if (this.props.user.loggedIn === null) {
+                this.props.setMessage('Uusi tapahtuma lähetettiin ylläpidon tarkitettavaksi!', '', 'yellow')
+            } else {
+                this.props.setMessage('Tapahtuman lisäys onnistui!', '', 'green')
+            }
+            this.props.initNewEventValues()
             this.props.history.push('/')
         } catch (e) {
             const errors = []
@@ -358,7 +376,8 @@ class AddEvent extends React.Component {
 const mapStateToProps = (state) => {
     return {
         selections: state.selections,
-        message: state.message
+        message: state.message,
+        user: state.user
     }
 }
 
@@ -370,7 +389,8 @@ const mapDispatchToProps = {
     addNewOrganizer,
     addNewEventType,
     addNewLocation,
-    setMessage
+    setMessage,
+    initNewEventValues
 }
 
 const ConnectedAddEvent = connect(

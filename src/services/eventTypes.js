@@ -8,14 +8,27 @@ const getEventTypes = async () => {
   return eventTypes.data
 }
 
+const getUnacceptedEventTypes = async () => {
+  const events = await axios.get(url + '/unaccepted')
+  return events.data
+}
+
 const getEventType = async (id) => {
   const eventTypes = await axios.get(`${url}/${id}`)
   return eventTypes.then(response => { return response.data })
 }
 
-const createEventType = (event) => {
-  const request = axios.post(url + '/', event)
-  return request.then(response => { return response.data })
+const createEventType = (event, user) => {
+  let request
+  console.log(user)
+  if (user === null) {
+    request = axios.post(url + '/', event)
+  } else {
+    const config = {
+      headers: { 'Authorization': user.token }
+    }
+    request = axios.post(url + '/logged', event, config)
+  } return request.then(response => { return response.data })
 }
 
 const updateEventType = (id, newObject) => {
@@ -23,9 +36,20 @@ const updateEventType = (id, newObject) => {
   return request.then(response => response.data)
 }
 
-const removeEventType = (id) => {
-  const request = axios.delete(`${url}/${id}`)
+const acceptEventType = (id, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.put(`${url}/accept/${id}`, null, config)
+  return request.then(response => response.data)
+}
+
+const removeEventType = (id, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.delete(`${url}/${id}`, config)
   return request.then(response => { return response.data })
 }
 
-export default { getEventTypes, getEventType, createEventType, updateEventType, removeEventType }
+export default { getEventTypes, getUnacceptedEventTypes, getEventType, acceptEventType, createEventType, updateEventType, removeEventType }

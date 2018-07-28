@@ -11,6 +11,57 @@ class TopMenu extends React.Component {
     this.setState({ activeItem: name })
   }
 
+  admin() {
+    const { activeItem } = this.state
+
+    if (this.props.user.loggedIn !== null) {
+      if (this.props.user.loggedIn.admin) {
+        return (
+          <Menu.Item
+            as={Link} to='/admin'
+            name='admin'
+            active={activeItem === 'admin'}
+            onClick={this.handleItemClick}
+          >
+            Hallitse tapahtumia
+        </Menu.Item>
+        )
+      }
+    } else {
+      return (
+        <div></div>
+      )
+    }
+  }
+
+  logIn() {
+    const { activeItem } = this.state
+
+    if (this.props.user.loggedIn !== null) {
+      return (
+        <Menu.Item
+          as={Link} to='/logout'
+          name='ulos'
+          active={activeItem === 'ulos'}
+          onClick={this.handleItemClick}
+        >
+          Kirjaudu ulos
+        </Menu.Item>
+      )
+    } else {
+      return (
+        <Menu.Item
+          as={Link} to='/login'
+          name='sisään'
+          active={activeItem === 'sisään'}
+          onClick={this.handleItemClick}
+        >
+          Kirjaudu sisään
+        </Menu.Item>
+      )
+    }
+  }
+
   render() {
     const { activeItem } = this.state
 
@@ -18,6 +69,7 @@ class TopMenu extends React.Component {
       <Menu pointing secondary>
         <Menu.Menu position='right'>
         </Menu.Menu>
+        {this.admin()}
         <Menu.Item
           as={Link} to='/'
           name='tapahtumat'
@@ -34,16 +86,25 @@ class TopMenu extends React.Component {
         >
           Ilmoita uusi tapahtuma
           </Menu.Item>
+          {this.logIn()}
       </Menu>
     )
   }
 }
 
-const ConnectedEvents = connect(
-  null,
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  }
+}
+
+const ConnectedTopMenu = connect(
+  mapStateToProps,
   null
 )(TopMenu)
-export default ConnectedEvents
+export default ConnectedTopMenu
+
 
 TopMenu.contextTypes = {
   store: PropTypes.object

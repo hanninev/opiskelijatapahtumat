@@ -8,13 +8,27 @@ const getLocations = async () => {
   return request.data
 }
 
+const getUnacceptedLocations = async () => {
+  const locations = await axios.get(url + '/unaccepted')
+  return locations.data
+}
+
 const getLocation = async (id) => {
   const request = await axios.get(`${url}/${id}`)
   return request.then(response => { return response.data })
 }
 
-const createLocation = (event) => {
-  const request = axios.post(url + '/', event)
+const createLocation = (event, user) => {
+  let request
+  console.log(user)
+  if (user === null) {
+    request = axios.post(url + '/', event)
+  } else {
+    const config = {
+      headers: { 'Authorization': user.token }
+    }
+    request = axios.post(url + '/logged', event, config)
+  }
   return request.then(response => { return response.data })
 }
 
@@ -23,9 +37,20 @@ const updateLocation = (id, newObject) => {
   return request.then(response => response.data)
 }
 
-const removeLocation = (id) => {
-  const request = axios.delete(`${url}/${id}`)
+const removeLocation = (id, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.delete(`${url}/${id}`, config)
   return request.then(response => { return response.data })
 }
 
-export default { getLocations, getLocation, createLocation, updateLocation, removeLocation }
+const acceptLocation = (id, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.put(`${url}/accept/${id}`, null, config)
+  return request.then(response => response.data)
+}
+
+export default { getLocations, getLocation, getUnacceptedLocations, acceptLocation, createLocation, updateLocation, removeLocation }

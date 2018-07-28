@@ -8,13 +8,27 @@ const getOrganizers = async () => {
   return request.data
 }
 
+const getUnacceptedOrganizers = async () => {
+  const request = await axios.get(url + '/unaccepted')
+  return request.data
+}
+
 const getOrganizer = async (id) => {
   const request = await axios.get(`${url}/${id}`)
   return request.then(response => { return response.data })
 }
 
-const createOrganizer = (event) => {
-  const request = axios.post(url + '/', event)
+const createOrganizer = (event, user) => {
+  let request
+  console.log(user)
+  if (user === null) {
+    request = axios.post(url + '/', event)
+  } else {
+    const config = {
+      headers: { 'Authorization': user.token }
+    }
+    request = axios.post(url + '/logged', event, config)
+  }
   return request.then(response => { return response.data })
 }
 
@@ -23,9 +37,21 @@ const updateOrganizer = (id, newObject) => {
   return request.then(response => response.data)
 }
 
-const removeOrganizer = (id) => {
-  const request = axios.delete(`${url}/${id}`)
+const removeOrganizer = (id, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.delete(`${url}/${id}`, config)
   return request.then(response => { return response.data })
 }
 
-export default { getOrganizers, getOrganizer, createOrganizer, updateOrganizer, removeOrganizer }
+
+const acceptOrganizer = (id, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.put(`${url}/accept/${id}`, null, config)
+  return request.then(response => response.data)
+}
+
+export default { getOrganizers, getOrganizer, getUnacceptedOrganizers, createOrganizer, acceptOrganizer, updateOrganizer, removeOrganizer }
