@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, List, Card, Container } from 'semantic-ui-react'
+import { Grid, Card, Container, Table } from 'semantic-ui-react'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -16,6 +16,9 @@ class Week extends React.Component {
   }
 
   render() {
+    const divStyle = {
+      backgroundColor: '#E0F2F7'
+    }
     return (
       <Container>
         <Grid columns={1}>
@@ -26,12 +29,14 @@ class Week extends React.Component {
               {this.props.calendar.days.map(d =>
                 <Card key={d}>
                   <Card.Content header={d.format('dddd DD.MM.YYYY')} />
-                  <Card.Content>
-                    <List divided relaxed>
-                      {this.props.getEvents(d.format('YYYY-MM-DD')).map((e, i) =>
-                        <Day key={i} e={e} i={i} />
-                      )}
-                    </List>
+                  <Card.Content style={divStyle}>
+                    <Table celled selectable>
+                      <Table.Body>
+                        {this.props.getEvents(d.format('YYYY-MM-DD')).map((e, i) =>
+                          <Day key={i} e={e} i={i} />
+                        )}
+                      </Table.Body>
+                    </Table>
                   </Card.Content>
                 </Card>
               )}

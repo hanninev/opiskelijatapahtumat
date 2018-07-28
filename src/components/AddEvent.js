@@ -136,9 +136,23 @@ class AddEvent extends React.Component {
     }
 
     handleStartDateChange(date) {
-        this.setState({
-            startDate: date
-        })
+        const newEndTime = moment(date).add(3, 'hours')
+
+        if (moment(date).isAfter(this.state.endDate)) {
+            this.setState({
+                startDate: date,
+                endDate: newEndTime
+            })
+        } else if (this.state.endDate === '') {
+            this.setState({
+                startDate: date,
+                endDate: newEndTime
+            })
+        } else {
+            this.setState({
+                startDate: date
+            })
+        }
     }
 
     handleEndDateChange(date) {
@@ -208,28 +222,6 @@ class AddEvent extends React.Component {
             }
             this.props.setMessage('Virhe!', errors, 'red', 10)
         }
-    }
-
-
-    timeForm(label, selected, handler) {
-        return (
-            <div>
-                <Form.Field label={label} />
-                <DatePicker
-                    selected={selected}
-                    onChange={handler}
-                    locale="en-gb"
-                    //  showTimeSelect
-                    timeFormat="HH:mm"
-                    injectTimes={[
-                        moment().hours(0).minutes(1),
-                        moment().hours(12).minutes(5),
-                        moment().hours(23).minutes(59)
-                    ]}
-                    dateFormat="DD.MM.YYYY HH:MM"
-                />
-            </div>
-        )
     }
 
     popUpEventType() {
@@ -341,24 +333,42 @@ class AddEvent extends React.Component {
 
     render() {
         return (
-            <Grid>
+            <Grid columns={1} centered>
                 <Grid.Row>
-                    <Grid.Column>
+                    <Grid.Column width={10}>
                         <Form>
                             <Form.Group widths='equal'>
                                 <Form.Input fluid label='Tapahtuman nimi' name='name' value={this.state.name} onChange={this.handleChange} placeholder='Tapahtuman nimi' />
                             </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Grid columns={2} stackable={true} stretched={true}>
-                                    <Grid.Row>
-                                        <Grid.Column>
-                                            {this.timeForm('Alkamisaika', this.state.startDate, this.handleStartDateChange)}
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                            {this.timeForm('Päättymisaika', this.state.endDate, this.handleEndDateChange)}
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
+                            <Form.Group>
+                                <Form.Field label='Alkamisaika' />
+                                <DatePicker
+                                    selected={this.state.startDate}
+                                    onChange={this.handleStartDateChange}
+                                    locale="en-gb"
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    injectTimes={[
+                                        moment().hours(0).minutes(1),
+                                        moment().hours(12).minutes(5),
+                                        moment().hours(23).minutes(59)
+                                    ]}
+                                    dateFormat="DD.MM.YYYY HH:MM"
+                                />
+                                <Form.Field label='Päättymisaika' />
+                                <DatePicker
+                                    selected={this.state.endDate}
+                                    onChange={this.handleEndDateChange}
+                                    locale="en-gb"
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    injectTimes={[
+                                        moment().hours(0).minutes(1),
+                                        moment().hours(12).minutes(5),
+                                        moment().hours(23).minutes(59)
+                                    ]}
+                                    dateFormat="DD.MM.YYYY HH:MM"
+                                />
                             </Form.Group>
                             {this.popUpEventType()}
                             {this.popUpOrganizer()}

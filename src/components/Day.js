@@ -1,9 +1,30 @@
 import React from 'react'
-import { List } from 'semantic-ui-react'
+import { Table, Header } from 'semantic-ui-react'
+import moment from 'moment'
 
 class Day extends React.Component {
   constructor({ props }) {
     super(props)
+    this.state = {
+      show: false
+    }
+
+    this.handleShow = this.handleShow.bind(this)
+  }
+
+  handleShow() {
+    this.setState({ show: !this.state.show })
+  }
+
+  moreInfo(e) {
+    if (this.state.show) {
+      return (
+        <div>
+          <p>klo {moment(e.start_time).format('HH:mm')}</p>
+          <p>{e.description}</p>
+        </div>
+      )
+    }
   }
 
   render() {
@@ -12,13 +33,15 @@ class Day extends React.Component {
     const locations = e.locations.map(l => l.name + '   ')
 
     return (
-      <List.Item key={i}>
-        <List.Content>
-          <List.Header>{e.name}</List.Header>
-          <List.Description>{organizers} | {locations} </List.Description>
-        </List.Content>
-      </List.Item>
-    )}
+      <Table.Row key={i} onClick={this.handleShow}>
+        <Table.Cell textAlign='center' singleLine>
+          <Header as='h4'>{e.name}</Header>
+          <p>{organizers} | {locations} </p>
+          {this.moreInfo(e)}
+        </Table.Cell>
+      </Table.Row>
+    )
+  }
 }
 
 export default Day
