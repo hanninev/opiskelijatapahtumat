@@ -5,10 +5,18 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Day from './Day'
 import { setWeekAndEvents } from '../reducers/calendarReducer'
+import eventService from '../services/events'
 
 class Week extends React.Component {
   constructor({ props }) {
     super(props)
+
+    this.handleEventRemove = this.handleEventRemove.bind(this)
+  }
+
+  async handleEventRemove(e) {
+    await eventService.removeEvent(e.target.value, this.props.user.loggedIn)
+    this.props.setWeekAndEvents(moment(this.props.date))
   }
 
   componentDidMount = () => {
@@ -33,7 +41,7 @@ class Week extends React.Component {
                     <Table celled selectable>
                       <Table.Body>
                         {this.props.getEvents(d.format('YYYY-MM-DD')).map((e, i) =>
-                          <Day key={i} e={e} i={i} />
+                          <Day key={i} e={e} i={i} history={this.props.history} location={this.props.location} handleRemove={this.handleEventRemove} />
                         )}
                       </Table.Body>
                     </Table>
@@ -50,7 +58,8 @@ class Week extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    calendar: state.calendar
+    calendar: state.calendar,
+    user: state.user
   }
 }
 

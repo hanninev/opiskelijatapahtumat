@@ -49,7 +49,7 @@ class WeekNavigation extends React.Component {
 
           <Route exact path="/week/:date" render={({ match, location }) => {
             window.sessionStorage.setItem('searchParams', location.search)
-            return <Week key={match.params.date} getEvents={this.props.getEvents} date={match.params.date} />
+            return <Week key={match.params.date} history={this.props.history} location={this.props.location} getEvents={this.props.getEvents} date={match.params.date} />
           }}
           />
         </Grid>

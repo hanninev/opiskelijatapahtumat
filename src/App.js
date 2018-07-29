@@ -4,7 +4,7 @@ import Filter from './components/Filter'
 import { connect } from 'react-redux'
 import TopMenu from './components/TopMenu'
 import AddEvent from './components/AddEvent'
-import { selectionInit } from './reducers/selectionReducer'
+import { selectionInit, setEventEventTypes } from './reducers/selectionReducer'
 import { logout } from './reducers/userReducer'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import moment from 'moment'
@@ -38,7 +38,7 @@ class App extends React.Component {
             }} />
             <Route exact path="/admin" render={({ location, history }) => {
               if (this.props.user.loggedIn !== null && this.props.user.loggedIn.admin) {
-              return <WaitingForAcception location={location} history={history}/>
+                return <WaitingForAcception location={location} history={history} />
               } else {
                 return <Redirect to={redirectWeek} />
               }
@@ -63,13 +63,15 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     message: state.message,
-    user: state.user
+    user: state.user,
+    calendar: state.calendar
   }
 }
 
 const mapDispatchToProps = {
   selectionInit,
-  logout
+  logout,
+  setEventEventTypes
 }
 
 const ConnectedApp = connect(

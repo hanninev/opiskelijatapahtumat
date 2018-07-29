@@ -321,7 +321,7 @@ class Filter extends React.Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <WeekNavigation getEvents={getEvents} location={this.props.location} />
+                <WeekNavigation getEvents={getEvents} location={this.props.location} history={this.props.history} />
             </div>
         )
     }

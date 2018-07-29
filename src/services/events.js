@@ -37,8 +37,11 @@ const createEvent = (event, user) => {
   return request.then(response => { return response })
 }
 
-const updateEvent = (id, newObject) => {
-  const request = axios.put(`${url}/${id}`, newObject)
+const updateEvent = (id, newObject, user) => {
+  const config = {
+    headers: { 'Authorization': user.token }
+  }
+  const request = axios.put(`${url}/${id}`, newObject, config)
   return request.then(response => response.data)
 }
 

@@ -36,6 +36,43 @@ class AddEvent extends React.Component {
         this.handleNewEventAdd = this.handleNewEventAdd.bind(this)
     }
 
+    componentDidMount() {
+        console.log(this.props.event)
+        if (this.props.event) {
+            this.props.setEventOrganizers(this.props.event.organizers.map(o => {
+                return ({
+                    id: o._id,
+                    name: o.name,
+                    organizer_type: o.organizer_type,
+                    faculty: o.faculty,
+                    accepted: o.accepted
+                }
+                )
+            }))
+            this.props.setEventLocations(this.props.event.locations.map(l => {
+                return ({
+                    id: l._id,
+                    name: l.name,
+                    address: l.address
+                }
+                )
+            }))
+            this.props.setEventEventTypes(this.props.event.eventTypes.map(et => {
+                return ({
+                    id: et._id,
+                    name: et.name
+                }
+                )
+            }))
+            this.setState({
+                name: this.props.event.name,
+                description: this.props.event.description,
+                startDate: moment(this.props.start_time),
+                endDate: moment(this.props.end_time)
+            })
+        }
+    }
+
     // Organizer
     handleOrganizerChange(event, { value }) {
         this.props.setEventOrganizers(value)
@@ -173,7 +210,7 @@ class AddEvent extends React.Component {
 
     async handleNewEventAdd(e) {
         e.preventDefault()
-        const event = {
+        let event = {
             name: this.state.name,
             description: this.state.description,
             start_time: this.state.startDate,
@@ -184,43 +221,62 @@ class AddEvent extends React.Component {
             createdUser: this.props.user.loggedIn === null ? null : this.props.user.loggedIn.id
         }
 
-        try {
-            const response = await eventService.createEvent(event, this.props.user.loggedIn)
-            console.log(response)
-            if (this.props.user.loggedIn === null) {
-                this.props.setMessage('Uusi tapahtuma lähetettiin ylläpidon tarkitettavaksi!', '', 'yellow')
-            } else {
-                this.props.setMessage('Tapahtuman lisäys onnistui!', '', 'green')
+        if (this.props.event) {
+            event = {
+                ...event,
+                createdUser: this.props.event.createdUser,
+                accepted: this.props.event.accepted,
+                creationTime: this.props.event.creationTime
             }
-            this.props.initNewEventValues()
-            this.props.history.push('/')
-        } catch (e) {
-            const errors = []
-            if (this.state.name === undefined || this.state.name === '') {
-                errors.push('Tapahtuman nimi puuttuu')
+
+            try {
+                const response = await eventService.updateEvent(this.props.event.id, event, this.props.user.loggedIn)
+                console.log(response)
+                this.props.setMessage('Tapahtumaa muokattiin onnistuneesti!', '', 'green')
+                this.props.initNewEventValues()
+                this.props.history.push('/')
+            } catch (e) {
+                this.props.setMessage('Virhe!', ['Jotain meni pieleen!'], 'red', 10)
             }
-            if (this.state.description === undefined || this.state.description === '') {
-                errors.push('Tapahtuman kuvaus puuttuu')
+        } else {
+            try {
+                const response = await eventService.createEvent(event, this.props.user.loggedIn)
+                console.log(response)
+                if (this.props.user.loggedIn === null) {
+                    this.props.setMessage('Uusi tapahtuma lähetettiin ylläpidon tarkitettavaksi!', '', 'yellow')
+                } else {
+                    this.props.setMessage('Tapahtuman lisäys onnistui!', '', 'green')
+                }
+                this.props.initNewEventValues()
+                this.props.history.push('/')
+            } catch (e) {
+                const errors = []
+                if (this.state.name === undefined || this.state.name === '') {
+                    errors.push('Tapahtuman nimi puuttuu')
+                }
+                if (this.state.description === undefined || this.state.description === '') {
+                    errors.push('Tapahtuman kuvaus puuttuu')
+                }
+                if (this.state.startDate === undefined || this.state.startDate === '') {
+                    errors.push('Tapahtuman alkamisaika puuttuu')
+                }
+                if (this.state.endDate === undefined || this.state.endDate === '') {
+                    errors.push('Tapahtuman päättymisaika puuttuu')
+                }
+                if (this.props.selections.newEvent_eventTypes.length === 0) {
+                    errors.push('Tapahtuman tyyppi puuttuu')
+                }
+                if (this.props.selections.newEvent_locations.length === 0) {
+                    errors.push('Tapahtuman sijainti puuttuu')
+                }
+                if (this.props.selections.newEvent_organizers.length === 0) {
+                    errors.push('Tapahtuman järjestäjä puuttuu')
+                }
+                if (errors.length === 0) {
+                    errors.push('Jotain meni pieleen!')
+                }
+                this.props.setMessage('Virhe!', errors, 'red', 10)
             }
-            if (this.state.startDate === undefined || this.state.startDate === '') {
-                errors.push('Tapahtuman alkamisaika puuttuu')
-            }
-            if (this.state.endDate === undefined || this.state.endDate === '') {
-                errors.push('Tapahtuman päättymisaika puuttuu')
-            }
-            if (this.props.selections.newEvent_eventTypes.length === 0) {
-                errors.push('Tapahtuman tyyppi puuttuu')
-            }
-            if (this.props.selections.newEvent_locations.length === 0) {
-                errors.push('Tapahtuman sijainti puuttuu')
-            }
-            if (this.props.selections.newEvent_organizers.length === 0) {
-                errors.push('Tapahtuman järjestäjä puuttuu')
-            }
-            if (errors.length === 0) {
-                errors.push('Jotain meni pieleen!')
-            }
-            this.props.setMessage('Virhe!', errors, 'red', 10)
         }
     }
 
@@ -307,12 +363,12 @@ class AddEvent extends React.Component {
             })
             return inObjects
         }
-
+        console.log(this.props.selections.newEvent_organizers)
         return (
             <Grid columns={2}>
                 <Grid.Row>
                     <Grid.Column>
-                        <Form.Dropdown label='Valitse järjestäjät' onChange={this.handleOrganizerChange} value={this.props.selections.newEvent_organizers} fluid multiple search closeOnChange selection options={getOrganizers()} />
+                        <Form.Dropdown label='Valitse järjestäjät' onChange={this.handleOrganizerChange} fluid multiple search closeOnChange selection options={getOrganizers()} value={this.props.selections.newEvent_organizers} />
                     </Grid.Column>
                     <Grid.Column>
                         <br />
