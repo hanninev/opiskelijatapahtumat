@@ -173,17 +173,15 @@ class AddEvent extends React.Component {
     }
 
     handleStartDateChange(date) {
-        const newEndTime = moment(date).add(3, 'hours')
-
         if (moment(date).isAfter(this.state.endDate)) {
             this.setState({
                 startDate: date,
-                endDate: newEndTime
+                endDate: date
             })
         } else if (this.state.endDate === '') {
             this.setState({
                 startDate: date,
-                endDate: newEndTime
+                endDate: date
             })
         } else {
             this.setState({
@@ -401,29 +399,15 @@ class AddEvent extends React.Component {
                                 <DatePicker
                                     selected={this.state.startDate}
                                     onChange={this.handleStartDateChange}
-                                    locale="en-gb"
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    injectTimes={[
-                                        moment().hours(0).minutes(1),
-                                        moment().hours(12).minutes(5),
-                                        moment().hours(23).minutes(59)
-                                    ]}
-                                    dateFormat="DD.MM.YYYY HH:MM"
+                                    locale="en-gb"                  
+                                    dateFormat="DD.MM.YYYY"
                                 />
                                 <Form.Field label='Päättymisaika' />
                                 <DatePicker
                                     selected={this.state.endDate}
                                     onChange={this.handleEndDateChange}
                                     locale="en-gb"
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    injectTimes={[
-                                        moment().hours(0).minutes(1),
-                                        moment().hours(12).minutes(5),
-                                        moment().hours(23).minutes(59)
-                                    ]}
-                                    dateFormat="DD.MM.YYYY HH:MM"
+                                    dateFormat="DD.MM.YYYY"
                                 />
                             </Form.Group>
                             {this.popUpEventType()}

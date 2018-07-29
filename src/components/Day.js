@@ -29,7 +29,7 @@ class Day extends React.Component {
     if (this.state.show) {
       return (
         <div>
-          <p>klo {moment(e.start_time).format('HH:mm')}</p>
+          <p>{moment(e.start_time).format('DD.MM.YYYY')} - {moment(e.end_time).format('DD.MM.YYYY')}</p>
           <p>{e.description}</p>
         </div>
       )
@@ -53,14 +53,26 @@ class Day extends React.Component {
     const locations = e.locations.map(l => l.name + '   ')
     if (this.state.edit) {
       return (
-          <AddEvent event={e} history={this.props.history} location={this.props.location} />
+        <AddEvent event={e} history={this.props.history} location={this.props.location} />
       )
     }
     return (
       <Table.Row key={i} onClick={this.handleShow}>
         <Table.Cell textAlign='center' singleLine>
           <Header as='h4'>{e.name}</Header>
-          <p>{organizers} | {locations} </p>
+          <p>{organizers.map((o, i) => {
+            if (i + 1 === organizers.length) {
+              return o
+            } else {
+              return o + ', '
+            }
+          })} | {locations.map((l, i) => {
+            if (i + 1 === locations.length) {
+              return l
+            } else {
+              return l + ', '
+            }
+          })} </p>
           {this.moreInfo(e)}
           {this.adminTools(e)}
         </Table.Cell>

@@ -32,5 +32,5 @@
 | 26.7. to | 11,5 | Frontin service-luokat kuntoon. Tapahtumien lisäyslomake valmiiksi (samalla myös tapahtumatyyppien, paikkojen ja järjestäjien lisäys). Kalenterinäkymä toimiviksi uuden muotoisella datalla. Filtteröinti toimivaksi. Aloitettu menuvalikkoa.
 | 27.7. pe | 5 | Navigaatio toimivaksi. Syötteiden validointia paremmaksi, virheviestit. Tunnistautumisen aloittaminen backendissä.  |
 | 28.7. la | 8 | Kirjautuminen toimivaksi. Tietyt toiminnot vain kirjautuneille käyttäjille. Admin-toimintoja. Validoinnin viimeistelyä.
-| 29.7. su | 5 | Date pickerin ja momentjs:n kanssa tappelemista, etusivun tyylejä säädetty. Tapahtumien muokkaustoiminto alkuun. |
-| **yhteensä** | **153** |
+| 29.7. su | 6,5 | Date pickerin ja momentjs:n kanssa tappelemista, etusivun tyylejä säädetty. Tapahtumien muokkaustoiminto alkuun. |
+| **yhteensä** | **154,5** |
