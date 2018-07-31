@@ -56,7 +56,7 @@ class TopMenu extends React.Component {
           active={activeItem === 'sisään'}
           onClick={this.handleItemClick}
         >
-          <Button inverted color='yellow'>Kirjaudu sisään</Button>
+          <Button inverted color='yellow'>Ylläpito</Button>
         </Menu.Item>
       )
     }

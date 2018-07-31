@@ -23,6 +23,19 @@ class Week extends React.Component {
     this.props.setWeekAndEvents(moment(this.props.date))
   }
 
+  noEvents(d) {
+    const style = {
+      textAlign: 'center',
+      margin: 10
+    }
+
+    if (this.props.getEvents(d.format('YYYY-MM-DD')).length === 0) {
+      return (
+        <p style={style}>ei tapahtumia tänään</p>
+      )
+    }
+  }
+
   render() {
     const headerStyle = {
       backgroundColor: '#333300',
@@ -51,6 +64,7 @@ class Week extends React.Component {
                   <Card.Content style={style}>
                     <Table celled selectable fixed>
                       <Table.Body>
+                        {this.noEvents(d)}
                         {this.props.getEvents(d.format('YYYY-MM-DD')).map((e, i) =>
                           <Day key={i} e={e} i={i} history={this.props.history} location={this.props.location} handleRemove={this.handleEventRemove} />
                         )}
