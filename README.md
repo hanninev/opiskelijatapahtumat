@@ -1,5 +1,5 @@
 # Opiskelijatapahtumat
-Harjoitustyön aiheena oli tehdä kalenterisovellus, josta näkee yhdellä vilkaisulla kaikki kunkin viikon opiskelijatapahtumat. Alun perin oli tarkoitus, että tiedot haetaan ainejärjestöjen ja osakuntien Facebook-sivuilta. Toteutus toimi, kunnes Facebook teki isoja API-muutoksia ja esti tapahtumatietojen hakemisen. Lopullinen versio perustuukin ainostaan käyttäjien syöttämään dataan.
+Kalenterisovellus, josta näkee yhdellä vilkaisulla kaikki kunkin viikon opiskelijatapahtumat. Alun perin oli tarkoitus, että tiedot haetaan ainejärjestöjen ja osakuntien Facebook-sivuilta. Toteutus toimi, kunnes Facebook teki isoja API-muutoksia ja esti tapahtumatietojen hakemisen. Lopullinen versio perustuukin ainostaan käyttäjien syöttämään dataan.
 
 [Linkki sovellukseen](http://opiskelijatapahtumat.herokuapp.com)
 
