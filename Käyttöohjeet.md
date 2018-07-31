@@ -7,7 +7,7 @@ http://opiskelijatapahtumat.herokuapp.com/week/2018-07-30?comb=or
 * Oletuksena palvelu näyttää kaikki kyseiselle viikolle syötetyt tapahtumat, mutta niitä voi filtteröidä tapahtumatyypin, järjestäjän, järjestäjän tyypin ja paikan mukaan. 
 * Lisäksi voidaan valita, riittääkö yhden hakuehdon toteuttaminen vai tuleeko kaikkien hakuehtojen täyttyä. Jos esimerkiksi valitsee tapahtumatyypiksi sitsit ja paikaksi Alina-salin sekä klikkaa "toteuttaa kaikki hakuehdot", käyttäjä näkee ainoastaan kaikki Alina-salissa järjestettävät sitsit.
 * Osoiterivi muuttuu hakuehtojen mukana, eli filtteröidyn sivun voi linkata kaverille.
-* Palvelu on optimoitu myös mobiililaitteille.
+* Selaus on optimoitu myös mobiililaitteille.
 
 Kaikki käyttäjät voivat lähettää tapahtumaehdotuksia.
 * Ilmoita uusi tapahtuma -napista pääsee lisäämään tapahtumaehdotuksen.
