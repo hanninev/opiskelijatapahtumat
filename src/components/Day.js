@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Header, Button } from 'semantic-ui-react'
+import { Table, Header, Button, Grid } from 'semantic-ui-react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { setMessage } from '../reducers/messageReducer'
@@ -22,17 +22,92 @@ class Day extends React.Component {
   }
 
   handleEdit() {
-    this.setState({ edit: true })
+    this.setState({ edit: !this.state.edit })
   }
 
   moreInfo(e) {
     if (this.state.show) {
       return (
         <div>
-          <p>{moment(e.start_time).format('DD.MM.YYYY')} - {moment(e.end_time).format('DD.MM.YYYY')}</p>
-          <p>{e.description}</p>
+          <Header as='h3'>{e.name}</Header>
+          <Grid>
+            <Grid.Row only='computer tablet'>
+              <Grid.Column width={5}>
+                <p><b>Alkaa:</b> {moment(e.start_time).subtract(3, 'h').format('DD.MM.YYYY')} klo {moment(e.start_time).subtract(3, 'h').format('HH:mm')}</p>
+                <p><b>Päättyy:</b> {moment(e.end_time).subtract(3, 'h').format('DD.MM.YYYY')} klo {moment(e.end_time).subtract(3, 'h').format('HH:mm')}</p>
+                <p><b>Paikka:</b><br />
+                  {e.locations.map((l, i) => {
+                    return (
+                      <div key={i}>{l.name} <br />
+                        {l.address}</div>
+                    )
+                  })}</p>
+                <p><b>Järjestäjät:</b><br />
+                  {e.organizers.map((o, i) => {
+                    if (i + 1 === e.organizers.length) {
+                      return o.name
+                    } else {
+                      return (<div>{o.name} <br /></div>)
+                    }
+                  })}</p>
+                <p><b>Tyyppi:</b><br />
+                  {e.eventTypes.map((o, i) => {
+                    if (i + 1 === e.eventTypes.length) {
+                      return o.name
+                    } else {
+                      return (<div>{o.name} <br /></div>)
+                    }
+                  })}</p>
+              </Grid.Column>
+              <Grid.Column width={11}>
+                <p>{e.description}</p>
+              </Grid.Column>
+            </Grid.Row>
+
+            <Grid.Row only='mobile'>
+              <Grid.Column>
+                <p><b>Alkaa:</b> {moment(e.start_time).subtract(3, 'h').format('DD.MM.YYYY')} klo {moment(e.start_time).subtract(3, 'h').format('HH:mm')}</p>
+                <p><b>Päättyy:</b> {moment(e.end_time).subtract(3, 'h').format('DD.MM.YYYY')} klo {moment(e.end_time).subtract(3, 'h').format('HH:mm')}</p>
+                <p><b>Paikka:</b><br />
+                  {e.locations.map((l, i) => {
+                    return (
+                      <div key={i}>{l.name} <br />
+                        {l.address}</div>
+                    )
+                  })}</p>
+                <p><b>Järjestäjät:</b><br />
+                  {e.organizers.map((o, i) => {
+                    if (i + 1 === e.organizers.length) {
+                      return o.name
+                    } else {
+                      return (<div>{o.name} <br /></div>)
+                    }
+                  })}</p>
+                <p><b>Tyyppi:</b><br />
+                  {e.eventTypes.map((o, i) => {
+                    if (i + 1 === e.eventTypes.length) {
+                      return o.name
+                    } else {
+                      return (<div>{o.name} <br /></div>)
+                    }
+                  })}</p>
+                <p>{e.description}</p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
       )
+    } else {
+      return (
+        <div>
+          <p><b>{e.name}</b><br />
+            {e.organizers.map((o, i) => {
+              if (i + 1 === e.organizers.length) {
+                return o.name
+              } else {
+                return o.name + ', '
+              }
+            })}</p></div>)
     }
   }
 
@@ -49,30 +124,18 @@ class Day extends React.Component {
 
   render() {
     const { e, i } = this.props
-    const organizers = e.organizers.map(o => o.name + '   ')
-    const locations = e.locations.map(l => l.name + '   ')
     if (this.state.edit) {
       return (
-        <AddEvent event={e} history={this.props.history} location={this.props.location} />
+        <div>
+          <br />
+          <AddEvent event={e} handleRemove={this.props.handleRemove} undo={this.handleEdit} history={this.props.history} location={this.props.location} />
+          <br />
+        </div>
       )
     }
     return (
       <Table.Row key={i} onClick={this.handleShow}>
-        <Table.Cell textAlign='center' singleLine>
-          <Header as='h4'>{e.name}</Header>
-          <p>{organizers.map((o, i) => {
-            if (i + 1 === organizers.length) {
-              return o
-            } else {
-              return o + ', '
-            }
-          })} | {locations.map((l, i) => {
-            if (i + 1 === locations.length) {
-              return l
-            } else {
-              return l + ', '
-            }
-          })} </p>
+        <Table.Cell textAlign='center'>
           {this.moreInfo(e)}
           {this.adminTools(e)}
         </Table.Cell>

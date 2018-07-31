@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,7 @@ class TopMenu extends React.Component {
             active={activeItem === 'admin'}
             onClick={this.handleItemClick}
           >
-            Hallitse tapahtumia
+            <Button inverted color='yellow'>Hallitse tapahtumia</Button>
         </Menu.Item>
         )
       }
@@ -45,7 +45,7 @@ class TopMenu extends React.Component {
           active={activeItem === 'ulos'}
           onClick={this.handleItemClick}
         >
-          Kirjaudu ulos
+          <Button inverted color='yellow'>Kirjaudu ulos</Button>
         </Menu.Item>
       )
     } else {
@@ -56,17 +56,21 @@ class TopMenu extends React.Component {
           active={activeItem === 'sisään'}
           onClick={this.handleItemClick}
         >
-          Kirjaudu sisään
+          <Button inverted color='yellow'>Kirjaudu sisään</Button>
         </Menu.Item>
       )
     }
   }
 
   render() {
+    const style = {
+      backgroundColor: '#333300'
+    }
+
     const { activeItem } = this.state
 
     return (
-      <Menu pointing secondary>
+      <Menu pointing secondary style={style}>
         <Menu.Menu position='right'>
         </Menu.Menu>
         {this.admin()}
@@ -76,7 +80,7 @@ class TopMenu extends React.Component {
           active={activeItem === 'tapahtumat'}
           onClick={this.handleItemClick}
         >
-          Tapahtumat
+          <Button inverted color='yellow'>Tapahtumat</Button>
           </Menu.Item>
         <Menu.Item
           as={Link} to='/addEvent'
@@ -84,7 +88,7 @@ class TopMenu extends React.Component {
           active={activeItem === 'uusi'}
           onClick={this.handleItemClick}
         >
-          Ilmoita uusi tapahtuma
+          <Button inverted color='yellow'>Ilmoita uusi tapahtuma</Button>
           </Menu.Item>
           {this.logIn()}
       </Menu>

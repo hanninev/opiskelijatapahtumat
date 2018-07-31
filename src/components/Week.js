@@ -24,8 +24,19 @@ class Week extends React.Component {
   }
 
   render() {
-    const divStyle = {
-      backgroundColor: '#E0F2F7'
+    const headerStyle = {
+      backgroundColor: '#333300',
+      color: '#cccc00',
+      textTransform: 'uppercase',
+      fontSize: 25,
+      fontWeight: 'bold',
+      fontFamily: 'Times New Roman, Times, serif',
+      paddingTop: 15,
+      paddingBottom: 15
+    }
+    const style = {
+      paddingTop: 0,
+      backgroundColor: '#333300',
     }
     return (
       <Container>
@@ -36,9 +47,9 @@ class Week extends React.Component {
             <Card.Group itemsPerRow='1'>
               {this.props.calendar.days.map(d =>
                 <Card key={d}>
-                  <Card.Content header={d.format('dddd DD.MM.YYYY')} />
-                  <Card.Content style={divStyle}>
-                    <Table celled selectable>
+                  <Card.Content style={headerStyle}>{d.format('dddd DD.MM.YYYY')} </Card.Content>
+                  <Card.Content style={style}>
+                    <Table celled selectable fixed>
                       <Table.Body>
                         {this.props.getEvents(d.format('YYYY-MM-DD')).map((e, i) =>
                           <Day key={i} e={e} i={i} history={this.props.history} location={this.props.location} handleRemove={this.handleEventRemove} />

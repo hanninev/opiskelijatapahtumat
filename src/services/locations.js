@@ -13,6 +13,12 @@ const getUnacceptedLocations = async () => {
   return locations.data
 }
 
+const getLocationByValues = async (location) => {
+  console.log(location)
+  const events = await axios.get(url + '/by_value?name=' + location.name + '&address=' + location.address)
+  return events.data
+}
+
 const getLocation = async (id) => {
   const request = await axios.get(`${url}/${id}`)
   return request.then(response => { return response.data })
@@ -53,4 +59,4 @@ const acceptLocation = (id, user) => {
   return request.then(response => response.data)
 }
 
-export default { getLocations, getLocation, getUnacceptedLocations, acceptLocation, createLocation, updateLocation, removeLocation }
+export default { getLocations, getLocationByValues, getLocation, getUnacceptedLocations, acceptLocation, createLocation, updateLocation, removeLocation }

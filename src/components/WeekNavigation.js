@@ -11,38 +11,50 @@ class WeekNavigation extends React.Component {
     const previousWeek = moment(this.props.calendar.days[0]).add(-7, 'd').format('YYYY-MM-DD')
     const nextWeek = moment(this.props.calendar.days[6]).add(1, 'd').format('YYYY-MM-DD')
     const currentWeek = moment().isoWeekday(1).format('YYYY-MM-DD')
-
+    const style = {
+      backgroundColor: '#333300',
+      paddingLeft: 10,
+      paddingRight: 10,
+      borderStyle: 'solid',
+      borderWidth: 20,
+      borderRadius: 30,
+      borderColor: 'white'
+    }
+    const mobileBtnStyle = {
+      backgroundColor: '#333300',
+      color: 'yellow'
+    }
     return (
       <Router>
         <Grid columns={3} stretched={true} centered={true}>
-          <Grid.Row only='computer tablet'>
+          <Grid.Row only='computer tablet' style={style}>
             <Grid.Column>
-              <Link to={`/week/${previousWeek}` + this.props.location.search}><Button icon labelPosition='left'>
+              <Link to={`/week/${previousWeek}` + this.props.location.search}><Button inverted color='yellow' icon labelPosition='left'>
                 <Icon name='left arrow' />
                 Edellinen
               </Button></Link>
             </Grid.Column>
             <Grid.Column textAlign={'center'}>
-              <Link to={`/week/${currentWeek}` + this.props.location.search}><Button>
+              <Link to={`/week/${currentWeek}` + this.props.location.search}><Button inverted color='yellow'>
                 Nykyinen viikko
               </Button></Link>
             </Grid.Column>
             <Grid.Column textAlign={'right'}>
-              <Link to={`/week/${nextWeek}` + this.props.location.search}><Button icon labelPosition='right'>
+              <Link to={`/week/${nextWeek}` + this.props.location.search}><Button inverted color='yellow' icon labelPosition='right'>
                 Seuraava
                 <Icon name='right arrow' />
               </Button></Link>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row stackable="true" only='mobile'>
-            <Link to={`/week/${previousWeek}` + this.props.location.search}><Button icon>
+            <Link to={`/week/${previousWeek}` + this.props.location.search}><Button style={mobileBtnStyle} icon>
               <Icon name='left arrow' />
             </Button></Link>
             <Link to={`/week/${currentWeek}` + this.props.location.search}>
-              <Button>
+              <Button style={mobileBtnStyle}>
                 Nykyinen viikko
               </Button></Link>
-            <Link to={`/week/${nextWeek}` + this.props.location.search}><Button icon>
+            <Link to={`/week/${nextWeek}` + this.props.location.search}><Button style={mobileBtnStyle} icon>
               <Icon name='right arrow' />
             </Button></Link>
           </Grid.Row>

@@ -280,6 +280,11 @@ class Filter extends React.Component {
             }
         }
 
+        const mobileBtnStyle = {
+            backgroundColor: '#333300',
+            color: 'yellow'
+        }
+
         return (
             <div>
                 <Grid columns={4} stackable={true} stretched={true}>
@@ -314,9 +319,9 @@ class Filter extends React.Component {
                     <Grid.Row columns={1} >
                         <Grid.Column only='mobile'>
                             {!this.state.visible ? (
-                                <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow down' /> Näytä enemmän hakuehtoja</Button>
+                                <Button style={mobileBtnStyle} onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow down' /> Näytä enemmän hakuehtoja</Button>
                             ) : (
-                                    <Button onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow up' /> Näytä vähemmän hakuehtoja</Button>
+                                    <Button style={mobileBtnStyle} onClick={() => { this.setState({ visible: !this.state.visible }) }}><Icon name='arrow up' /> Näytä vähemmän hakuehtoja</Button>
                                 )}
                         </Grid.Column>
                     </Grid.Row>

@@ -13,6 +13,11 @@ const getUnacceptedEventTypes = async () => {
   return events.data
 }
 
+const getEventTypeByValues = async (eventType) => {
+  const events = await axios.get(url + '/by_value?name=' + eventType.name)
+  return events.data
+}
+
 const getEventType = async (id) => {
   const eventTypes = await axios.get(`${url}/${id}`)
   return eventTypes.then(response => { return response.data })
@@ -52,4 +57,4 @@ const removeEventType = (id, user) => {
   return request.then(response => { return response.data })
 }
 
-export default { getEventTypes, getUnacceptedEventTypes, getEventType, acceptEventType, createEventType, updateEventType, removeEventType }
+export default { getEventTypes, getEventTypeByValues, getUnacceptedEventTypes, getEventType, acceptEventType, createEventType, updateEventType, removeEventType }

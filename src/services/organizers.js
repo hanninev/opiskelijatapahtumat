@@ -13,6 +13,11 @@ const getUnacceptedOrganizers = async () => {
   return request.data
 }
 
+const getOrganizerByValues = async (organizer) => {
+  const events = await axios.get(url + '/by_value?name=' + organizer.name + '&organizer_type=' + organizer.organizer_type + '&faculty=' + organizer.faculty)
+  return events.data
+}
+
 const getOrganizer = async (id) => {
   const request = await axios.get(`${url}/${id}`)
   return request.then(response => { return response.data })
@@ -54,4 +59,4 @@ const acceptOrganizer = (id, user) => {
   return request.then(response => response.data)
 }
 
-export default { getOrganizers, getOrganizer, getUnacceptedOrganizers, createOrganizer, acceptOrganizer, updateOrganizer, removeOrganizer }
+export default { getOrganizers, getOrganizerByValues, getOrganizer, getUnacceptedOrganizers, createOrganizer, acceptOrganizer, updateOrganizer, removeOrganizer }
