@@ -33,4 +33,6 @@
 | 27.7. pe | 5 | Navigaatio toimivaksi. Syötteiden validointia paremmaksi, virheviestit. Tunnistautumisen aloittaminen backendissä.  |
 | 28.7. la | 8 | Kirjautuminen toimivaksi. Tietyt toiminnot vain kirjautuneille käyttäjille. Admin-toimintoja. Validoinnin viimeistelyä.
 | 29.7. su | 6,5 | Date pickerin ja momentjs:n kanssa tappelemista, etusivun tyylejä säädetty. Tapahtumien muokkaustoiminto alkuun. |
-| **yhteensä** | **154,5** |
+| 30.7. ma | 1 | Tapahtumien alkamis- ja päättymisajat näkymään oikein. |
+| 31.7. ti | 5 | Monen tapahtuman samanaikainen muokkaaaminen toimivaksi. Ulkoasun säätämistä.
+| **yhteensä** | **160,5** |
