@@ -99,7 +99,7 @@ class Day extends React.Component {
       )
     } else {
       return (
-        <div>
+        <div style={{cursor: 'pointer'}}>
           <p><b>{e.name}</b><br />
             {e.organizers.map((o, i) => {
               if (i + 1 === e.organizers.length) {
