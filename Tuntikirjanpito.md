@@ -35,4 +35,4 @@
 | 29.7. su | 6,5 | Date pickerin ja momentjs:n kanssa tappelemista, etusivun tyylejä säädetty. Tapahtumien muokkaustoiminto alkuun. |
 | 30.7. ma | 1 | Tapahtumien alkamis- ja päättymisajat näkymään oikein. |
 | 31.7. ti | 7,5 | Monen tapahtuman samanaikainen muokkaaaminen toimivaksi. Ulkoasun säätämistä, paranneltu mobiilinäkymää. Käyttöohjeiden kirjoittaminen, sovelluksen viimeistely |
-| **yhteensä** | **163** |
+| **yhteensä** | **161** |
