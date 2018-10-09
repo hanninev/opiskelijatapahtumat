@@ -1,7 +1,7 @@
 # Opiskelijatapahtumat
 Kalenterisovellus, josta näkee yhdellä vilkaisulla kaikki kunkin viikon opiskelijatapahtumat. Alun perin oli tarkoitus, että tiedot haetaan ainejärjestöjen ja osakuntien Facebook-sivuilta. Toteutus toimi, kunnes Facebook teki isoja API-muutoksia ja esti tapahtumatietojen hakemisen. Lopullinen versio perustuukin ainostaan käyttäjien syöttämään dataan.
 
-[Linkki sovellukseen](http://opiskelijatapahtumat.herokuapp.com)
+[Linkki sovellukseen](http://opiskelijatapahtumat.herokuapp.com/week/2018-07-30?comb=or)
 
 [Käyttöohjeet](https://github.com/hanninev/opiskelijatapahtumat/blob/master/Käyttöohjeet.md)
 
